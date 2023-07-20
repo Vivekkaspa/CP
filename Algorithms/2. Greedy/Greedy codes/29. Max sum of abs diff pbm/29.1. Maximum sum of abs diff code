@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+int findMaxSumDifference(int arr[], int n) {
+    // Sort the array
+    qsort(arr, n, sizeof(int), compare);
+    
+    // Initialize the sums
+    int sum1 = 0;
+    int sum2 = 0;
+    
+    // Calculate the first sum
+    for (int i = 0; i < n/2; i++) {
+        sum1 += arr[i];
+    }
+    for (int i = n/2; i < n; i++) {
+        sum1 -= arr[i];
+    }
+    
+    // Calculate the second sum
+    for (int i = 0; i < n; i += 2) {
+        sum2 += arr[i];
+    }
+    for (int i = 1; i < n; i += 2) {
+        sum2 -= arr[i];
+    }
+    
+    // Return the maximum sum
+    return max(abs(sum1), abs(sum2));
+}
+
+int main() {
+    int arr[] = {1, 2, 4, 8, 16, 32};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int maxSumDiff = findMaxSumDifference(arr, n);
+    printf("Maximum sum of absolute differences: %d\n", maxSumDiff);
+    return 0;
+}

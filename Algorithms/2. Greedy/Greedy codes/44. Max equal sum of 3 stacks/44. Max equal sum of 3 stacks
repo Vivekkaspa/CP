@@ -1,0 +1,98 @@
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+int stack1[MAX_SIZE];
+int stack2[MAX_SIZE];
+int stack3[MAX_SIZE];
+
+int top1 = -1;
+int top2 = -1;
+int top3 = -1;
+
+void push(int stack[], int *top, int value) {
+    if (*top == MAX_SIZE - 1) {
+        printf("Stack overflow.\n");
+        return;
+    }
+    (*top)++;
+    stack[*top] = value;
+}
+
+int pop(int stack[], int *top) {
+    if (*top == -1) {
+        printf("Stack underflow.\n");
+        return -1;
+    }
+    int value = stack[*top];
+    (*top)--;
+    return value;
+}
+
+int sum(int stack[], int top) {
+    int s = 0;
+    for (int i = 0; i <= top; i++) {
+        s += stack[i];
+    }
+    return s;
+}
+
+int maxSum() {
+    int sum1 = sum(stack1, top1);
+    int sum2 = sum(stack2, top2);
+    int sum3 = sum(stack3, top3);
+
+    while (1) {
+        if (top1 == -1 || top2 == -1 || top3 == -1) {
+            // any stack is empty, cannot find equal sum
+            return 0;
+        }
+        if (sum1 == sum2 && sum2 == sum3) {
+            // found equal sum
+            return sum1;
+        }
+        if (sum1 >= sum2 && sum1 >= sum3) {
+            sum1 -= pop(stack1, &top1);
+        } else if (sum2 >= sum1 && sum2 >= sum3) {
+            sum2 -= pop(stack2, &top2);
+        } else {
+            sum3 -= pop(stack3, &top3);
+        }
+    }
+}
+
+int main() {
+    int n1, n2, n3;
+    printf("Enter the size of the three stacks: ");
+    scanf("%d %d %d", &n1, &n2, &n3);
+
+    printf("Enter the values for stack 1: ");
+    for (int i = 0; i < n1; i++) {
+        int value;
+        scanf("%d", &value);
+        push(stack1, &top1, value);
+    }
+
+    printf("Enter the values for stack 2: ");
+    for (int i = 0; i < n2; i++) {
+        int value;
+        scanf("%d", &value);
+        push(stack2, &top2, value);
+    }
+
+    printf("Enter the values for stack 3: ");
+    for (int i = 0; i < n3; i++) {
+        int value;
+        scanf("%d", &value);
+        push(stack3, &top3, value);
+    }
+
+    int max_sum = maxSum();
+    if (max_sum == 0) {
+        printf("Cannot find equal sum.\n");
+    } else {
+        printf("Maximum equal sum: %d\n", max_sum);
+    }
+
+    return 0;
+}

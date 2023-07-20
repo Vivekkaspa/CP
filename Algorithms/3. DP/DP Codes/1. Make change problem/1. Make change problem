@@ -1,0 +1,16 @@
+function makeChange(denominations[], amount):
+    n = size of denominations array
+    DP = 2D array of size (n + 1) x (amount + 1)
+    
+    // Initialize DP table
+    for i = 0 to n:
+        DP[i][0] = 1
+    
+    for i = 1 to n:
+        for j = 1 to amount:
+            if denominations[i-1] > j:
+                DP[i][j] = DP[i-1][j]
+            else:
+                DP[i][j] = DP[i-1][j] + DP[i][j-denominations[i-1]]
+    
+    return DP[n][amount]

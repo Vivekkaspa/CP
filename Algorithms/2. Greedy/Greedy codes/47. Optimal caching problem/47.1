@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+int main() {
+    int cache_size, num_accesses, i, j, item, cache_misses;
+    int cache[100]; // assume maximum cache size is 100
+
+    // Read in the size of the cache and the number of memory accesses
+    printf("Enter the size of the cache: ");
+    scanf("%d", &cache_size);
+    printf("Enter the number of memory accesses: ");
+    scanf("%d", &num_accesses);
+
+    // Initialize the cache to -1 to indicate an empty slot
+    for (i = 0; i < cache_size; i++) {
+        cache[i] = -1;
+    }
+
+    // Initialize the cache misses counter to 0
+    cache_misses = 0;
+
+    // Loop through each memory access
+    for (i = 0; i < num_accesses; i++) {
+        // Read in the requested item
+        printf("Enter item %d: ", i+1);
+        scanf("%d", &item);
+
+        // Check if the requested item is already in the cache
+        for (j = 0; j < cache_size; j++) {
+            if (cache[j] == item) {
+                break;
+            }
+        }
+
+        // If the item is not already in the cache
+        if (j == cache_size) {
+            // Check if there is an empty slot in the cache
+            for (j = 0; j < cache_size; j++) {
+                if (cache[j] == -1) {
+                    break;
+                }
+            }
+
+            // If there is an empty slot, add the requested item to the cache
+            if (j < cache_size) {
+                cache[j] = item;
+            }
+            // If there is not an empty slot, evict the least recently used item and add the requested item to the cache
+            else {
+                int lru_index = 0;
+                for (j = 1; j < cache_size; j++) {
+                    if (cache[j] < cache[lru_index]) {
+                        lru_index = j;
+                    }
+                }
+                cache[lru_index] = item;
+            }
+
+            // Increment the cache misses counter
+            cache_misses++;
+        }
+    }
+
+    // Print the number of cache misses
+    printf("The number of cache misses is: %d\n", cache_misses);
+
+    return 0;
+}

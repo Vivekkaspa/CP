@@ -1,0 +1,18 @@
+function lcsLength(string X, string Y):
+    n = length(X)
+    m = length(Y)
+    let c be a 2D array of size (n+1) x (m+1)
+    
+    for i = 0 to n:
+        c[i][0] = 0
+    for j = 0 to m:
+        c[0][j] = 0
+        
+    for i = 1 to n:
+        for j = 1 to m:
+            if X[i-1] == Y[j-1]:
+                c[i][j] = c[i-1][j-1] + 1
+            else:
+                c[i][j] = max(c[i][j-1], c[i-1][j])
+    
+    return c[n][m]

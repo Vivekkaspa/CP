@@ -1,0 +1,8 @@
+1. Initialize an empty queue to hold the current pages in memory.
+2. Traverse through the page requests one by one.
+3. For each page request, check if the page is already in the queue.
+4. If the page is already in the queue, move it to the front of the queue (since it is the most recently used page).
+5. If the page is not in the queue, check if the queue is at its maximum capacity.
+6. If the queue is at its maximum capacity, remove the least recently used page (the page at the back of the queue).
+7. Add the new page to the front of the queue.
+8. Repeat steps 3-7 for all page requests.

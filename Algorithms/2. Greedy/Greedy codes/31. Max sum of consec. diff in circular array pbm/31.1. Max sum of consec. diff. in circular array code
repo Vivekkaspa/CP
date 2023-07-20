@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int maxSumDifference(int arr[], int n) {
+    // Initialize the sum
+    int sum = 0;
+    
+    // Sort the array
+    qsort(arr, n, sizeof(int), compare);
+    
+    // Calculate the sum of consecutive differences
+    for (int i = 0; i < n - 1; i++) {
+        sum += abs(arr[i] - arr[i+1]);
+    }
+    
+    // Calculate the sum of first and last elements
+    sum += abs(arr[0] - arr[n-1]);
+    
+    // Return the sum
+    return sum;
+}
+
+int main() {
+    int arr[] = {1, 2, 4, 8, 16};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int max_sum_diff = maxSumDifference(arr, n);
+    printf("Maximum sum of consecutive differences: %d\n", max_sum_diff);
+    return 0;
+}

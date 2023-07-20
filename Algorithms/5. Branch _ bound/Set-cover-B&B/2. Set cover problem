@@ -1,0 +1,144 @@
+// Set cover problem using branch and bound
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+
+#define MAX 100
+
+// structure to store a subset
+typedef struct {
+    int elements[MAX];
+    int size;
+} Subset;
+
+// function to check if a set is a subset of another set
+bool isSubset(int set[], int n, int subset[], int m) {
+    int i, j;
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < n; j++) {
+            if (subset[i] == set[j]) {
+                break;
+            }
+        }
+        if (j == n) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// function to find the union of two sets
+void unionSet(int set1[], int n1, int set2[], int n2, int unionSet[], int *n) {
+    int i, j;
+    for (i = 0; i < n1; i++) {
+        unionSet[i] = set1[i];
+    }
+    *n = n1;
+    for (j = 0; j < n2; j++) {
+        if (!isSubset(unionSet, *n, &set2[j], 1)) {
+            unionSet[*n] = set2[j];
+            (*n)++;
+        }
+    }
+}
+
+// function to print a subset
+void printSubset(Subset subset) {
+    int i;
+    printf("{ ");
+    for (i = 0; i < subset.size; i++) {
+        printf("%d ", subset.elements[i]);
+    }
+    printf("}\n");
+}
+
+// function to solve the set cover problem using branch and bound
+void setCover(int universe[], int n, Subset subsets[], int m) {
+    // set up the initial subset
+    Subset initialSubset = { {}, 0 };
+    // set up the best subset so far
+    Subset bestSubset = { {}, MAX };
+    // set up the initial bound
+    int initialBound = 0;
+    int i, j, k;
+    for (i = 0; i < m; i++) {
+        initialBound += subsets[i].size;
+    }
+    // set up the queue
+    Subset queue[MAX];
+    int queueSize = 0;
+    queue[queueSize++] = initialSubset;
+    // loop until the queue is empty
+    while (queueSize > 0) {
+        // take the subset at the front of the queue
+        Subset subset = queue[0];
+        // remove the subset from the queue
+        for (i = 1; i < queueSize; i++) {
+            queue[i-1] = queue[i];
+        }
+        queueSize--;
+        // calculate the union of the subset with each subset in the collection
+        int unionSet[MAX];
+        int unionSize;
+        for (i = 0; i < m; i++) {
+            if (!isSubset(subset.elements, subset.size, subsets[i].elements, subsets[i].size)) {
+                unionSet(subsets[i].elements, subset.size, subsets[i].elements, subsets[i].size, unionSet, &unionSize);
+                // if the union is the universe, we have a solution
+                if (unionSize == n) {
+                    if (subset.size                + 1 < bestSubset.size) {
+                    bestSubset = subset;
+                    bestSubset.elements[subset.size] = i;
+                    bestSubset.size++;
+                }
+            } else {
+                // otherwise, add the new subset to the queue
+                Subset newSubset;
+                newSubset.size = subset.size + 1;
+                for (j = 0; j < subset.size; j++) {
+                    newSubset.elements[j] = subset.elements[j];
+                }
+                newSubset.elements[subset.size] = i;
+                // calculate the bound for the new subset
+                int newBound = subset.size + 1;
+                for (k = i+1; k < m; k++) {
+                    if (!isSubset(unionSet, unionSize, subsets[k].elements, subsets[k].size)) {
+                        newBound += subsets[k].size;
+                    }
+                }
+                // if the bound is better than the best subset so far, add the new subset to the queue
+                if (newBound < bestSubset.size) {
+                    queue[queueSize++] = newSubset;
+                }
+            }
+        }
+    }
+}
+// print the best subset
+printf("The smallest subset of S whose union is U:\n");
+for (i = 0; i < bestSubset.size; i++) {
+    printSubset(subsets[bestSubset.elements[i]]);
+}
+}
+
+// main function
+int main() {
+// initialize the universe set
+int universe[] = {1, 2, 3, 4, 5};
+int n = sizeof(universe) / sizeof(universe[0]);
+// initialize the collection of subsets
+Subset subsets[] = {
+{ {1, 2}, 2 },
+{ {2, 3, 4}, 3 },
+{ {3, 5}, 2 },
+{ {4, 5}, 2 },
+{ {1, 4, 5}, 3 }
+};
+int m = sizeof(subsets) / sizeof(subsets[0]);
+// solve the set cover problem using branch and bound
+setCover(universe, n, subsets, m);
+return 0;
+}
+
+

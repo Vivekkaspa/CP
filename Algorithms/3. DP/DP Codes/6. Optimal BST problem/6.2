@@ -1,0 +1,18 @@
+The code above is an implementation of the Optimal Binary Search Tree algorithm using dynamic programming. Here is a step-by-step explanation of the code:
+
+The code starts by defining a few global variables, including the maximum number of keys allowed (MAX), the probabilities of the keys (p), the probabilities of the dummy keys (q), the expected cost matrix (e), the weight matrix (w), and the root matrix.
+
+2. The OptimalBST() function starts by initializing the expected cost matrix and the weight matrix for the base case where there are no nodes (i.e., when i=j-1). The expected cost for this case is simply the probability of the dummy key (q), and the weight is the same.
+
+3. The function then initializes the expected cost matrix, the weight matrix, and the root matrix for the case where there is only one node (i.e., when i=j). The expected cost for this case is simply the probability of the key (p), and the weight is the same. The root of the tree for this case is the node itself
+
+4. The function then uses a nested loop to compute the expected cost matrix, the weight matrix, and the root matrix for all other cases where there are more than one node. The outer loop iterates over the possible sub-tree sizes (l), which range from 2 (i.e., a sub-tree with two nodes) to n+1 (i.e., the entire tree). The inner loop iterates over all possible starting nodes (i) for each sub-tree size. For each combination of sub-tree size and starting node, the function computes the expected cost, weight, and root for the sub-tree.
+
+5. The function initializes the expected cost for the sub-tree to a very large value (99999999) and then computes the weight for the sub-tree. It then uses another nested loop to iterate over all possible roots (k) of the sub-tree and computes the expected cost for the sub-tree rooted at k. The function then updates the expected cost and root if the cost computed for the sub-tree rooted at k is lower than the current minimum cost.
+
+6. Once the OptimalBST() function has computed the expected cost, weight, and root matrices for all sub-trees, it prints the root and cost of the optimal binary search tree.
+
+7. The main() function reads in the number of keys, the probabilities of the keys, and the probabilities of the dummy keys. It then calls the OptimalBST() function to compute the optimal binary search tree, and prints the root and cost of the tree
+
+Overall, the OptimalBST() algorithm using dynamic programming is a widely-used algorithm for constructing an optimal binary search tree from a given set of keys and their probabilities. The algorithm is efficient, with a time complexity of O(n^3), where n is the number of keys, and has many practical applications, including in database indexing and compiler optimization.
+

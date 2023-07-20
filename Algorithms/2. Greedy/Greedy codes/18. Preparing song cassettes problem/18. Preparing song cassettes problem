@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SONGS 100
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int main() {
+    int n, cassette = 0, remaining_length, songs[MAX_SONGS];
+
+    printf("Enter the number of songs: ");
+    scanf("%d", &n);
+
+    printf("Enter the lengths of the songs:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &songs[i]);
+    }
+
+    qsort(songs, n, sizeof(int), compare);
+
+    remaining_length = songs[0];
+    cassette = 1;
+
+    for (int i = 1; i < n; i++) {
+        if (remaining_length >= songs[i]) {
+            remaining_length -= songs[i];
+        } else {
+            remaining_length = songs[i];
+            cassette++;
+        }
+    }
+
+    printf("Number of cassettes required: %d\n", cassette);
+
+    return 0;
+}

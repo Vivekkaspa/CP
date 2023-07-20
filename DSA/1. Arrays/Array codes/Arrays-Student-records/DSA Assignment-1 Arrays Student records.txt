@@ -1,0 +1,59 @@
+#include <stdio.h>
+struct student{
+    int roll_no;
+    int DSA;
+    int PSSP;
+};
+
+
+
+int main()
+{
+    struct student list[5];
+    int n;
+    printf("Enter number of students: ");
+    scanf("%d",&n);
+    for(int i = 0 ; i < n ; i++){
+        int p,q,r;
+        printf("Enter subjects marks of student %d : ",i+1);
+        p=i+1;
+        scanf("%d",&q);
+        scanf("%d",&r);
+        list[i].roll_no=p;
+        list[i].DSA=q;
+        list[i].PSSP=r;
+    }
+    
+    int list1[n][2];
+    int list2[n];
+    
+    for(int i=0;i<n;i++){
+        list1[i][0]=list[i].roll_no;
+        list1[i][1]=list[i].DSA+ list[i].PSSP;
+        
+    }
+    
+    for(int i=0;i<n;i++){
+        list2[i]=list[i].DSA + list[i].PSSP;
+    }
+    for(int i = 1 ; i < n ; i++){
+        for(int j = i  ; j > 0 ; j--){
+            int x , k ;
+            if(list2[j] < list2[j-1]){
+                x = list2[j];
+                list2[j] = list2[j-1];
+                list2[j-1]=x;
+            }
+        }
+    }
+    
+    for(int a = n-1 ; a >= n-10 ; a--){
+        for(int b=0; b<n;b++){
+            if(list2[a]==list1[b][1])
+                 printf("rank %d is roll number %d\n",n-a,list1[b][0]); 
+        
+        }
+    }
+    
+    return 0;
+}

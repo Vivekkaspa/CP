@@ -1,0 +1,8 @@
+POLICE_AND_THIEVES(n, k, arr)
+1. Sort the array arr in non-decreasing order.
+2. Initialize two pointers i and j to the first and second elements of the array.
+3. While i < n and j < n:
+     a. If arr[j] - arr[i] <= k, increment j.
+     b. If arr[j] - arr[i] > k, increment i.
+     c. If i == j, increment j.
+4. Return the number of thieves caught (j - i).

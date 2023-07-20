@@ -1,0 +1,6 @@
+1. Set up an empty chessboard of size N x N
+2. Place the first queen in the top left corner of the board
+3. Move to the next row and place a queen in the leftmost available column
+4. If there is no available column, backtrack to the previous row and move the queen to the next available column
+5. Repeat step 4 until all queens have been placed on the board
+6. If all queens have been placed, print the board as a solution and backtrack to the previous row to find other solutions

@@ -1,0 +1,6 @@
+1. Set up the graph G with V vertices and E edges
+2. Set up an empty solution array of size V to store the color of each vertex
+3. Set the color of the first vertex to 0
+4. For each vertex v in the graph, try to assign a color to v that is not already used by any of its adjacent vertices
+5. If no such color is found, backtrack to the previous vertex and try a different color for it
+6. Repeat step 5 until a valid coloring of the graph is found

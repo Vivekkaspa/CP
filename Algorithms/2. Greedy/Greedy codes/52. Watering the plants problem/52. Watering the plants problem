@@ -1,0 +1,6 @@
+WATERING_PLANTS(n, k, arr)
+1. Initialize a variable curr_can with a value of k and a variable num_cans with a value of 1.
+2. Traverse the array arr from left to right and for each plant:
+     a. If curr_can - arr[i] < 0, refill the watering can and increment num_cans.
+     b. Decrement curr_can by arr[i].
+3. Return num_cans.

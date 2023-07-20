@@ -1,0 +1,9 @@
+ACTIVITY-SELECTION(S, F):
+    n = S.length
+    A = {S[1]}
+    j = 1
+    for i = 2 to n:
+        if S[i] >= F[j]:
+            A = A U {S[i]}
+            j = i
+    return A

@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to find the median of an array using divide and conquer
+int median(int arr[], int n)
+{
+    if (n % 2 == 0) {
+        // If the array has even number of elements, return the average of middle two elements
+        return (arr[n/2] + arr[n/2 - 1]) / 2;
+    } else {
+        // If the array has odd number of elements, return the middle element
+        return arr[n/2];
+    }
+}
+
+// Function to merge two sorted arrays
+void merge(int arr[], int l, int m, int r)
+{
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    int left[n1], right[n2];
+    int i, j, k;
+
+    // Copy elements to temporary arrays
+    for (i = 0; i < n1; i++)
+        left[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        right[j] = arr[m + 1 + j];
+
+    // Merge the temporary arrays
+    i = 0;
+    j = 0;
+    k = l;
+    while (i < n1 && j < n2) {
+        if (left[i] <= right[j]) {
+            arr[k] = left[i];
+            i++;
+        } else {
+            arr[k] = right[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy the remaining elements of left array
+    while (i < n1) {
+        arr[k] = left[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of right array
+    while (j < n2) {
+        arr[k] = right[j];
+        j++;
+        k++;
+    }
+}
+
+// Function to find the median of an array using divide and conquer
+int median_dc(int arr[], int l, int r)
+{
+    if (l == r) {
+        // If the array has only one element, return it
+        return arr[l];
+    } else if (r - l == 1) {
+        // If the array has two elements, return the average of them
+        return (arr[l] + arr[r]) / 2;
+    } else {
+        int m = (l + r) / 2;
+        int median_left = median_dc(arr, l, m);
+        int median_right = median_dc(arr, m+1, r);
+        merge(arr, l, m, r);
+        return median(arr, r-l+1);
+    }
+}
+
+// Driver program to test above functions
+int main()
+{
+    int n, i;
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &n);
+    int arr[n];
+    printf("Enter the elements of the array:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+    int med = median_dc(arr, 0, n-1);
+    printf("The median of the given array is %d", med);
+    return 0;
+}

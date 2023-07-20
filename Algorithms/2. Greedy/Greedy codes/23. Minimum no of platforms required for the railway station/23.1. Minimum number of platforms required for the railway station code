@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+// Define the main function
+int main() {
+    // Read in the number of trains
+    int n;
+    scanf("%d", &n);
+
+    // Allocate memory for the arrival and departure times
+    int *arrivals = malloc(n * sizeof(int));
+    int *departures = malloc(n * sizeof(int));
+
+    // Read in the arrival and departure times
+    for(int i=0; i<n; i++) {
+        scanf("%d %d", &arrivals[i], &departures[i]);
+    }
+
+    // Sort the arrival and departure times in non-decreasing order
+    qsort(arrivals, n, sizeof(int), cmpfunc);
+    qsort(departures, n, sizeof(int), cmpfunc);
+
+    // Initialize the minimum number of platforms to 0 and the current number of platforms to 0
+    int min_platforms = 0;
+    int current_platforms = 0;
+
+    // Iterate through the arrival and departure times
+    int i = 0, j = 0;
+    while(i < n && j < n) {
+        // If the current arrival time is less than or equal to the current departure time, increment the current number of platforms
+        if(arrivals[i] <= departures[j]) {
+            current_platforms++;
+            i++;
+        }
+        // Otherwise, decrement the current number of platforms and move to the next departure time
+        else {
+            current_platforms--;
+            j++;
+        }
+        // Update the minimum number of platforms to the maximum of its current value and the current number of platforms
+        if(current_platforms > min_platforms) {
+            min_platforms = current_platforms;
+        }
+    }
+
+    // Print the minimum number of platforms
+    printf("Minimum number of platforms required: %d\n", min_platforms);
+
+    // Free the memory for the arrival and departure times
+    free(arrivals);
+    free(departures);
+
+    return 0;
+}
+
+// Define the comparison function for qsort
+int cmpfunc(const void *a, const void *b) {
+    return *(int *)a - *(int *)b;
+}

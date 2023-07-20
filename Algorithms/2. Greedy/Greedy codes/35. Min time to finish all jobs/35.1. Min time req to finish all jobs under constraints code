@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+typedef struct {
+    int id;
+    int release_time;
+    int processing_time;
+} Job;
+
+int cmpfunc(const void* a, const void* b) {
+    Job* job1 = (Job*)a;
+    Job* job2 = (Job*)b;
+    return job2->processing_time - job1->processing_time;
+}
+
+int find_smallest_completion_time(Job jobs[], int num_jobs, int completion_times[], int release_time) {
+    int i;
+    int smallest_completion_time = -1;
+    for(i = 0; i < num_jobs; i++) {
+        if(jobs[i].release_time <= release_time && completion_times[i] >= smallest_completion_time) {
+            smallest_completion_time = completion_times[i];
+        }
+    }
+    return smallest_completion_time;
+}
+
+int get_min_time_required(Job jobs[], int num_jobs) {
+    int i, j;
+    int completion_times[MAX_SIZE] = {0};
+
+    // Sort jobs in decreasing order of processing time
+    qsort(jobs, num_jobs, sizeof(Job), cmpfunc);
+
+    // Assign jobs to time slots
+    for(i = 0; i < num_jobs; i++) {
+        int smallest_completion_time = find_smallest_completion_time(jobs, num_jobs, completion_times, jobs[i].release_time);
+
+        if(smallest_completion_time != -1) {
+            completion_times[i] = smallest_completion_time + jobs[i].processing_time;
+        }
+        else {
+            completion_times[i] = jobs[i].release_time + jobs[i].processing_time;
+        }
+    }
+
+    // Find the maximum completion time
+    int max_completion_time = -1;
+    for(i = 0; i < num_jobs; i++) {
+        if(completion_times[i] > max_completion_time) {
+            max_completion_time = completion_times[i];
+        }
+    }
+
+    return max_completion_time;
+}
+
+int main() {
+    Job jobs[MAX_SIZE];
+    int num_jobs, i;
+
+    printf("Enter the number of jobs: ");
+    scanf("%d", &num_jobs);
+
+    printf("Enter the release time and processing time of each job:\n");
+    for(i = 0; i < num_jobs; i++) {
+        jobs[i].id = i + 1;
+        scanf("%d %d", &jobs[i].release_time, &jobs[i].processing_time);
+    }
+
+    int min_time_required = get_min_time_required(jobs, num_jobs);
+
+    printf("Minimum time required to finish all jobs: %d\n", min_time_required);
+
+    return 0;
+}

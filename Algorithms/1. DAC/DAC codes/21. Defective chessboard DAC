@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define N 8  // The size of the chessboard
+
+// Define a function to divide the chessboard into four quadrants
+void divide_chessboard(int board[][N], int size, int row, int col, int missing_row, int missing_col) {
+    if (size == 1) return;
+
+    int tile_number = 0;
+    int quadrant_size = size / 2;
+
+    // Determine which quadrant the missing tile is in
+    int missing_quadrant = 0;
+    if (missing_row >= row + quadrant_size) {
+        missing_quadrant += 2;
+        row += quadrant_size;
+    }
+    if (missing_col >= col + quadrant_size) {
+        missing_quadrant += 1;
+        col += quadrant_size;
+    }
+
+    // Assign tile numbers to the quadrants
+    for (int i = row; i < row + size; i++) {
+        for (int j = col; j < col + size; j++) {
+            if (i == missing_row && j == missing_col) {
+                board[i][j] = -1;
+            } else {
+                board[i][j] = tile_number++;
+            }
+        }
+    }
+
+    // Recursively divide the chessboard into quadrants
+    int new_row, new_col;
+    for (int i = 0; i < 4; i++) {
+        if (i == missing_quadrant) {
+            continue;
+        }
+        new_row = row + (i / 2) * quadrant_size;
+        new_col = col + (i % 2) * quadrant_size;
+        divide_chessboard(board, quadrant_size, new_row, new_col, missing_row, missing_col);
+    }
+}
+
+// Define a function to print the chessboard
+void print_board(int board[][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%2d ", board[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int board[N][N];
+    int missing_row = 3;  // The row number of the missing tile (0-indexed)
+    int missing_col = 5;  // The column number of the missing tile (0-indexed)
+
+    divide_chessboard(board, N, 0, 0, missing_row, missing_col);
+    print_board(board);
+
+    return 0;
+}

@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<limits.h>
+
+#define MAX_N 20
+
+int graph[MAX_N][MAX_N]; // adjacency matrix to represent the graph
+int visited[MAX_N]; // array to track visited nodes
+int best_tour[MAX_N]; // array to store the best tour found so far
+int best_tour_length = INT_MAX; // length of the best tour found so far
+
+void TSP_BranchBound(int n, int curr_node, int curr_length, int curr_tour[]){
+    // base case: we have visited all the nodes
+    if(curr_node == n){
+        curr_length += graph[curr_tour[n-1]][curr_tour[0]]; // add the edge from the last to the first node
+        if(curr_length < best_tour_length){
+            // update the best tour found so far
+            best_tour_length = curr_length;
+            for(int i=0; i<n; i++){
+                best_tour[i] = curr_tour[i];
+            }
+        }
+        return;
+    }
+
+    // generate child nodes by adding unvisited cities to the partial tour
+    for(int i=0; i<n; i++){
+        if(!visited[i]){
+            int new_length = curr_length + graph[curr_tour[curr_node-1]][i];
+            if(new_length < best_tour_length){
+                curr_tour[curr_node] = i;
+                visited[i] = 1;
+                TSP_BranchBound(n, curr_node+1, new_length, curr_tour);
+                visited[i] = 0;
+            }
+        }
+    }
+}
+
+int main(){
+    int n;
+
+    printf("Enter the number of cities: ");
+    scanf("%d", &n);
+
+    printf("Enter the adjacency matrix: \n");
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    // initialize visited and current tour arrays
+    for(int i=0; i<n; i++){
+        visited[i] = 0;
+        best_tour[i] = -1;
+    }
+
+    // start from the first node
+    int curr_tour[MAX_N];
+    curr_tour[0] = 0;
+    visited[0] = 1;
+
+    TSP_BranchBound(n, 1, 0, curr_tour);
+
+    printf("Best tour found: ");
+    for(int i=0; i<n; i++){
+        printf("%d ", best_tour[i]);
+    }
+    printf("\nLength of the best tour: %d\n", best_tour_length);
+
+    return 0;
+}

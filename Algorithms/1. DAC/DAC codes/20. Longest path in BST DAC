@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definition for a binary tree node
+struct TreeNode {
+    int val;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+int longestPath(struct TreeNode* root, int* maxPath) {
+    if (root == NULL) {
+        return 0;
+    }
+    int leftPath = longestPath(root->left, maxPath);
+    int rightPath = longestPath(root->right, maxPath);
+    int pathThroughRoot = leftPath + rightPath + 1;
+    *maxPath = max(*maxPath, pathThroughRoot);
+    return max(leftPath, rightPath) + 1;
+}
+
+int diameterOfBinaryTree(struct TreeNode* root) {
+    int maxPath = 0;
+    longestPath(root, &maxPath);
+    return maxPath == 0 ? 0 : maxPath - 1;
+}

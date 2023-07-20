@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int maximize_toys(int prices[], int n, int k) {
+    qsort(prices, n, sizeof(int), compare);
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        if (prices[i] <= k) {
+            count++;
+            k -= prices[i];
+        } else {
+            break;
+        }
+    }
+    return count;
+}
+
+int main() {
+    int prices[] = {1, 12, 5, 111, 200};
+    int n = sizeof(prices) / sizeof(prices[0]);
+    int k = 50;
+    int count = maximize_toys(prices, n, k);
+    printf("Maximum toys that can be bought: %d\n", count);
+    return 0;
+}

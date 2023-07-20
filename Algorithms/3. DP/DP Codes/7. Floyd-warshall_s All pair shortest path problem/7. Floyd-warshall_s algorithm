@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+#define V 4
+
+int dist[V][V];
+
+void FloydWarshall()
+{
+    int i, j, k;
+    for (i = 0; i < V; i++) {
+        for (j = 0; j < V; j++) {
+            dist[i][j] = graph[i][j];
+        }
+    }
+    for (k = 0; k < V; k++) {
+        for (i = 0; i < V; i++) {
+            for (j = 0; j < V; j++) {
+                if (dist[i][k] != INT_MAX && dist[k][j] != INT_MAX && dist[i][j] > dist[i][k] + dist[k][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    int graph[V][V] = {{0, 5, INT_MAX, 10},
+                       {INT_MAX, 0, 3, INT_MAX},
+                       {INT_MAX, INT_MAX, 0, 1},
+                       {INT_MAX, INT_MAX, INT_MAX, 0}};
+    FloydWarshall();
+    printf ("The following matrix shows the shortest distances between every pair of vertices \n");
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (dist[i][j] == INT_MAX)
+                printf("%7s", "INF");
+            else
+                printf ("%7d", dist[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+//In the above implementation, we have initialized the graph as an adjacency matrix with the weights of the edges. The function FloydWarshall() initializes the distance matrix with the graph matrix and then updates the distance matrix with the shortest distances between every pair of vertices. Finally, the main function prints the shortest distances between every pair of vertices using the distance matrix.The time complexity of the Floyd-Warshall algorithm is O(V^3), where V is the number of vertices in the graph.

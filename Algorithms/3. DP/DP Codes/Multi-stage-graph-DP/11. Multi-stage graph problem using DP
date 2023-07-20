@@ -1,0 +1,12 @@
+1. Set up the graph representation as a 2D array
+2. Initialize the cost array with INT_MAX values for all nodes except for the final node which should be initialized with 0
+3. Initialize the path array with -1 values for all nodes
+4. Starting from the second last node, traverse backwards through the graph
+5. For each node at a given stage:
+   a. Traverse through all the outgoing edges and calculate the cost for each edge
+   b. Find the minimum cost among all the outgoing edges and update the cost and path arrays for the node
+6. Starting from the first node, traverse forwards through the graph
+7. For each node at a given stage:
+   a. Traverse through all the incoming edges and calculate the cost for each edge
+   b. Find the minimum cost among all the incoming edges and update the cost and path arrays for the node
+8. Print the optimal path and its cost

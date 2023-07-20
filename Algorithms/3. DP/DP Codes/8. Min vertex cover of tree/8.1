@@ -1,0 +1,17 @@
+VertexCover(root):
+  for each vertex v in the tree:
+    size[v] = 0
+    cover[v] = false
+  DFS(root)
+  return min(size[root], cover[root])
+
+DFS(u):
+  size[u] = 1
+  cover[u] = true
+  for each child v of u:
+    DFS(v)
+    size[u] += size[v]
+    if (cover[v] == true):
+      cover[u] = false
+    else:
+      size[u] -= 1

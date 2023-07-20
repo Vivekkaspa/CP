@@ -1,0 +1,27 @@
+function findMaxSumDifference(arr, n) {
+    // Sort the array
+    sort(arr)
+    
+    // Initialize the sums
+    let sum1 = 0
+    let sum2 = 0
+    
+    // Calculate the first sum
+    for (let i = 0; i < n/2; i++) {
+        sum1 += arr[i]
+    }
+    for (let i = n/2; i < n; i++) {
+        sum1 -= arr[i]
+    }
+    
+    // Calculate the second sum
+    for (let i = 0; i < n; i += 2) {
+        sum2 += arr[i]
+    }
+    for (let i = 1; i < n; i += 2) {
+        sum2 -= arr[i]
+    }
+    
+    // Return the maximum sum
+    return max(abs(sum1), abs(sum2))
+}

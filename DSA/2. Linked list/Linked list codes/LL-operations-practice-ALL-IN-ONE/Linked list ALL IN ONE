@@ -1,0 +1,120 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node *next;
+}*newnode;
+void creation(){
+    struct node *head;
+    int x;
+    newnode=(struct node*)malloc(sizeof(struct node));
+    printf("enter number");
+    scanf("%d",&x);
+    newnode->data=x;
+    head=newnode;
+    newnode->next=NULL;
+    printf("enter the numbers");
+    for (int i=0;i<4;i++){
+        int y;
+        scanf("%d",&y);
+        struct node *temp=(struct node*)malloc(sizeof(struct node));
+        temp->data=y;
+        temp->next=NULL;
+        head->next=temp;
+        head=temp;
+    }
+   
+    }
+ void display(struct node *temp){
+        while (temp!=NULL){
+            printf("%d->",temp->data);
+            temp=temp->next;
+        }
+ }
+ void insertion(struct node *temp,int pos,int x) {
+    struct node *w=(struct node*)malloc(sizeof(struct node));
+    for (int i=1;i<pos;i++){
+        temp=temp->next;
+    w=temp;}
+    struct node *r=(struct node*)malloc(sizeof(struct node));
+    r->data=x;
+    r->next=w->next;
+    w->next=r;
+    printf("\n");}
+void deletion(struct node *temp,int pos){
+   struct node *e=(struct node*)malloc(sizeof(struct node));
+    for (int i=1;i<pos;i++){
+        temp=temp->next;
+    e=temp;}
+    
+    e->next=e->next->next;
+    printf("\n");
+
+ }
+ void sort(struct node *temp){
+    struct node *index=NULL;
+    while( temp!=NULL){
+        index=temp->next;
+        while(index!=NULL){
+            
+            struct node *a=(struct node*)malloc(sizeof(struct node));
+            if ((temp->data)>(index->data)){
+            
+                a->data=temp->data;
+                temp->data=index->data;
+                index->data=a->data;}
+                index=index->next;
+        }
+        temp=temp->next;
+    }
+printf("\n");
+
+ }
+ void reversal(struct node *temp){
+    struct node *pre=NULL;
+    struct node *nextnode=temp;
+    while ((nextnode)!=NULL){
+        nextnode=nextnode->next;
+        temp->next=pre;
+        pre=temp;
+        temp=nextnode;
+        }
+    printf("\n");
+    newnode=pre;
+
+
+
+    }
+
+
+
+ 
+
+    
+
+int main(){
+    creation();
+    display(newnode);
+    insertion(newnode,3,19);
+    display(newnode);
+    deletion(newnode,3);
+    display(newnode);
+    sort(newnode);
+    display(newnode);
+    insertion(newnode,3,29);
+    display(newnode);
+    insertion(newnode,4,12);
+    display(newnode);
+    deletion(newnode,2);
+    display(newnode);
+    sort(newnode);
+    display(newnode);
+    insertion(newnode,2,14);
+    insertion(newnode,2,32);
+    reversal(newnode);
+    display(newnode);
+    insertion(newnode,3,18);
+    display(newnode);
+
+
+}

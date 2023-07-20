@@ -1,0 +1,99 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct node{
+char *str;
+struct node *nxt;
+}node;
+
+int hashr(char str[]){
+	int n=strlen(str);
+	int sum=0;
+	int pow=1;
+	for (int i=0;i<n;i++){
+		sum+=pow*(int)str[i];
+		pow*=10;
+	}
+	int x;
+	x=sum%7;
+	sum=sum/100;
+	x+=sum%13;
+	x=x%13;
+	return x;
+}
+
+void insert(node *hash[],char *str){
+	int i=hashr(str);
+	node* t=(node*)malloc(sizeof(node));
+	t->str=(char*)malloc(strlen(str)+1);
+	t->str=str;
+	t->nxt=NULL;
+	node* p=(node*)malloc(sizeof(node));
+	p=hash[i];
+	if(hash[i]==NULL) {hash[i]=t;return ;}
+	while(p->nxt!=NULL){
+		p=p->nxt;
+		
+		}
+	p->nxt=t;
+	
+}
+
+int delete_chr(char *str,node *hash[]){
+	int i=hashr(str);
+	node* n=hash[i];
+	if (n!=NULL && strcmp(n->str,str)==0){
+	hash[i]=n->nxt;
+	return 1;}
+	while(n!=NULL && n->nxt!=NULL){
+	if (strcmp(n->nxt->str,str)==0){
+	n->nxt=n->nxt->nxt;
+	return 1;
+	}
+	n=n->nxt;
+	}
+	return -1;
+}
+
+int search(char *str,node *hash[]){
+	int i=hashr(str);
+	node *t=hash[i];
+	while(t!=NULL){
+	if (strcmp(t->str,str)==0){
+	return 1;
+	
+	}
+	t=t->nxt;}
+	return -1;
+}
+void show(node *hash[]){
+	node* p=(node*)malloc(sizeof(node));
+	printf("\n\Display Hash table contents :");
+	for(int i=0;i<13;i++){
+		p=hash[i];
+		printf("\n%d->",i);
+		while(p!=NULL){
+		
+		printf("%s  ",p->str);
+		p=p->nxt;
+		}
+		
+	}
+	printf("\n\n");
+}
+void main(){
+	node *hash[13];
+	for (int i=0;i<13;i++){
+		hash[i]=NULL;}
+	
+	char data[15][4]={"cat","jkt","Mal","aat","red","ddy","iss","Hel","Oia","amt","kas","pav","ive","kbt","cse"};
+	for (int i=0;i<15;i++){
+	insert(hash,data[i]);}
+	show(hash);
+	printf("\ndeleted %d",delete_chr(data[12],hash));
+	printf("\ndeleted %d",delete_chr("Mall",hash));
+	printf("\nserched %d",search(data[12],hash));
+	printf("\nserched %d ",search("cse",hash));
+	show(hash);
+}

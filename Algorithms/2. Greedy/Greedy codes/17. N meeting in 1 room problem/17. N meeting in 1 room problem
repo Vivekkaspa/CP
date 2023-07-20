@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int start_time;
+    int end_time;
+} person;
+
+// compare function for sorting people by end time in ascending order
+int cmpfunc(const void *a, const void *b) {
+    const person *p1 = (const person *)a;
+    const person *p2 = (const person *)b;
+    return p1->end_time - p2->end_time;
+}
+
+int main() {
+    int n;
+    printf("Enter the number of people: ");
+    scanf("%d", &n);
+
+    person *people = (person *)malloc(n * sizeof(person));
+    printf("Enter the start and end times for each person:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d %d", &people[i].start_time, &people[i].end_time);
+    }
+
+    // sort people by end time in ascending order
+    qsort(people, n, sizeof(person), cmpfunc);
+
+    int current_end_time = 0;
+    int max_attendees = 0;
+    printf("Scheduled meeting:\n");
+    for (int i = 0; i < n; i++) {
+        if (people[i].start_time >= current_end_time) {
+            printf("Person %d: %d-%d\n", i+1, people[i].start_time, people[i].end_time);
+            current_end_time = people[i].end_time;
+            max_attendees++;
+        }
+    }
+
+    printf("Maximum number of attendees: %d\n", max_attendees);
+
+    free(people);
+    return 0;
+}

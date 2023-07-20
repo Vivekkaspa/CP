@@ -1,0 +1,7 @@
+OPTIMAL_STORAGE_ON_TAPES(n, tapes, files)
+1. Sort the files in non-increasing order of their sizes.
+2. For each file in the sorted list:
+     a. Find the tape with minimum remaining space.
+     b. If the file can fit on the tape, add it to the tape and update its remaining space.
+     c. Otherwise, create a new tape and add the file to it.
+3. Return the total number of tapes used.

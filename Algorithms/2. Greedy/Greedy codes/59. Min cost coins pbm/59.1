@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int min_cost_coins(int coins[], int n, int k) {
+    qsort(coins, n, sizeof(int), compare);
+    int cost = 0;
+    for (int i = 0; i < n; i++) {
+        int ec = ceil((coins[i] - 1) / (double)k);
+        cost += ec;
+    }
+    return cost;
+}
+
+int main() {
+    int coins[] = {4, 7, 9, 11, 23};
+    int n = sizeof(coins) / sizeof(coins[0]);
+    int k = 3;
+    int cost = min_cost_coins(coins, n, k);
+    printf("Minimum cost to acquire all coins: %d\n", cost);
+    return 0;
+}

@@ -1,0 +1,15 @@
+//The Interval Coloring problem involves finding the minimum number of colors needed to color a set of intervals, such that no two overlapping intervals have the same color.
+
+IntervalColoring(intervals)
+    colors = []     // List to store the colors assigned to each interval
+    sorted_intervals = sort(intervals)    // Sort the intervals in ascending order of their end times
+    for interval in sorted_intervals:
+        available_colors = []   // List to store the available colors for the current interval
+        for color in colors:
+            if no interval in colors has the same color as the current interval:
+                add color to available_colors
+        if available_colors is not empty:
+            assign the first color from available_colors to current interval
+        else:
+            assign a new color to current interval and add it to colors
+    return colors

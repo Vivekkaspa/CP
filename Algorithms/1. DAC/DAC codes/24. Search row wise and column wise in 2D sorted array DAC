@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+// Function to search for an element in a 2D sorted array
+int search(int arr[][4], int x, int n, int m, int row, int col) {
+    if (row >= n || col < 0) {
+        return 0;
+    }
+
+    if (arr[row][col] == x) {
+        return 1;
+    }
+
+    if (arr[row][col] > x) {
+        return search(arr, x, n, m, row, col - 1);
+    }
+    else {
+        return search(arr, x, n, m, row + 1, col);
+    }
+}
+
+// Driver code
+int main() {
+    int arr[][4] = {{10, 20, 30, 40},
+                    {15, 25, 35, 45},
+                    {27, 29, 37, 48},
+                    {32, 33, 39, 50}};
+
+    int x = 29; // Element to be searched
+    int n = 4, m = 4; // Size of the array
+    int found = search(arr, x, n, m, 0, m - 1);
+
+    if (found) {
+        printf("Element %d found in the array.", x);
+    }
+    else {
+        printf("Element %d not found in the array.", x);
+    }
+
+    return 0;
+}

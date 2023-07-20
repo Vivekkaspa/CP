@@ -1,0 +1,131 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define MAX_POINTS 1000
+
+typedef struct {
+    int x;
+    int y;
+} point;
+
+typedef struct {
+    int p1;
+    int p2;
+    double weight;
+} edge;
+
+int cmpfunc(const void* a, const void* b) {
+    return (*(edge*)a).weight > (*(edge*)b).weight;
+}
+
+int find(int x, int* parent) {
+    if (parent[x] == x) {
+        return x;
+    } else {
+        return parent[x] = find(parent[x], parent);
+    }
+}
+
+void merge(int x, int y, int* parent, int* size) {
+    int px = find(x, parent);
+    int py = find(y, parent);
+    if (px != py) {
+        if (size[px] < size[py]) {
+            int temp = px;
+            px = py;
+            py = temp;
+        }
+        parent[py] = px;
+        size[px] += size[py];
+    }
+}
+
+int main() {
+    int num_points, num_clusters, i, j, k, l, num_edges, num_clusters_left, max_distance;
+    point points[MAX_POINTS];
+    edge edges[MAX_POINTS * (MAX_POINTS - 1) / 2];
+    int cluster_labels[MAX_POINTS];
+    int parent[MAX_POINTS], size[MAX_POINTS];
+
+    // Read in the number of points, the number of clusters, and the coordinates of each point
+    printf("Enter the number of points: ");
+    scanf("%d", &num_points);
+    printf("Enter the number of clusters: ");
+    scanf("%d", &num_clusters);
+    printf("Enter the coordinates of each point:\n");
+    for (i = 0; i < num_points; i++) {
+        printf("Point %d: ", i+1);
+        scanf("%d %d", &points[i].x, &points[i].y);
+        cluster_labels[i] = i;
+        parent[i] = i;
+        size[i] = 1;
+    }
+
+
+//This code iterates over all pairs of points and computes the Euclidean distance between them. It then adds the edge connecting the two points to the priority queue, along with its weight. Finally, it sorts the edges in ascending order of weight using the qsort function
+
+    // Compute the edges of the graph and add them to the priority queue
+    num_edges = 0;
+    for (i = 0; i < num_points; i++) {
+         for (j = i+1; j < num_points; j++) {
+      
+
+        // Compute the Euclidean distance between point i and point j
+        double distance = sqrt(pow(points[i].x - points[j].x, 2) + pow(points[i].y - points[j].y, 2));
+
+        // Add the edge to the priority queue
+        edges[num_edges].p1 = i;
+        edges[num_edges].p2 = j;
+        edges[num_edges].weight = distance;
+        num_edges++;
+    }
+
+    // Sort the edges in ascending order of weight
+    qsort(edges, num_edges, sizeof(edge), cmpfunc);
+
+    // Merge clusters until the desired number of clusters is reached
+    num_clusters_left = num_points;
+    for (k = 0; k < num_edges && num_clusters_left > num_clusters; k++) {
+        int p1 = edges[k].p1;
+        int p2 = edges[k].p2;
+        double weight = edges[k].weight;
+
+        // If the two points are not already in the same cluster
+        if (find(p1, parent) != find(p2, parent)) {
+            // Merge the clusters containing the two points
+            merge(p1, p2, parent, size);
+
+            // Update the cluster labels of all points in the merged clusters
+            for (l = 0; l < num_points; l++) {
+                if (find(l, parent) == find(p1, parent)) {
+                    cluster_labels[l] = cluster_labels[p1];
+                }
+            }
+
+            // Decrement the number of clusters left
+            num_clusters_left--;
+        }
+    }
+
+    // Compute the maximum distance between any pair of points in different clusters
+    max_distance = 0;
+    for (i = 0; i < num_points; i++) {
+        for (j = i+1; j < num_points; j++) {
+            if (cluster_labels[i] != cluster_labels[j]) {
+                double distance = sqrt(pow(points[i].x - points[j].x, 2) + pow(points[i].y - points[j].y, 2));
+                if (distance > max_distance) {
+                    max_distance = distance;
+                }
+            }
+        }
+    }
+
+    // Print the maximum distance as the distance between the clusters
+    printf("The distance between the clusters is %d\n", max_distance);
+
+    return 0;
+}
+
+
+

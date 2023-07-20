@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include<stdlib.h>
+
+// Define the maximum number of intervals we can handle
+#define MAX_INTERVALS 100
+
+// Define a structure to represent an interval
+typedef struct {
+    int start;
+    int end;
+} interval;
+
+// Define a function to compare two intervals based on their ending times
+int compare_intervals(const void *a, const void *b) {
+    interval *interval_a = (interval *) a;
+    interval *interval_b = (interval *) b;
+    return interval_a->end - interval_b->end;
+}
+
+// Define the interval coloring function using the greedy algorithm
+int interval_coloring(interval intervals[], int n) {
+    // Sort the intervals based on their ending times
+    qsort(intervals, n, sizeof(interval), compare_intervals);
+
+    // Create an array to store the colors assigned to each interval
+    int colors[MAX_INTERVALS];
+
+    // Assign the first interval the first color
+    colors[0] = 0;
+
+    // Initialize the number of colors used to 1
+    int num_colors = 1;
+
+    // Iterate through the remaining intervals
+    for (int i = 1; i < n; i++) {
+        // Initialize the color of the current interval to -1
+        colors[i] = -1;
+
+        // Iterate through the colors that have been used so far
+        for (int j = 0; j < num_colors; j++) {
+            // If the current interval does not overlap with any other intervals of the same color
+            if (intervals[i].start >= intervals[colors[j]].end) {
+                // Assign the current interval the same color as the overlapping interval
+                colors[i] = j;
+                break;
+            }
+        }
+
+        // If the current interval has not been assigned a color yet
+        if (colors[i] == -1) {
+            // Assign it a new color
+            colors[i] = num_colors;
+            num_colors++;
+        }
+    }
+
+    // Return the number of colors used
+    return num_colors;
+}
+
+// Test the interval coloring function
+int main() {
+    // Define some test intervals
+    interval intervals[] = {{0, 6}, {1, 4}, {3, 5}, {3, 8}, {4, 7}, {5, 9}, {6, 10}, {8, 11}};
+
+    // Calculate the number of intervals
+    int n = sizeof(intervals) / sizeof(interval);
+
+    // Color the intervals and print the number of colors used
+    int num_colors = interval_coloring(intervals, n);
+    printf("Number of colors used: %d\n", num_colors);
+
+    // Print the color assigned to each interval
+     
+ /*   for (int i = 0; i < n; i++) {
+        printf("Interval %d: Color %d\n", i + 1, colors[i]);*/
+    
+
+    return 0;
+}

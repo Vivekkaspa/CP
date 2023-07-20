@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main() {
+    int n, m;
+    scanf("%d %d", &n, &m);
+    
+    int cost = 0;
+    
+    // Cut along the shorter side first
+    while (n > 1 || m > 1) {
+        if (n > m) {
+            // Cut along the longer side
+            n--;
+            cost += m;
+        } else {
+            // Cut along the shorter side
+            m--;
+            cost += n;
+        }
+        
+        // Add diagonal cut
+        cost += (int) ceil(sqrt(n*n + m*m));
+        
+        // Update n and m
+        n = 1;
+        m = 1;
+    }
+    
+    printf("Minimum cost to cut the board into squares: %d\n", cost);
+    
+    return 0;
+}

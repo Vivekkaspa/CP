@@ -1,0 +1,14 @@
+//The Picking Up Chicks problem is a classic problem in computer science that involves efficiently choosing the correct cows to breed in a given time. The problem statement is as follows:
+
+//You have to pick up chicks from the farmyard and put them in a pickup truck. There are N chicks and K pickups in total, and each pickup can carry up to B chicks. The pickup truck can make only one round of pickups. You are given the position of each chick and the time it will take for the chick to reach the pickup location. You have to choose which chicks to pick up in such a way that you minimize the maximum time required for any chick to reach the pickup point.
+
+sort the chicks in increasing order of the time it takes for them to reach the pickup location
+for each chick in the sorted order:
+    if there is a pickup with free space that can reach the chick's location before its time limit:
+        add the chick to the pickup
+    else:
+        try to find a pickup that can reach the chick's location before its time limit and has the minimum time limit among all such pickups:
+            add the chick to the pickup
+            
+            
+            

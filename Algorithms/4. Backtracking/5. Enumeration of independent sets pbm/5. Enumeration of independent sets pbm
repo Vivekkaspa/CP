@@ -1,0 +1,63 @@
+//Note: The code assumes that the graph is represented by an adjacency matrix, and that the vertices are numbered from 0 to n-1
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 100
+
+typedef struct {
+  int n;
+  int adj[MAX_VERTICES][MAX_VERTICES];
+} Graph;
+
+int isIndependent(Graph *g, int *set, int k, int v) {
+  for (int i = 0; i < k; i++) {
+    if (g->adj[v][set[i]]) {
+      return 0;
+    }
+  }
+  return 1;
+}
+
+void enumerateIndependentSets(Graph *g, int *set, int k) {
+  if (k == g->n) {
+    printf("{");
+    for (int i = 0; i < k; i++) {
+      printf("%d", set[i]);
+      if (i != k - 1) {
+        printf(", ");
+      }
+    }
+    printf("}\n");
+    return;
+  }
+  int candidates[MAX_VERTICES], size = 0;
+  for (int v = 0; v < g->n; v++) {
+    if (isIndependent(g, set, k, v)) {
+      candidates[size++] = v;
+    }
+  }
+  for (int i = 0; i < size; i++) {
+    int v = candidates[i];
+    set[k] = v;
+    enumerateIndependentSets(g, set, k + 1);
+  }
+}
+
+int main() {
+  Graph g = {
+    5,
+    {
+      {0, 1, 1, 0, 0},
+      {1, 0, 1, 1, 0},
+      {1, 1, 0, 1, 1},
+      {0, 1, 1, 0, 1},
+      {0, 0, 1, 1, 0},
+    }
+  };
+  int set[MAX_VERTICES] = {0};
+  enumerateIndependentSets(&g, set, 0);
+  return 0;
+}
+

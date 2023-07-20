@@ -1,0 +1,11 @@
+matrixChainOrder(p[], n)
+1. Let m[1...n, 1...n] be the minimum number of scalar multiplications needed to compute the matrix A[i]A[i+1]...A[j] = A[i..j] where the dimension of A[i] is p[i-1] x p[i]
+2. For i = 1 to n, set m[i, i] = 0
+3. For L = 2 to n - 1, do
+    a. For i = 1 to n - L + 1, do
+        1. j = i + L - 1
+        2. Set m[i, j] = INFINITY
+        3. For k = i to j - 1, do
+            a. Set q = m[i, k] + m[k+1, j] + p[i-1] * p[k] * p[j]
+            b. If q < m[i, j], set m[i, j] = q
+4. Return m[1, n]

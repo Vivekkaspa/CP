@@ -1,0 +1,95 @@
+#include<stdio.h>
+int n=0;
+int tell[4]={0};
+int del;
+void swapvalue(int x,int y,int tell[]){
+    int temp=tell[x];
+    tell[x]=tell[y];
+    tell[y]=temp;
+}
+void swap(int arr[],int i,int j){
+    int temp=arr[i];
+    arr[i]=arr[j];
+    arr[j]=temp;
+}
+void heapinsert(int arr[],int key,int key2){
+    n++;
+    arr[n]=key; tell[n]=key2;
+    int i=n;
+    while(i>1){
+        int parent=i/2;
+        if(arr[parent]<arr[i]){
+            swap(arr,i,parent);  swapvalue(parent,i,tell);
+            i=parent;
+        }
+        else return;
+         
+    }
+}
+void display(int arr[]){
+    for(int i=1;i<n+1;++i){
+        printf("%d ",arr[i]);
+    }
+}
+void deleted(int arr[]){
+    if(n==0) return;
+    del=tell[1];
+    printf("%d \n",arr[1]);
+    arr[1]=arr[n]; tell[1]=tell[n];
+    int i=1;
+    n--;
+    while(i<n){
+    int left=2*i;
+    int right=2*i+1;
+    if(right<=n ){
+        if(left<=n && arr[left]>arr[right] && arr[i]<arr[left]){
+            swap(arr,left,i); swapvalue(left,i,tell);
+            i=left;
+        }
+        else if(arr[right]>arr[i]){
+            swap(arr,right,i); swapvalue(right,i,tell);
+            i=right;
+             }
+        else return;
+    }
+    else if(left<=n){
+        if(arr[left]>arr[i]){
+            swap(arr,left,i); swapvalue(left,i,tell);
+            i=right;
+        }
+        else return;
+}
+
+    else return;
+    }}
+int main(){
+    int k=3;
+    int arr1[]={-1,5,4,1,-1};
+    int arr2[]={-2,9,8,3,-5,-6,-10};
+    int arr3[]={-3,7,6,2,-7,-12};
+    int size1=sizeof(arr1)/sizeof(int);
+    int size2=sizeof(arr2)/sizeof(int);
+    int size3=sizeof(arr3)/sizeof(int);
+    int size=size1+size2+size3-3;
+    int heap[4];
+    heapinsert(heap,arr1[1],arr1[0]);
+    heapinsert(heap,arr2[1],arr2[0]);
+    heapinsert(heap,arr3[1],arr3[0]);
+    int i=0;
+     int count1=2,count2=2,count3=2;
+    while(n!=0){
+        deleted(heap);
+        if(del==-1 && count1<size1){
+            heapinsert(heap,arr1[count1],arr1[0]);
+            count1++;
+        }
+        else if(del==-2 && count2<size2){
+            heapinsert(heap,arr2[count2],arr2[0]);
+            count2++;
+        }
+        else if(del==-3 && count3<size3){
+            heapinsert(heap,arr3[count3],arr3[0]);
+            count3++;
+        }
+        //deleted(heap); 
+    }}

@@ -1,0 +1,50 @@
+#include<stdio.h>  
+  
+int fetchmax(int A[], int n) {  
+   int K= A[0];  
+   for(int i = 1; i<n; i++) {  
+      if(A[i] > K)  
+        K = A[i];  
+   }  
+   return K;
+}
+
+void CountingSort (int A[], int n) {
+      int B[n+1];
+      int K = fetchmax(A,n);
+       int C[K+1], i;
+      
+                 //Complexity: O(K)
+       for (i = 0;i<=K; i++)
+                  C[i] = 0;
+                 //Complexity: O(n)
+         for ( i= 0 ; i<n; i++)
+                C[A[i]] = C[A[i]] + 1;
+               //Complexity: O(K)
+          for (i = 1; i <=K ;i++)
+                C[i] = C[i] + C[i - 1];
+                //Complexity: O(n)
+          for ( i = n - 1; i>= 0 ;i--)
+                 B[C[A[i]-1]]=A[i];
+                 C[A[i]]--;
+          for( i = 0; i<n; i++) {  
+                A[i] = B[i];
+          }
+}
+
+void printArr(int A[], int n) {  
+    int i;  
+    for (i = 0; i < n; i++)  
+        printf("%d ",A[i]);
+}  
+  
+int main() {  
+    int A[] = { 31, 21, 42, 7, 30, 11 };  
+    int n = sizeof(A)/sizeof(A[0]);  
+    printf("Before sorting array elements are - \n");  
+    printArr(A, n);  
+    CountingSort(A,n);  
+    printf("\nAfter sorting array elements are - \n");    
+    printArr(A, n);  
+    return 0;  
+}  

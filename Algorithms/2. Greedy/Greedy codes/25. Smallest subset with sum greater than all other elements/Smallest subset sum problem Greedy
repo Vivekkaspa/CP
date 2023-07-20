@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
+int smallestSubset(int arr[], int n) {
+    int sum = 0, count = 0;
+    qsort(arr, n, sizeof(int), compare);
+    for (int i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+    for (int i = 0; i < n; i++) {
+        sum -= arr[i];
+        count++;
+        if (sum < arr[i]) {
+            break;
+        }
+    }
+    return count;
+}
+
+int main() {
+    int arr[] = { 3, 1, 7, 1 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int subsetSize = smallestSubset(arr, n);
+    printf("Smallest subset with sum greater than all other elements is of size: %d\n", subsetSize);
+    return 0;
+}

@@ -1,0 +1,108 @@
+#include <stdio.h>  
+#include <stdlib.h>  
+#include<limits.h>
+   
+struct node{  
+    int data;  
+    struct node *left;  
+    struct node *right;  
+};  
+   
+struct node *root = NULL;  
+     
+struct node* createNode(int data){  
+    struct node *newNode = (struct node*)malloc(sizeof(struct node));  
+    newNode->data = data;  
+    newNode->left = NULL;  
+    newNode->right = NULL;  
+    return newNode;  
+}  
+
+static int count = 0;
+int countnodes(struct node *root)
+{
+    if(root != NULL)
+    {
+        countnodes(root->left);
+        count++;
+        countnodes(root->right);
+    }
+    return count;
+}
+
+int findsum(struct node *root){  
+    int sum, l_sum, r_sum;  
+    sum = r_sum = l_sum= 0;  
+      
+    if(root == NULL) {  
+        printf("Tree is empty\n");  
+        return 0;  
+    }   else {  
+        if(root->left != NULL)  
+            l_sum=findsum(root->left);  
+        if(root->right != NULL)  
+           r_sum=findsum(root->right);            
+           sum = root->data +l_sum+r_sum;  
+        return sum;  
+  }      
+}  
+
+int average(){
+    int  p=findsum(root);
+    //int  q=TotalNodes(root);
+    int q=countnodes(root);
+    int k=p/q;
+   return k;
+}
+
+void nearesttoaverage(struct node *ptr
+, int &mindiff,int &minkey){
+    
+  int  average();
+   int k;
+   
+    if (ptr == NULL)
+        return ;
+        
+    if (ptr->data==k){
+        minkey= k;
+        return;
+    }
+    
+    if (mindiff > abs(ptr->data - k)){
+        mindiff = abs(ptr->data - k);
+        minkey = ptr->data;
+    }
+
+    // if k is less than ptr->key then move in
+    // left subtree else in right subtree
+    if (k< ptr->data)
+        nearesttoaverage(ptr->left,mindiff, minkey);
+    else
+       nearesttoaverage(ptr->right, mindiff, minkey);
+}
+
+
+int mindiffer(struct node *root){
+      int  average();
+      int mindiff = INT_MAX;
+      int minkey = -1;
+    nearesttoaverage(root, mindiff, minkey);
+    return minkey;
+}
+   
+int main(){  
+    root = createNode(4);  
+    root->left = createNode(2);  
+    root->right = createNode(6);  
+    root->left->left = createNode(1);  
+    root->right->left = createNode(8);  
+    root->right->right = createNode(9);  
+      
+    printf("Sum of all nodes of binary tree: %d \n", findsum(root));  
+     // printf("Count of all nodes of binary tree: %d \n", TotalNodes(root));  
+      printf("Count of all nodes of binary tree: %d \n", countnodes(root));  
+       printf("Average of all nodes of binary tree: %d \n",average());  
+       printf("Node value nearest to avg is:%d \n",mindiffer(root));
+    return 0;  
+}  

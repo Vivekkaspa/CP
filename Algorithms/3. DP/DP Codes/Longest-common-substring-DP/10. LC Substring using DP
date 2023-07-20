@@ -1,0 +1,17 @@
+function longest_common_substring(string1, string2):
+    initialize a 2D array of size (length(string1) + 1) x (length(string2) + 1) to 0
+    max_length = 0
+    end_index = 0
+
+    for i from 1 to length(string1):
+        for j from 1 to length(string2):
+            if string1[i-1] == string2[j-1]:
+                table[i][j] = table[i-1][j-1] + 1
+                if table[i][j] > max_length:
+                    max_length = table[i][j]
+                    end_index = i-1
+            else:
+                table[i][j] = 0
+
+    return substring(string1, end_index - max_length + 1, end_index)
+

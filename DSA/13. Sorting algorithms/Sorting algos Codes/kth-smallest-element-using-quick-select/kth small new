@@ -1,0 +1,61 @@
+#include<stdio.h>
+ 
+ 
+int CreatePartition(int a[], int low, int high){
+	int pivot, index, i;
+	index = low;
+	pivot = high;
+ 
+	// Getting index of pivot.
+	for(i=low; i < high; i++){
+		if(a[i] < a[pivot]){
+			int temp= a[i];
+			a[i]=a[index];
+			a[index]=temp;
+			index++;
+		}
+	}	
+	int temp=a[pivot];
+	a[pivot]=a[index];
+	a[index]=temp;
+	return index;
+}
+ 
+// Implementing Partition.
+int Partition(int a[], int low, int high, int k){
+	int p_index;
+	if(low < high){
+		// Partitioning array using last element as a pivot.
+		// Recursively implementing partitioning in the direction to place the pivot at (k-1)th pivot.
+		p_index = CreatePartition(a, low, high);
+		if(p_index == k-1)
+			return k-1;
+		else if(p_index > k-1)
+			Partition(a, low, p_index-1, k);
+		else
+			Partition(a, p_index+1, high, k);
+	}
+}
+ 
+int main()
+{
+	int n, i, k, kk;
+	printf("\nEnter the number of data element: ");
+	scanf("%d",&n);
+ 
+	int arr[n];
+	for(i = 0; i < n; i++){
+		printf("%d ",arr[i]);
+		scanf("%d",&arr[i]);
+	}
+ 
+	printf("\nEnter the k for the kth smallest element: ");
+	scanf("%d",&k);
+ 
+	kk = Partition(arr, 0, n-1, k);
+ 
+	// Printing the result.
+	printf("\nThe kth smallest element: ",arr[kk]);
+ 
+	return 0;
+}

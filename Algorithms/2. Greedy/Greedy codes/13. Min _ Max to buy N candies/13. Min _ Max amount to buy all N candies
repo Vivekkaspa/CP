@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n;
+    scanf("%d", &n);
+    
+    int candies[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &candies[i]);
+    }
+    
+    // Find minimum amount
+    int min_price = 0;
+    int min_candies = candies[0];
+    for (int i = 1; i < n; i++) {
+        if (candies[i] < min_candies) {
+            min_candies = candies[i];
+        }
+    }
+    min_price = min_candies * n;
+    
+    // Find maximum amount
+    int max_price = 0;
+    int max_candies = candies[0];
+    for (int i = 1; i < n; i++) {
+        if (candies[i] > max_candies) {
+            max_candies = candies[i];
+        }
+    }
+    max_price = max_candies * n;
+    
+    printf("Minimum amount to buy all candies: %d\n", min_price);
+    printf("Maximum amount to buy all candies: %d\n", max_price);
+    
+    return 0;
+}

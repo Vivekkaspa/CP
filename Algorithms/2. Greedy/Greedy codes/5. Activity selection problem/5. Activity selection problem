@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+// Structure to represent an activity
+typedef struct Activity {
+    int start;
+    int end;
+}Activity;
+
+// Function to compare two activities based on their end times
+int compareActivities(const void* a, const void* b) {
+    return ((Activity*)a)->end - ((Activity*)b)->end;
+}
+
+// Function to print the selected activities
+void printSelectedActivities(Activity activities[], int n) {
+    int i;
+    printf("Selected Activities:\n");
+    printf("(%d, %d) ", activities[0].start, activities[0].end);
+    int lastEnd = activities[0].end;
+    for(i=1; i<n; i++) {
+        if(activities[i].start >= lastEnd) {
+            printf("(%d, %d) ", activities[i].start, activities[i].end);
+            lastEnd = activities[i].end;
+        }
+    }
+}
+
+// Function to solve the activity selection problem using the greedy approach
+void activitySelection(Activity activities[], int n) {
+    // Sort the activities based on their end times
+    qsort(activities, n, sizeof(Activity), compareActivities);
+    // Print the selected activities
+    printSelectedActivities(activities, n);
+}
+
+int main() {
+    Activity activities[] = {{1, 2}, {3, 4}, {0, 6}, {5, 7}, {8, 9}, {5, 9}};
+    int n = sizeof(activities) / sizeof(Activity);
+    activitySelection(activities, n);
+    return 0;
+}

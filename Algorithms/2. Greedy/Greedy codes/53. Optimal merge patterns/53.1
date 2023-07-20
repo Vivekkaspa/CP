@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return *(int*)a - *(int*)b;
+}
+
+int optimal_merge_patterns(int n, int arr[]) {
+    int total_cost = 0;
+    qsort(arr, n, sizeof(int), compare);
+    while (n > 1) {
+        int sum = arr[0] + arr[1];
+        total_cost += sum;
+        arr[1] = sum;
+        for (int i = 0; i < n - 1; i++) {
+            arr[i] = arr[i + 2];
+        }
+        n -= 1;
+    }
+    return total_cost;
+}
+
+int main() {
+    int n = 6;
+    int arr[10] = {2, 3, 4, 5, 6, 7};
+    int cost = optimal_merge_patterns(n, arr);
+    printf("Total cost of merging: %d\n", cost);
+    return 0;
+}

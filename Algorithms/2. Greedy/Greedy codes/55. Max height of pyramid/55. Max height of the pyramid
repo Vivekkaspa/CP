@@ -1,0 +1,7 @@
+MAX_PYRAMID_HEIGHT(arr, n)
+1. Sort the array arr in non-increasing order.
+2. Initialize height = 0, sum = 0, and index = 0.
+3. While index < n:
+     a. If arr[index] > sum, increment height by 1 and set sum to the value of arr[index].
+     b. Add arr[index] to sum and increment index by 1.
+4. Return height.

@@ -1,0 +1,27 @@
+function kWayMerge(outfile, infiles):
+    out = open(outfile, "wb")
+    in = []
+    for i in range(len(infiles)):
+        in.append(open(infiles[i], "rb"))
+
+    buffer = [None] * len(in)
+    while True:
+        # find minimum element
+        min_index = -1
+        for i in range(len(in)):
+            if not in[i].eof():
+                if min_index == -1 or buffer[i] < buffer[min_index]:
+                    min_index = i
+                    buffer[i] = in[i].read(BUFFER_SIZE)
+
+        # exit loop if all files have been read
+        if min_index == -1:
+            break
+
+        # write minimum element to output file
+        out.write(buffer[min_index])
+
+    # close input and output files
+    for i in range(len(in)):
+        in[i].close()
+    out.close()

@@ -1,0 +1,25 @@
+Boyer-Moore-Search(text, pattern):
+    n = length(text)
+    m = length(pattern)
+    if m == 0:
+        return 0
+    badchar = badCharHeuristic(pattern, m) //preprocess the pattern to create badchar array
+    s = 0 //shift of the pattern with respect to the text
+    while s <= (n - m):
+        j = m - 1
+        while j >= 0 and pattern[j] == text[s + j]:
+            j--
+        if j < 0:
+            print "Found pattern at index " s
+            if s + m < n:
+                s += m - badchar[text[s + m]]
+            else:
+                s += 1
+        else:
+            s += max(1, j - badchar[text[s + j]])
+
+badCharHeuristic(pattern, m):
+    badchar[m] = {0} //initialize the badchar array with 0
+    for i in range(m):
+        badchar[ord(pattern[i])] = i
+    return badchar

@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int binarySearch(int arr[], int low, int high, int x) {
+    if (high >= low) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] == x) {
+            return mid;
+        }
+        else if (arr[mid] > x) {
+            return binarySearch(arr, low, mid - 1, x);
+        }
+        else {
+            return binarySearch(arr, mid + 1, high, x);
+        }
+    }
+
+    return -1; // element not found
+}
+
+int findPosition(int x) {
+    int low = 0;
+    int high = 1;
+    int val = 1;
+
+    while (val < x) {
+        low = high;
+        high = 2 * high;
+        val = val * 2;
+    }
+
+    int arr[high - low + 1];
+    int i;
+
+    for (i = 0; i < high - low; i++) {
+        arr[i] = low + i;
+    }
+
+    arr[i] = high;
+
+    return binarySearch(arr, 0, high - low, x) + low;
+}
+
+int main() {
+    int x = 573;
+    int pos = findPosition(x);
+
+    if (pos == -1) {
+        printf("%d is not present in the series.\n", x);
+    }
+    else {
+        printf("%d is present at position %d in the series.\n", x, pos);
+    }
+
+    return 0;
+}

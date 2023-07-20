@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_N 100000
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+int n, root;
+int dp[MAX_N][2], adj[MAX_N], last[MAX_N];
+
+void add_edge(int u, int v) {
+    adj[last[u]] = v;
+    last[u]++;
+}
+
+void dfs(int u, int p) {
+    int v, i;
+    dp[u][0] = 0;
+    dp[u][1] = 1;
+    for (i = 0; i < last[u]; i++) {
+        v = adj[last[u]-1-i];
+        if (v == p) continue;
+        dfs(v, u);
+        dp[u][0] += dp[v][1];
+        dp[u][1] += MIN(dp[v][0], dp[v][1]);
+    }
+}
+
+int main() {
+    int i, u, v;
+    scanf("%d", &n);
+    for (i = 0; i < n-1; i++) {
+        scanf("%d %d", &u, &v);
+        u--; v--;
+        add_edge(u, v);
+        add_edge(v, u);
+    }
+    dfs(0, -1);
+    printf("%d\n", MIN(dp[0][0], dp[0][1]));
+    return 0;
+}
+
+//The above code assumes the input of a tree as the number of nodes followed by the edges in the form of pairs of node indices. The function add_edge adds the edge between the nodes u and v to the adjacency list. The function dfs performs a depth-first search on the tree to compute the dynamic programming solution. The dp[u][0] stores the minimum vertex cover size of the subtree rooted at u when u is not selected, and dp[u][1] stores the minimum vertex cover size when u is selected. Finally, the main function calls dfs on the root node (0 by default) and prints the minimum vertex cover size of the tree.

@@ -1,0 +1,12 @@
+1. Create an empty queue to store the nodes of the search tree.
+2. Create an initial node for the search tree.
+3. Add the initial node to the queue.
+4. While the queue is not empty:
+      a. Remove the first node from the queue.
+      b. If the node represents a complete tour:
+            i. Update the best tour found so far.
+      c. If the node represents a partial tour and its cost is less than the cost of the best tour found so far:
+            i. Generate child nodes by adding an unvisited city to the partial tour.
+            ii. Add the child nodes to the queue in order of increasing cost.
+5. Return the best tour found.
+

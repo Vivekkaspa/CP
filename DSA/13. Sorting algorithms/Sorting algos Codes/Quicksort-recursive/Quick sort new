@@ -1,0 +1,60 @@
+#include <stdio.h>
+
+void displayarray(int *V, int n){
+    for (int i = 0; i < n; i++) {
+        printf("%d ", V[i]);
+    }
+    printf("\n");
+}
+
+int partition(int V[], int low, int high){
+    int pivot = V[low];
+    int i = low + 1;
+    int j = high;
+    int temp;
+
+    do{
+          for(;i<=high && V[i]<pivot;i++){
+          }
+          for(;j>=low && V[j]>pivot;j--){
+          }
+          if (i < j) {
+            temp = V[i];
+            V[i] = V[j];
+            V[j] = temp;
+        }
+    } while (i < j);
+
+    // Swap A[low] and A[j]
+    temp = V[low];
+    V[low] = V[j];
+    V[j] = temp;
+    return j;
+}
+
+void quickSort(int V[], int low, int high)
+{
+    int partitionIndex; // Index of pivot after partition
+
+    if (low < high)
+    {
+        partitionIndex = partition(V, low, high); 
+        quickSort(V, low, partitionIndex - 1);  // sort left subarray 
+        quickSort(V, partitionIndex + 1, high); // sort right subarray
+    }
+}
+
+int main()
+{
+    //int A[] = {3, 5, 2, 13, 12, 3, 2, 13, 45};
+    int V[] = {9, 4, 4, 8, 7, 5, 6};
+    // 3, 5, 2, 13, 12, 3, 2, 13, 45
+    // 3, 2, 2, 13i, 12, 3j, 5, 13, 45
+    // 3, 2, 2, 3j, 12i, 13, 5, 13, 45 --> first call to partition returns 3
+    int n = 9;
+    n =7;
+    displayarray(V, n);
+    quickSort(V, 0, n - 1);
+    displayarray(V, n);
+    return 0;
+}

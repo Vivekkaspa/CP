@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define BUFFER_SIZE 1024
+
+int main(int argc, char *argv[]) {
+    if (argc < 4) {
+        printf("Usage: %s outfile infile1 infile2 ... infileN\n", argv[0]);
+        exit(1);
+    }
+
+    char *outfile = argv[1];
+    int num_files = argc - 2;
+    char *infiles[num_files];
+    for (int i = 0; i < num_files; i++) {
+        infiles[i] = argv[i + 2];
+    }
+
+    FILE *out = fopen(outfile, "wb");
+    if (!out) {
+        printf("Error: Could not open file %s for writing.\n", outfile);
+        exit(1);
+    }
+
+    FILE *in[num_files];
+    for (int i = 0; i < num_files; i++) {
+        in[i] = fopen(infiles[i], "rb");
+        if (!in[i]) {
+            printf("Error: Could not open file %s for reading.\n", infiles[i]);
+            exit(1);
+        }
+    }
+
+    char buffer[BUFFER_SIZE];
+    size_t bytes_read, bytes_written;
+    int min_index;
+    while (1) {
+        // find minimum element
+        min_index = -1;
+        for (int i = 0; i < num_files; i++) {
+            if (!feof(in[i])) {
+                if (min_index == -1 || strcmp(buffer, in[i]) > 0) {
+                    min_index = i;
+                    bytes_read = fread(buffer, 1, BUFFER_SIZE, in[i]);
+                    if (bytes_read <= 0) {
+                        printf("Error: Could not read from file %s.\n", infiles[i]);
+                        exit(1);
+                    }
+                }
+            }
+        }
+
+        // exit loop if all files have been read
+        if (min_index == -1) {
+            break;
+        }
+
+        // write minimum element to output file
+        bytes_written = fwrite(buffer, 1, bytes_read, out);
+        if (bytes_written != bytes_read) {
+            printf("Error: Could not write to file %s.\n", outfile);
+            exit(1);
+        }
+    }
+
+    // close input and output files
+    for (int i = 0; i < num_files; i++) {
+        fclose(in[i]);
+    }
+    fclose(out);
+
+    return 0;
+}

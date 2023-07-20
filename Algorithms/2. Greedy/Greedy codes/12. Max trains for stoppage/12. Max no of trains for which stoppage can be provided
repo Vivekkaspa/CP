@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// A structure to represent a train with its arrival and departure times.
+struct train {
+    int arrival_time;
+    int departure_time;
+};
+
+// A comparison function to sort trains by their departure times.
+int compare(const void* a, const void* b) {
+    struct train* train_a = (struct train*)a;
+    struct train* train_b = (struct train*)b;
+    return train_a->departure_time - train_b->departure_time;
+}
+
+// Function to find the maximum number of trains for which stoppage can be provided using Greedy algorithm.
+int max_trains(struct train trains[], int n) {
+    // Sort the trains by their departure times.
+    qsort(trains, n, sizeof(struct train), compare);
+    
+    int max_trains = 0;
+    int current_train_end_time = 0;
+    
+    // Loop through all the trains and count the number of trains for which stoppage can be provided.
+    for (int i = 0; i < n; i++) {
+        if (trains[i].arrival_time >= current_train_end_time) {
+            max_trains++;
+            current_train_end_time = trains[i].departure_time;
+        }
+    }
+    
+    return max_trains;
+}
+
+// Driver code to test the max_trains function.
+int main() {
+    struct train trains[] = {{900, 910}, {940, 1200}, {950, 1120}, {1100, 1130}, {1500, 1900}, {1800, 2000}};
+    int n = sizeof(trains) / sizeof(trains[0]);
+    printf("Maximum number of trains for which stoppage can be provided: %d\n", max_trains(trains, n));
+    return 0;
+}

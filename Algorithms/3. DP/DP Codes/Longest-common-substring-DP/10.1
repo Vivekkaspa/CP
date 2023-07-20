@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char* longest_common_substring(char* string1, char* string2) {
+    int len1 = strlen(string1);
+    int len2 = strlen(string2);
+
+    int table[len1 + 1][len2 + 1];
+    memset(table, 0, sizeof(table));
+
+    int max_length = 0;
+    int end_index = 0;
+
+    for (int i = 1; i <= len1; i++) {
+        for (int j = 1; j <= len2; j++) {
+            if (string1[i-1] == string2[j-1]) {
+                table[i][j] = table[i-1][j-1] + 1;
+                if             (table[i][j] > max_length) {
+                max_length = table[i][j];
+                end_index = i-1;
+            }
+        }
+        else {
+            table[i][j] = 0;
+        }
+    }
+}
+
+char* result = (char*) malloc((max_length + 1) * sizeof(char));
+strncpy(result, string1 + end_index - max_length + 1, max_length);
+result[max_length] = '\0';
+
+return result;
+}
+
+int main() {
+char string1[] = "abcdefg";
+char string2[] = "xyzabcpqr";
+char* result = longest_common_substring(string1, string2);
+printf("%s\n", result);
+
+free(result);
+
+return 0;
+}

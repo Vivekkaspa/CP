@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int amount, num_coins = 0;
+    int coins[] = {25, 10, 5, 1}; // Available coin denominations in cents
+    int num_denominations = 4; // Number of available coin denominations
+    
+    printf("Enter the amount in cents: ");
+    scanf("%d", &amount);
+    
+    for (int i = 0; i < num_denominations; i++) {
+        while (amount >= coins[i]) {
+            amount -= coins[i];
+            num_coins++;
+        }
+    }
+    
+    printf("Number of coins needed: %d\n", num_coins);
+    
+    return 0;
+}

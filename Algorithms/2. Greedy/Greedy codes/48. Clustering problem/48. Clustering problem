@@ -1,0 +1,14 @@
+1. Read in the number of points, the number of clusters, and the coordinates of each point
+2. Initialize an array to store the cluster labels of each point, with all points initially labeled as unclustered
+3. Initialize a priority queue to store the edges of the graph connecting each pair of points, sorted by weight in ascending order
+4. For each pair of distinct points, compute the Euclidean distance between them and add the edge to the priority queue
+5. Initialize a variable to keep track of the number of clusters and set it to the number of points
+6. While the number of clusters is greater than the desired number of clusters:
+      a. Remove the edge with the smallest weight from the priority queue
+      b. If the two points connected by the edge are not already in the same cluster:
+           i. Merge the clusters containing the two points into a single cluster
+           ii. Update the cluster labels of all points in the merged clusters
+           iii. Decrement the number of clusters by 1
+7. Compute the maximum distance between any pair of points in different clusters
+8. Print the maximum distance as the distance between the clusters
+

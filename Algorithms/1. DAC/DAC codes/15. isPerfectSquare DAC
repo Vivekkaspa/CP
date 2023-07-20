@@ -1,0 +1,32 @@
+#include <stdio.h>
+
+int isPerfectSquare(int n, int start, int end) {
+    if (start > end) {
+        return 0; // the integer is not a perfect square
+    }
+    
+    int mid = (start + end) / 2;
+    int square = mid * mid;
+    
+    if (square == n) {
+        return 1; // the integer is a perfect square
+    } else if (square < n) {
+        return isPerfectSquare(n, mid + 1, end);
+    } else {
+        return isPerfectSquare(n, start, mid - 1);
+    }
+}
+
+int main() {
+    int n;
+    printf("Enter an integer: ");
+    scanf("%d", &n);
+    
+    if (isPerfectSquare(n, 1, n)) {
+        printf("%d is a perfect square.\n", n);
+    } else {
+        printf("%d is not a perfect square.\n", n);
+    }
+    
+    return 0;
+}

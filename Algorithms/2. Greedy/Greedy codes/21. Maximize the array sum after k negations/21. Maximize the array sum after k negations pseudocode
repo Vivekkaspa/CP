@@ -1,0 +1,7 @@
+1. Sort the array in non-decreasing order
+2. Iterate through the array:
+    a. If k is greater than 0 and the current element is negative, negate it and decrement k
+    b. If k is 0 or the current element is positive, break out of the loop
+3. If k is still greater than 0 and it is odd, negate the smallest element in the array
+4. Compute the sum of the array
+5. Return the sum

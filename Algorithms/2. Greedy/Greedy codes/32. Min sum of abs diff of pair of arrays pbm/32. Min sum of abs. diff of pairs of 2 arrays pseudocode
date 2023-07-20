@@ -1,0 +1,16 @@
+function minSum(arr1, arr2, n) {
+    // Sort both arrays
+    sort(arr1)
+    sort(arr2)
+    
+    // Initialize the sum
+    let sum = 0
+    
+    // Calculate the sum of absolute differences
+    for (let i = 0; i < n; i++) {
+        sum += abs(arr1[i] - arr2[i])
+    }
+    
+    // Return the sum
+    return sum
+}

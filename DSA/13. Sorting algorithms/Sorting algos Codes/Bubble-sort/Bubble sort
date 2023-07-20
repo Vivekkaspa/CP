@@ -1,0 +1,33 @@
+#include<stdio.h>
+
+void BubbleSort(int A[], int n) {
+      int pass, i, temp, swapped =1;
+     for ( pass = n - 1 ; pass > 0 && swapped; pass--) {
+         swapped = 0;
+           for (i=0;i<= pass-1;i++){
+                 if(A[i] > A[i + 1]){
+                       temp = A[i];
+                       A[i] = A[i + 1];
+                       A[i+1]= temp;
+          swapped =1;
+                 }
+           }
+     }
+}
+
+void printArray(int arr[], int size){
+    int i;
+    for (i=0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+ 
+
+int main(){
+    int arr[] = {64, 25, 12, 22, 11};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    BubbleSort(arr, n);
+    printf("Sorted array: \n");
+    printArray(arr, n);
+    return 0;
+}

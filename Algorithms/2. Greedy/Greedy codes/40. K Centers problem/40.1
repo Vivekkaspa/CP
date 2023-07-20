@@ -1,0 +1,86 @@
+//The k-center problem is a classic optimization problem in computer science where the goal is to choose k centers from a set of n points in a metric space so that the maximum distance between any point and its closest center is minimized. Here's a C code implementation of the k-center problem using the Greedy design paradigm:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define INF 1e9
+
+// Function to calculate the distance between two points in a metric space
+double dist(int x1, int y1, int x2, int y2) {
+    return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
+
+// Function to find the index of the farthest point from the current set of centers
+int find_farthest_point(int n, int k, double dist_matrix[][n], int centers[]) {
+    int farthest_point = -1;
+    double max_distance = -1;
+
+    // Iterate over all points
+    for (int i = 0; i < n; i++) {
+        double min_distance = INF;
+
+        // Calculate the minimum distance to the closest center for each point
+        for (int j = 0; j < k; j++) {
+            double distance = dist_matrix[i][centers[j]];
+            if (distance < min_distance) {
+                min_distance = distance;
+            }
+        }
+
+        // If the minimum distance for this point is greater than the maximum distance seen so far,
+        // update the farthest point and maximum distance
+        if (min_distance > max_distance) {
+            farthest_point = i;
+            max_distance = min_distance;
+        }
+    }
+
+    return farthest_point;
+}
+
+// Function to find the k centers using the Greedy paradigm
+void k_centers(int n, int k, double dist_matrix[][n]) {
+    int centers[k];
+    int num_centers = 0;
+
+    // Choose an initial center randomly
+    centers[num_centers++] = rand() % n;
+
+    // Choose the remaining k-1 centers using the Greedy paradigm
+    while (num_centers < k) {
+        int farthest_point = find_farthest_point(n, num_centers, dist_matrix, centers);
+        centers[num_centers++] = farthest_point;
+    }
+
+    // Print the indices of the k centers
+    printf("The indices of the k centers are: ");
+    for (int i = 0; i < k; i++) {
+        printf("%d ", centers[i]);
+    }
+    printf("\n");
+}
+
+// Driver program to test the k_centers function
+int main() {
+    int n, k;
+    printf("Enter the number of points: ");
+    scanf("%d", &n);
+    printf("Enter the number of centers: ");
+    scanf("%d", &k);
+
+    // Create a 2D array to store the distances between all pairs of points
+    double dist_matrix[n][n];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            int x1, y1, x2, y2;
+            printf("Enter the coordinates of point %d and point %d: ", i, j);
+            scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
+            dist_matrix[i][j] = dist(x1, y1, x2, y2);
+        }
+    }
+
+    k_centers(n, k, dist_matrix);
+
+    return 0;
+}

@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include<stdbool.h>
+void dijkstra(int g[9][9]);
+int insert(int *,int,int);
+void swap(int*,int*);
+#define V  9
+
+int mini(int*d,bool*s)//gives out the min element out & which is'nt visited
+{int h=100;
+  int  k;
+  for(int i=1;i<V;i++)
+    {if(s[i]==false)//...
+    {if(d[i]<h)
+      {h=d[i];
+        k=i;}}
+  }
+  return k;//....
+}
+int main(void) {
+  
+    int graph[V][V] = { { 0, 4, 0, 0, 0, 0, 0, 8, 0 },
+                        { 4, 0, 8, 0, 0, 0, 0, 11, 0 },
+                        { 0, 8, 0, 7, 0, 4, 0, 0, 2 },
+                        { 0, 0, 7, 0, 9, 14, 0, 0, 0 },
+                        { 0, 0, 0, 9, 0, 10, 0, 0, 0 },
+                        { 0, 0, 4, 14, 10, 0, 2, 0, 0 },
+                        { 0, 0, 0, 0, 0, 2, 0, 1, 6 },
+                        { 8, 11, 0, 0, 0, 0, 1, 0, 7 },
+                        { 0, 0, 2, 0, 0, 0, 6, 7, 0 } };
+ //in application of this dijkstras algorithm
+  // we need to the node(for which we want to find shortes paths)as zeroth node as we considered here....take all distances from evrey node to respective node by  observing the graph as taken here....
+ // and just apply this code......    
+    dijkstra(graph);
+ 
+    return 0;
+}
+void  dijkstra(int g[V][V])
+{
+ int sp[V];
+  bool st[V];
+  st[0]=true;
+  for(int i=1;i<V;i++)
+    { sp[i]=1000;st[i]=false;}
+  ;
+  sp[1]=4;//intialization...
+  sp[7]=8;
+  int h[9][9];//min heap for every respective node....
+  int e[9];//to keep track of empty  slots of every node heap....
+  for(int i=0;i<V;i++)
+    { e[i]=1;
+      for(int j=0;j<V;j++)
+      h[i][j]=0;
+    }
+  h[1][1]=4;e[1]=2;
+  h[7][1]=8;e[7]=2;
+    for(int j=1;j<7;j++)
+      { int k= mini(sp,st);
+      
+  { st[k]=true; 
+    for(int i=1;i<V;i++)
+             {
+               if(g[k][i]!=0)
+               {
+               //if(g[k][i]+sp[k]<sp[i])
+                 sp[i]=sp[k]+g[k][i];
+                 e[i]=insert(&h[i][0],g[k][i]+sp[k],e[i]);
+                 //printf("%d ",e);
+ //to upadte the distance we sending every distance to minheap....
+  //despite of this ....code all the same.....
+                  }
+               }
+    }
+      }
+  for(int i=1;i<V;i++)
+    printf("%d      %d \n",i,h[i][1]);//min element in heap is given out...
+     //printf("%d     %d\n",i,sp[i]);
+  }
+int insert(int*h,int p,int e)
+{
+    int j=e;
+     h[j]=p;
+   while(h[j/2]>h[j]&&j>=1)
+     { swap(&h[j/2],&h[j]);
+       j=(int)j/2;}
+    e=e+1;
+   return e ;
+}
+void swap(int*p,int*q)
+{
+  int t=*p;
+  *p=*q;
+  *q=t;
+  }

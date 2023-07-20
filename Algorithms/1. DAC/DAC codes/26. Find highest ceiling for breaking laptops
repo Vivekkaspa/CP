@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int isBroken(int height) {
+    int BREAKING_HEIGHT = 50;
+    // check if laptop breaks at given height
+    if (height >= BREAKING_HEIGHT) {
+        return 1; // laptop breaks
+    } else {
+        return 0; // laptop doesn't break
+    }
+}
+
+int findMaxHeight(int lo, int hi) {
+    if (lo == hi) {
+        return lo;
+    } else {
+        int mid = (lo + hi) / 2;
+        if (isBroken(mid)) {
+            return findMaxHeight(lo, mid);
+        } else {
+            return findMaxHeight(mid+1, hi);
+        }
+    }
+}
+
+int main() {
+    // set the breaking point of the laptop
+    int BREAKING_HEIGHT = 50;
+    // find the highest ceiling from which the laptop breaks
+    int max_height = findMaxHeight(1, 100);
+    printf("The laptop breaks when dropped from a height of %d\n", max_height);
+    return 0;
+}

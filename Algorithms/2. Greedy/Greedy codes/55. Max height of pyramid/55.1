@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int cmpfunc(const void* a, const void* b) {
+    return (*(int*)b - *(int*)a);
+}
+
+int max_pyramid_height(int arr[], int n) {
+    qsort(arr, n, sizeof(int), cmpfunc);
+    int height = 0, sum = 0, index = 0;
+    while (index < n) {
+        if (arr[index] > sum) {
+            height++;
+            sum = arr[index];
+        }
+        sum += arr[index];
+        index++;
+    }
+    return height;
+}
+
+int main() {
+    int arr[] = {3, 5, 3, 6, 1, 5};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int max_height = max_pyramid_height(arr, n);
+    printf("Maximum height of the pyramid is: %d\n", max_height);
+    return 0;
+}

@@ -1,0 +1,7 @@
+MIN_COST_COINS(coins[], n, k)
+1. Sort the coins array in ascending order.
+2. Initialize a variable, say cost, to zero.
+3. Traverse the sorted coins array and for each coin c:
+    a. Calculate the number of extra coins required to acquire c as `ec = ceil((c - 1) / k)`.
+    b. Add `ec` to `cost`.
+4. Return the value of `cost`.

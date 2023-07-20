@@ -1,0 +1,8 @@
+MIN_SUM_FRIEND_DIGITS(arr1, arr2, n)
+1. Sort both arrays arr1 and arr2 in non-decreasing order.
+2. Initialize two variables, say num1 and num2, as 0.
+3. Traverse both arrays simultaneously from left to right:
+    a. If arr1[i] < arr2[i], append arr1[i] to num1 and arr2[i] to num2.
+    b. If arr1[i] > arr2[i], append arr2[i] to num1 and arr1[i] to num2.
+    c. If arr1[i] = arr2[i], append arr1[i] to both num1 and num2.
+4. Return num1 + num2.

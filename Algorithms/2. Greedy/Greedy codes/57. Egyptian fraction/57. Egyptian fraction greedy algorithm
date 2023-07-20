@@ -1,0 +1,7 @@
+EGYPTIAN_FRACTION(num, den)
+1. Initialize an empty list, say egyptian_fraction.
+2. While num != 0:
+    a. Find the smallest fraction, say x/y, such that x/y <= num/den.
+    b. Append x/y to egyptian_fraction.
+    c. Update num and den as num*y - den*x and den*y.
+3. Return egyptian_fraction.

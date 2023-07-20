@@ -1,0 +1,25 @@
+function smallestNumber(numDigits, sum):
+    if sum == 0:
+        if numDigits == 1:
+            print("Smallest number: 0")
+        else:
+            print("No solution.")
+        return
+
+    if sum > 9 * numDigits:
+        print("No solution.")
+        return
+
+    digits = [0] * numDigits
+    remainingSum = sum
+    for i in range(numDigits):
+        digit = min(remainingSum, 9)
+        digits[i] = digit
+        remainingSum -= digit
+        if remainingSum <= 0:
+            break
+
+    print("Smallest number: ", end="")
+    for i in range(numDigits - 1, -1, -1):
+        print(digits[i], end="")
+    print()

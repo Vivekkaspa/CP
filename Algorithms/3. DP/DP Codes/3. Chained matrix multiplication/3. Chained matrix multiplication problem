@@ -1,0 +1,30 @@
+int chained_matrix_multiplication(int dims[], int n) {
+    int memo[n][n];
+
+    // Initialize the diagonal elements to 0
+    for (int i = 0; i < n; i++) {
+        memo[i][i] = 0;
+    }
+
+    // Compute the minimum number of multiplications for chains of increasing length
+    for (int l = 2; l <= n; l++) {
+        for (int i = 0; i <= n - l; i++) {
+            int j = i + l - 1;
+            memo[i][j] = INT_MAX;
+
+            // Find the minimum number of multiplications for splitting the chain at each possible point
+            for (int k = i; k < j; k++) {
+                int q = memo[i][k] + memo[k+1][j] + dims[i]*dims[k+1]*dims[j+1];
+                if (q < memo[i][j]) {
+                    memo[i][j] = q;
+                }
+            }
+        }
+    }
+
+    // Return the minimum number of multiplications for the entire chain
+    return memo[0][n-1];
+}
+
+
+//This function takes an array dims of n+1 integers representing the dimensions of the matrices in the chain, and returns the minimum number of scalar multiplications needed to multiply the entire chain. For example, if dims = {10, 20, 30, 40, 50}, then the chain

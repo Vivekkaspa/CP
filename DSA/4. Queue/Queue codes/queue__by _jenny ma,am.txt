@@ -1,0 +1,710 @@
+#include <stdio.h>
+#include <stdlib.h>
+void dequeue();
+int queue[5];
+int front=-1;
+int rare=-1;
+void enqueue(int x)
+{
+    if(rare==4)
+    {
+        printf("Overflow \n");
+    }
+    else if(front ==-1 &rare == -1)
+    {
+        front=rare=0;
+        queue[rare]=x;
+    }
+    else
+    {
+        rare++;
+        queue[rare]=x;
+    }
+}
+void dequeue()
+{
+      if(front ==-1 && rare ==-1)
+        {
+          printf("Underflow \n");
+        }
+      else if (front == rare)
+         {
+            front=rare=-1;
+         }
+      else
+         {
+        
+          front++;
+          }
+       
+       
+        
+    
+ }
+void display()
+{
+    if(front==rare==-1)
+    {
+        printf("Queue is empty \n");
+        
+    }
+    else
+    {
+        for(int i=front;i<rare+1;i++)
+        {
+            printf("%d\t",queue[i]);
+        }
+    }
+    printf("\n");
+}
+void main()
+{
+    enqueue(11);
+    enqueue(2);
+    enqueue(13);
+    enqueue(4);
+    display();
+    dequeue();
+    dequeue();
+    display();
+    
+    
+}
+
+##################################
+
+Implementation of Queue using linked list
+
+struct node {
+  
+  int data;
+  struct node *next;
+ };
+stuct node *front=0;
+struct node *rare=0;
+void enqueue(int x)
+{
+  struct node *newnode;
+  newnode=(struct node*)malloc(sizeof(struct node));
+  newnode->data=x;
+  newnode->next=0;
+  if(front==0 && rare ==0)
+    {
+     front=rare=newnode;
+    } 
+  else
+     {
+
+		rare->next=newnode;
+          
+             rare=newnode;
+      }
+}
+void display()
+{
+   struct node *temp;
+   temp=front;
+   if(front==0 && rare==0)
+   {
+     printf("Queue is empty \n");
+   }
+   else
+    {
+      temp=front;
+      while(temp!=0)
+	{
+	  printf("%d",temp->data);
+	  temp=temp->next;
+       }
+     }
+
+}
+void deque()
+{
+  struct node *temp;
+       temp	=front;
+  front=front->next;
+  
+  free(temp);
+}
+void peek()
+{
+  printf("%d \n",front->data);
+ }
+void main()
+{
+
+
+  } 
+
+##########################################
+
+******Queue code by linked list (compiled)*********
+
+
+#include <stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node *next;
+};
+ struct node *front,*rare;
+void enqueue(int x)
+{
+    struct node *newnode;
+    newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->next=0;
+    newnode->data=x;
+    if(front==0 && rare==0)
+    {
+        front=rare=newnode;
+    }
+    else
+    {
+        rare->next=newnode;
+        rare=newnode;
+    }
+}
+void dequeue()
+{
+    struct node *temp;
+    temp=front;
+    if(front==0 && rare==0)
+    {
+        printf("Queue is empty \n");
+    }
+    else
+    {
+       front=front->next;
+       free(temp);
+       
+    }
+}
+void display()
+{
+    struct node *temp;
+    temp=front;
+    if(front==0 &&rare==0)
+    {
+        printf("Queue is empty \n");
+    }
+    else
+     {
+        while(temp!=0)
+        {
+            printf("%d \t",temp->data);
+            temp=temp->next;
+        }
+     } 
+     printf("\n");
+}
+void main()
+{
+    enqueue(1);
+    enqueue(2);
+    enqueue(3);
+    enqueue(4);
+    enqueue(5);
+    display();
+    dequeue();
+    display();
+}
+    
+##########################################
+
+Lecture_4
+
+Queue follows fifo rule (First in first out )
+
+***Circular Queue :Implementation by arrays
+
+queue:[2|-1|5|6|7]
+
+front =0 , rare=4
+
+ #define N 5
+ int queue[N];
+ int front=-1;
+ int rear=-1;
+void enqueue(int x)
+{
+  if (front ==-1 &rare==-1)
+    {
+	  rare=front=0;
+       queue[rare]=x;
+    }
+   else if((rare+1)%N==front)
+    {
+	 queue is full//print
+     }
+    else 
+ 	{
+		rear=(rear+1)%N;
+		queue[rear]=x;
+	}
+}
+void deque()
+{
+   if (front ==-1 &rare==-1)
+    {
+	  empty//
+    }
+ 	else if(front =rare)
+	{
+		front =rare=-1;
+	}
+	else
+		{
+			
+             front=(front+1)%N;
+		}
+
+  }
+void display()
+{
+   if (front ==-1 &rare==-1)
+    {
+	  empty//
+    }
+    else
+	{
+       int i=front;
+	  printf("Queue is:");
+	  while(i!=rear)
+          {
+			printf("%d",queue[i]);
+			i=i+1)%N;
+		}
+		printf("%d",queue[rear]);
+	}     
+
+}
+ 
+void peek()
+{
+
+  printf("%d",queue[front]);
+}	
+  
+###############################################################
+
+compiled code
+
+
+#include <stdio.h>
+#include<stdlib.h>
+#define N 5
+int queue[N];
+int front=-1;
+int rear=-1;
+void enqueue(int x)
+{
+    if(front==-1 && rear ==-1)
+    {
+        front=rear=0;
+        queue[rear]=x;
+    }
+    else if((rear+1)%N==front)
+    {
+        printf("Queue is Full \n");
+    }
+    else
+    {
+        rear=((rear+1)%N);
+        queue[rear]=x;
+    }
+}
+void dequeue()
+{
+    if(front ==-1 &&rear==-1)
+    {
+        printf("Queue is empty \n");
+    }
+    else if(front==rear)
+    {
+        front=rear=-1;
+        
+    }
+    else
+    {
+        front=((front+1)%N);
+    }
+}
+void display()
+{
+    if(front==-1 && rear ==-1)
+    {
+        printf("Queue is empty \n");
+    }
+    else
+    {
+        int i=front;
+        while(i!=rear)
+        {
+            printf("%d \t",queue[i]);
+            i=(i+1)%N;
+            
+        }
+        printf("%d",queue[rear]);
+        printf("\n");
+    }
+}
+void main()
+{
+   enqueue(1);
+   enqueue(2);
+   enqueue(3);
+   enqueue(4);
+   enqueue(5);
+   display();
+   dequeue();
+   display();
+   enqueue(1);
+   display();
+   
+   
+}
+
+#############################################
+
+Implementation of queue using linked list
+
+[7|250]->[6|400]->[1|0]
+
+   150	   250	400
+
+head[150]
+
+struct node{
+
+int data;
+struct node *next;
+};
+struct node *front=0;
+struct nod *rear=0;
+
+void main()
+{
+  enqueue(5);
+  enqueue(0);
+  enqueue(-3);
+  display();
+  dequeue();
+  peek();
+}
+
+void enqueue(int x)
+{
+  struct node *newnode;
+
+  newnode=(struct node*)malloc(sizeof(struct node));
+  
+  newnode->data=x;
+  
+  newnode->next=0;
+
+  if(front==0 && rear==0)
+	
+	{
+
+		front=rear=newnode;
+      }
+
+      else
+	  {
+
+		rear=rear->next=newnde;
+
+          rear=newnode;
+	  }
+  }
+void display()
+{
+
+   struct node *temp;
+
+   temp=front;
+
+   if(front==0 &&rear==0)
+
+   {
+	printf("Queue is empty");
+   }
+   else
+
+   {
+   while(temp!=0)
+
+      {
+		printf("%d",temp->data);
+
+          temp=temp->next;
+	 }
+    }
+}
+void dequeue()
+{
+
+  struct node *temp;
+
+  temp=front;
+
+  if(front==0 && rear==0)
+
+  {
+
+    printf("Queue is empty");
+  
+  }
+
+  else 
+   {
+
+	front=front->next;
+       free(temp);
+    }
+}
+
+void peek()
+{
+
+   if(front==0 && rear==0)
+
+  {
+
+    printf("Queue is empty");
+  
+  }
+  else
+
+   {
+      printf("%d",front ->data);
+   }
+}
+  
+##############################################################
+
+Implementation of stack using queue
+
+We have to follow FIFO rule to implement queue using stack
+
+  
+Here we have to use two stacks
+
+enqueue from one stackand  dequeue from  another stack
+
+#define N 5
+
+int s[1] ,s[2];
+
+int top1=-1,top2=-1;
+
+int count=0;
+
+void push1(int data)
+
+{
+
+   if(top1==N-1)
+
+    {
+	printf("Overflow \n");
+     }
+
+     else
+
+     {
+
+    		top++;
+ 		s1[top1]=data;
+     }
+ }
+
+
+void enqueue(int x)
+{
+  push1(x);
+
+  count++;
+
+}
+int pop1()
+{
+  return s1[top1--];
+}
+int pop2()
+{
+  return s2[top--];
+}
+void push2(int data)
+
+{
+
+   if(top2==N-1)
+
+    {
+	printf("Overflow \n");
+     }
+
+     else
+
+     {
+
+    		top++;
+ 		s2[top2]=data;
+     }
+ }
+
+
+void dequeue()
+{
+ 
+   if(top1==-1 && top2==-1)
+
+    {
+
+	printf("Queue is empty \n");
+
+    }
+
+    else
+   
+      {
+
+        for(int i=0;i<count;i++)
+
+         {
+		int a=pop1();
+
+ 		push2(a);
+          }
+       int b=pop();
+  	printf("%d",b);
+       count--;
+	for(int i=0;i<count;i++)
+	 {
+		int a=pop2();
+		push1(a);
+	  }	
+}
+void display()
+{
+
+  for(i=0;i<=top1;i++)
+
+  {
+	printf("%d",s1[i]);
+  }
+}
+
+############################################################################################
+compiled code
+
+
+#include <stdio.h>
+#include<stdlib.h>
+int s1[5],s2[5];
+int top1=-1,top2=-1;
+int count=0;
+void push1(int data)
+ {
+      if(top1 == 4)
+       {
+     	printf("Overflow \n");
+       }
+    else
+      {
+    
+         top1++;
+         s1[top1]=data;
+      }
+}  
+
+void enqueue(int x)
+ {
+    push1(x);
+    count++;
+ }
+ int pop1()
+ {
+    return s1[top1--];
+ }
+int pop2()
+ {
+    return s2[top2--];
+ }
+void push2(int data)
+  {
+      if(top2 == 4)
+       {
+     	printf("Overflow \n");
+       }
+    else
+      {
+        top2++;
+ 		s2[top2]=data;
+      }
+ }
+void dequeue()
+ {
+    if(top1==-1)
+    {
+        printf("Queue is empty \n");
+    }
+    else
+    {
+       for(int i=0;i<count;i++)
+       {
+           int a=pop1();
+           push2(a);
+       }
+       int b=pop2();
+       printf("The deleted element is:%d \n",b);
+       count--;
+       for(int i=0;i<count;i++)
+       {
+           int a=pop2();
+           push1(a);
+           
+       }
+    }
+    
+}
+void display()
+{
+  for(int i=0;i<top1;i++)
+  {
+      printf("%d \t",s1[i]);
+  }
+  printf("\n");
+}
+void main()
+{
+    enqueue(1);
+    enqueue(2);
+    enqueue(3);
+    enqueue(4);
+    enqueue(5);
+    display();
+    //dequeue();
+   // display();
+}    
+
+
+
+		
+
+
+      
+
+
+
+
+
+
+    
+
+
+    
+    
+    

@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+// Define a struct to store the prices and the corresponding days
+struct price {
+    int day;
+    int price;
+};
+
+// Define the main function
+int main() {
+    // Read in the number of days and the number of stocks that can be bought on each day
+    int n, k;
+    scanf("%d %d", &n, &k);
+
+    // Allocate memory for the prices and the corresponding days
+    struct price *prices = malloc(n * sizeof(struct price));
+
+    // Read in the prices and the corresponding days
+    for(int i=0; i<n; i++) {
+        scanf("%d %d", &prices[i].day, &prices[i].price);
+    }
+
+    // Sort the prices in non-decreasing order of price per stock
+    qsort(prices, n, sizeof(struct price), cmpfunc);
+
+    // Initialize the total number of stocks bought to 0
+    int total_stocks_bought = 0;
+
+    // Iterate through the prices
+    for(int i=0; i<n; i++) {
+        // If the number of stocks to be bought is less than or equal to the number of stocks available on the current day, buy the stocks and update the total number of stocks bought
+        if(k <= prices[i].day) {
+            total_stocks_bought += k * prices[i].price;
+            break;
+        }
+        // Otherwise, buy all the available stocks on the current day and update the number of stocks to be bought
+        else {
+            total_stocks_bought += prices[i].day * prices[i].price;
+            k -= prices[i].day;
+        }
+    }
+
+    // Print the total number of stocks bought
+    printf("Total number of stocks bought: %d\n", total_stocks_bought);
+
+    // Free the memory for the prices and the corresponding days
+    free(prices);
+
+    return 0;
+}
+
+// Define the comparison function for qsort
+int cmpfunc(const void *a, const void *b) {
+    return ((struct price *)a)->price - ((struct price *)b)->price;
+}

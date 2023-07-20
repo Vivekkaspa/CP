@@ -1,0 +1,90 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct node{
+	int a;
+	int s;
+	struct node* na;
+	struct node* ns;
+	}no;
+
+void insert(no* ah,no* sh,int a1,int s1){
+	no* x;
+	x=(no* )malloc(sizeof(no));
+	x->a=a1;
+	x->s=s1;
+	while(sh->ns!=NULL){
+		if(sh->ns->s>s1){break;}
+		else{sh=sh->ns;}}
+	x->ns=sh->ns;
+	sh->ns=x;
+	while(ah->na!=NULL){
+		if(ah->na->a<a1){break;}
+		else{ah=ah->na;}}
+	x->na=ah->na;
+	ah->na=x;	}
+	
+void delete(no* ah,no* sh,int a1,int s1){
+	while(sh->ns!=NULL){
+		if(sh->ns->s=s1){break;}
+		else{sh=sh->ns;}}
+	while(ah->na!=NULL){
+		if(ah->na->a=a1){break;}
+		else{ah=ah->ns;}}
+	if (sh->ns==NULL||ah->na==NULL){
+	printf("no elements\n");
+	}else{
+	sh->ns=sh->ns->ns;
+	ah->na=ah->na->na;}}
+	
+void display(no* sh){
+	while(sh->ns!=NULL){
+		printf("age : %d, salary: %d\n",sh->ns->a,sh->ns->s);
+		sh=sh->ns;
+		}
+	}
+	
+int main(){
+	no* sh;no* ah;
+	sh=(no* )malloc(sizeof(no));
+	ah=(no* )malloc(sizeof(no));
+	sh->ns=NULL;
+	ah->na=NULL;
+	int k=0;
+	while (k==0)
+	{int r;int age;int salary;
+	printf("choose an option\n0.exit\n1.insert\n2.delete\n3.display\n");
+	scanf("%d",&r);
+	switch (r){
+	case 0:
+		k++;
+		printf("exitting");
+		break;
+	case 1:
+		printf("age:");
+		scanf("%d",&age);
+		printf("\n");
+		printf("salary:");
+		scanf("%d",&salary);
+		printf("\n");
+		insert(ah,sh,age,salary);
+		break;
+	case 2:
+		printf("age:");
+		scanf("%d",&age);
+		printf("\n");
+		printf("salary:");
+		scanf("%d",&salary);
+		printf("\n");
+		delete(ah,sh,age,salary);
+		break;
+	case 3:
+		display(sh);
+		break;
+	default:
+		printf("choose right value");
+		break;
+		}
+	}
+return 0;
+}

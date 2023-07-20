@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+// function to compare two integers for use in qsort
+int compare(const void *a, const void *b) {
+    int int_a = *((int*) a);
+    int int_b = *((int*) b);
+    return int_a - int_b;
+}
+
+int main() {
+    int n, m, i, min_diff;
+    scanf("%d", &n);
+    int chocs[n];
+    for (i = 0; i < n; i++) {
+        scanf("%d", &chocs[i]);
+    }
+    scanf("%d", &m);
+    qsort(chocs, n, sizeof(int), compare); // sort the array in ascending order
+    min_diff = chocs[m-1] - chocs[0];
+    for (i = 1; i <= n-m; i++) {
+        if (chocs[i+m-1] - chocs[i] < min_diff) {
+            min_diff = chocs[i+m-1] - chocs[i];
+        }
+    }
+    printf("%d\n", min_diff);
+    return 0;
+}
+

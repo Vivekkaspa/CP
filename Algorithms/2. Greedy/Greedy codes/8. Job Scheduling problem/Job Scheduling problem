@@ -1,0 +1,21 @@
+Algorithm JOB_SCHEDULING( J, D, P )
+// Description : Schedule the jobs using the greedy approach which maximizes the profit
+
+// Input : 		 
+J: Array of N jobs
+D: Array of the deadline for each job
+P: Array of profit associated with each job
+
+// Output : Set of scheduled job which gives maximum profit
+
+Sort all jobs in J in decreasing order of profit
+S ← Φ	// S is set of scheduled jobs, initially it is empty 
+SP ← 0	// Sum is the profit earned 
+
+for i ← 1 to N do
+    if Job J[i] is feasible then
+        Schedule the job in the latest possible free slot meeting its deadline.
+        S ← S ∪ J[i]
+        SP ← SP + P[i]
+    end
+end

@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+void egyptian_fraction(int num, int den) {
+    int egyptian_fraction[100], i = 0;
+    while (num != 0) {
+        int x = 1;
+        while ((x * den) <= num) {
+            x++;
+        }
+        x--;
+        egyptian_fraction[i++] = x;
+        num = num * x - den;
+        den = den * x;
+    }
+    printf("Egyptian Fraction: ");
+    for (int j = 0; j < i; j++) {
+        printf("1/%d ", egyptian_fraction[j]);
+        if (j != i - 1) {
+            printf("+ ");
+        }
+    }
+}
+
+int main() {
+    int num = 18, den = 45;
+    egyptian_fraction(num, den);
+    return 0;
+}

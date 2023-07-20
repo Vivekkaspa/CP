@@ -1,0 +1,89 @@
+function min_cost_arborescence(n, m, edges, r):
+forest = array of n integers
+in_arborescence = array of n integers
+min_edge = array of n integers
+parent = array of n integers
+labels = array of n integers
+in_edges = array of m edges
+contract = array of n integers
+roots = array of n integers
+labels_inv = array of n integers
+new_indices = array
+
+    for i in range(n):
+        forest[i] = i
+        in_arborescence[i] = 0
+        min_edge[i] = -1
+        parent[i] = -1
+        labels[i] = INT_MAX
+        labels_inv[i] = -1
+        contract[i] = -1
+    in_arborescence[r] = 1
+    num_in_edges = 0
+    cost = 0
+
+    # Phase 1: Find the minimum incoming edge for each vertex
+    for i in range(m):
+        if edges[i].to == r:
+            continue
+        j = find(edges[i].from, forest)
+        if j == r:
+            continue
+        if min_edge[j] == -1 or edges[i].weight < edges[min_edge[j]].weight:
+            min_edge[j] = i
+
+    # Phase 2: Contract the graph and find the minimum cost arborescence for each component
+    num_components = 0
+    for i in range(n):
+        if i == r or in_arborescence[i] or contract[find(i, forest)]:
+            continue
+        num_components += 1
+        root = find(i, forest)
+        count = 0
+        for j in range(n):
+            if find(j, forest) == root:
+                contract[j] = num_components
+                count += 1
+        for j in range(m):
+            if contract[find(edges[j].from, forest)] == num_components and contract[find(edges[j].to, forest)] == num_components:
+                in_edges[num_in_edges] = edges[j]
+                num_in_edges += 1
+        new_root = num_components + n - 1
+        roots[num_components] = root
+        for j in range(n):
+            if contract[j] == num_components:
+                forest[j] = new_root
+                labels[j] = edges[min_edge[j]].weight - edges[min_edge[find(j, forest)]].weight
+                labels_inv[j] = j
+                new_indices[j] = count + labels_inv[j]
+            else:
+                labels[j] = INT_MAX
+        for j in range(num_in_edges):
+            in_edges[j].from = new_indices[in_edges[j].from]
+            in_edges[j].to = new_indices[in_edges[j].to]
+        in_arborescence[new_root] = 1
+        parent[new_root] = roots[num_components]
+        cost += min_cost_arborescence(count + 1, num_in_edges, in_edges, new_root)
+        num_in_edges = 0
+
+    # Phase 3: Fix the labels and find the minimum cost arborescence
+    for i in range(n):
+        if i == r or in_arborescence[i]:
+            continue
+        labels[i] -= edges[min_edge[i]].weight
+        root = find(i, forest)
+        if labels[root] == INT_MAX:
+            in_arborescence[root] = 1
+            parent[root] = edges[min_edge[root]].from
+            cost += edges[min_edge[root]].weight
+    for i in range(n):
+        if i == r or in_arborescence[i]:
+            continue
+        cur = i
+        while not in_arborescence[cur]:
+            in_arborescence[cur] = 1
+            parent[cur] = labels_inv[cur]
+            cur = find(labels_inv[cur], forest)
+        cost += labels[i]
+
+    return cost

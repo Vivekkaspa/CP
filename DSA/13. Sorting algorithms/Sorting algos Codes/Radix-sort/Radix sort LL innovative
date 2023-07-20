@@ -1,0 +1,283 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+	int data;
+	struct node *next;
+};
+struct node *create(int ele){
+	struct node *tmp;
+	tmp = (struct node*)malloc(sizeof(struct node));
+	tmp->data = ele;
+	tmp->next = NULL;
+    return tmp;
+}
+void insertnode(struct node *head,int ele){
+	struct node *tmp,*curr;
+	tmp = (struct node*)malloc(sizeof(struct node));
+	tmp->data = ele;
+	tmp->next = NULL;
+	if(head==NULL){
+		head = tmp;
+	}
+	else{
+		curr = head;
+		while(curr->next != NULL){
+			curr = curr->next;
+		}
+		curr->next = tmp;
+	}
+}
+int deletenode(struct node *head,int pos){
+	int a;
+	if(head==NULL){
+		printf("\n linked list is empty");
+	}
+	else{
+		struct node *curr,*tmp;
+		curr= head;
+		for(int i=0;i<pos-1;i++){
+			curr = curr->next;
+		}
+		a = curr->next->data;
+		tmp = curr->next;
+		curr->next = tmp->next;
+		free(tmp);
+	}
+	return a;
+}
+void display(struct node *head){
+	if(head==NULL){
+		printf("\n linked list is empty");
+	}
+	else{
+		struct node *curr;
+		curr = head;
+		while(curr->next != NULL){
+			printf("%d ",curr->data);
+			curr = curr->next;
+		}
+		printf("%d ",curr->data);
+	}
+}
+void main(){
+	struct node *head0 = create(0);
+	struct node *head1 = create(1);
+	struct node *head2 = create(2);
+	struct node *head3 = create(3);
+	struct node *head4 = create(4);
+	struct node *head5 = create(5);
+	struct node *head6 = create(6);
+	struct node *head7 = create(7);
+	struct node *head8 = create(8);
+	struct node *head9 = create(9);
+	int arr[] = {3012,27,56,203};
+	for(int i=0;i<4;i++){
+		if(arr[i]%10==0){
+			insertnode(head0,arr[i]);
+		}
+		else if(arr[i]%10==1){
+			insertnode(head1,arr[i]);
+		}
+		else if(arr[i]%10==2){
+			insertnode(head2,arr[i]);
+		}
+		else if(arr[i]%10==3){
+			insertnode(head3,arr[i]);
+		}
+		else if(arr[i]%10==4){
+			insertnode(head4,arr[i]);
+		}
+		else if(arr[i]%10==5){
+			insertnode(head5,arr[i]);
+		}
+		else if(arr[i]%10==6){
+			insertnode(head6,arr[i]);
+		}
+		else if(arr[i]%10==7){
+			insertnode(head7,arr[i]);
+		}
+		else if(arr[i]%10==8){
+			insertnode(head8,arr[i]);
+		}
+		else if(arr[i]%10==9){
+			insertnode(head9,arr[i]);
+		}
+	}
+	display(head2);
+	printf("\n");
+	display(head3);
+	printf("\n");
+	display(head6);
+	printf("\n");
+	display(head7);
+	printf("\n");
+	int a1,a2,a3,a4;
+	a1 = deletenode(head2,1);
+	a2 = deletenode(head3,1);
+	a3 = deletenode(head6,1);
+	a4 = deletenode(head7,1);
+	arr[0] = a1;
+	arr[1] = a2;
+	arr[2] = a3;
+   	arr[3] = a4;
+    for(int i=0;i<4;i++){
+    	printf("%d ",arr[i]);
+	}
+	printf("\n");
+	for(int i=0;i<4;i++){
+		if(arr[i]%100 >= 0 && arr[i]%100<10){
+			insertnode(head0,arr[i]);
+		}
+		else if(arr[i]%100>=10 && arr[i]%100<20){
+			insertnode(head1,arr[i]);
+		}
+		else if(arr[i]%100>=20 && arr[i]%100<30){
+			insertnode(head2,arr[i]);
+		}
+		else if(arr[i]%100>=30 && arr[i]%100<40){
+			insertnode(head3,arr[i]);
+		}
+		else if(arr[i]%100>=40 && arr[i]%100<50){
+			insertnode(head4,arr[i]);
+		}
+		else if(arr[i]%100>=50 && arr[i]%100<60){
+			insertnode(head5,arr[i]);
+		}
+		else if(arr[i]%100>=60 && arr[i]%100<70){
+			insertnode(head6,arr[i]);
+		}
+		else if(arr[i]%100>=70 && arr[i]%100<80){
+			insertnode(head7,arr[i]);
+		}
+		else if(arr[i]%100>=80 && arr[i]%100<90){
+			insertnode(head8,arr[i]);
+		}
+		else if(arr[i]%100>=90 && arr[i]%100 <100){
+			insertnode(head9,arr[i]);
+		}
+		
+	}
+	display(head0);
+	printf("\n");
+	display(head1);
+	printf("\n");
+	display(head2);
+	printf("\n");
+	display(head5);
+	printf("\n");
+	int b1,b2,b3,b4;
+	b1 = deletenode(head0,1);
+	b2 = deletenode(head1,1);
+	b3 = deletenode(head2,1);
+	b4 = deletenode(head5,1);
+	arr[0] = b1;
+	arr[1] = b2;
+	arr[2] = b3;
+   	arr[3] = b4;
+    for(int i=0;i<4;i++){
+    	printf("%d ",arr[i]);
+	}
+	printf("\n");
+   	for(int i=0;i<4;i++){
+		if(arr[i]%1000 >= 0 && arr[i]%1000<100){
+			insertnode(head0,arr[i]);
+		}
+		else if(arr[i]%1000>=100 && arr[i]%1000<200){
+			insertnode(head1,arr[i]);
+		}
+		else if(arr[i]%1000>=200 && arr[i]%1000<300){
+			insertnode(head2,arr[i]);
+		}
+		else if(arr[i]%1000>=300 && arr[i]%1000<400){
+			insertnode(head3,arr[i]);
+		}
+		else if(arr[i]%1000>=400 && arr[i]%1000<500){
+			insertnode(head4,arr[i]);
+		}
+		else if(arr[i]%1000>=500 && arr[i]%1000<600){
+			insertnode(head5,arr[i]);
+		}
+		else if(arr[i]%1000>=600 && arr[i]%1000<700){
+			insertnode(head6,arr[i]);
+		}
+		else if(arr[i]%1000>=700 && arr[i]%1000<800){
+			insertnode(head7,arr[i]);
+		}
+		else if(arr[i]%1000>=800 && arr[i]%1000<900){
+			insertnode(head8,arr[i]);
+		}
+		else if(arr[i]%1000>=900 && arr[i]%1000 <1000){
+			insertnode(head9,arr[i]);
+		}
+	}
+	display(head0);
+	printf("\n");
+	display(head2);
+	printf("\n");
+	//display(head3);
+   	//printf("\n");
+	//display(head7);
+	//printf("\n");
+	int c1,c2,c3,c4;
+	c1 = deletenode(head0,1);
+	c2 = deletenode(head0,1);
+	c3 = deletenode(head0,1);
+	c4 = deletenode(head2,1);
+	arr[0] = c1;
+	arr[1] = c2;
+	arr[2] = c3;
+    arr[3] = c4;
+   	for(int i=0;i<4;i++){
+		printf("%d ",arr[i]);
+		//printf("%d",arr[1]);
+	}
+	printf("\n");
+	for(int i=0;i<4;i++){
+		if(arr[i]%10000 >= 0 && arr[i]%10000<1000){
+			insertnode(head0,arr[i]);
+		}
+		else if(arr[i]%10000>=1000 && arr[i]%10000<2000){
+			insertnode(head1,arr[i]);
+		}
+		else if(arr[i]%10000>=2000 && arr[i]%10000<3000){
+			insertnode(head2,arr[i]);
+		}
+		else if(arr[i]%10000>=3000 && arr[i]%10000<4000){
+			insertnode(head3,arr[i]);
+		}
+		else if(arr[i]%10000>=4000 && arr[i]%10000<5000){
+			insertnode(head4,arr[i]);
+		}
+		else if(arr[i]%10000>=5000 && arr[i]%10000<6000){
+			insertnode(head5,arr[i]);
+		}
+		else if(arr[i]%10000>=6000 && arr[i]%10000<7000){
+			insertnode(head6,arr[i]);
+		}
+		else if(arr[i]%10000>=7000 && arr[i]%10000<8000){
+			insertnode(head7,arr[i]);
+		}
+		else if(arr[i]%10000>=8000 && arr[i]%10000<9000){
+			insertnode(head8,arr[i]);
+		}
+		else if(arr[i]%10000>=9000 && arr[i]%10000 <10000){
+			insertnode(head9,arr[i]);
+		}
+	}
+	display(head0);
+	printf("\n");
+	display(head3);
+	printf("\n");
+	int d1,d2,d3,d4;
+	d1 = deletenode(head0,1);
+	d2 = deletenode(head0,1);
+	d3 = deletenode(head0,1);
+	d4 = deletenode(head3,1);
+	arr[0] = d1;
+	arr[1] = d2;
+	arr[2] = d3;
+	arr[3] = d4;
+	for(int i=0;i<4;i++){
+		printf("%d ",arr[i]);
+	}
+}

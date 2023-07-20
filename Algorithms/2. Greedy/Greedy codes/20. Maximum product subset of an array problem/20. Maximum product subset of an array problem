@@ -1,0 +1,8 @@
+1. Initialize two variables: max_positive_product = 1 and max_negative_product = 1
+2. Initialize a counter variable: count_negative = 0
+3. Iterate through the array:
+    a. If the current element is positive, multiply it by max_positive_product
+    b. If the current element is negative, multiply it by max_negative_product and increment count_negative
+    c. If the current element is zero, set both max_positive_product and max_negative_product to 1
+4. If the count_negative is odd and there is more than one negative element in the array, divide max_positive_product by the smallest negative number
+5. Return max_positive_product

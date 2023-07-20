@@ -1,0 +1,5 @@
+1. Sort the events by their end times in non-decreasing order
+2. Initialize the maximum profit to 0 and the current time to 0
+3. Iterate through the events:
+    a. If the start time of the current event is greater than or equal to the current time, add its profit to the maximum profit and update the current time to its end time
+4. Return the maximum profit

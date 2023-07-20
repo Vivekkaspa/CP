@@ -1,0 +1,7 @@
+1. Sort the processes by their burst time in ascending order.
+2. Set the completion time of the first process to its burst time and calculate its turnaround time and waiting time.
+3. For each process from 2 to n, calculate the completion time, turnaround time and waiting time as follows:
+    a. Completion time = previous process completion time + current process burst time
+    b. Turnaround time = completion time - arrival time
+    c. Waiting time = turnaround time - burst time
+4. Calculate the average waiting time and average turnaround time.

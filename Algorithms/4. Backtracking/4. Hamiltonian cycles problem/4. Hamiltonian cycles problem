@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define V 5 // Define the number of vertices in the graph
+
+// Check if a given vertex is adjacent to the last vertex in the path
+bool isAdjacent(int graph[V][V], int vertex, int path[], int position) {
+    if (graph[path[position-1]][vertex] == 0) {
+        return false;
+    }
+    for (int i = 0; i < position; i++) {
+        if (path[i] == vertex) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Recursive function to find Hamiltonian cycle
+bool hamiltonianCycle(int graph[V][V], int path[V], int position) {
+    if (position == V) {
+        if (graph[path[position-1]][path[0]] == 1) {
+            // We have found a Hamiltonian cycle
+            printf("Hamiltonian cycle: ");
+            for (int i = 0; i < V; i++) {
+                printf("%d ", path[i]);
+            }
+            printf("%d\n", path[0]);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    for (int vertex = 1; vertex < V; vertex++) {
+        if (isAdjacent(graph, vertex, path, position)) {
+            path[position] = vertex;
+            if (hamiltonianCycle(graph, path, position+1)) {
+                return true;
+            }
+            path[position] = -1;
+        }
+    }
+    return false;
+}
+
+// Main function
+int main() {
+    int graph[V][V] = {{0, 1, 0, 1, 0},
+                       {1, 0, 1, 1, 1},
+                       {0, 1, 0, 0, 1},
+                       {1, 1, 0, 0, 1},
+                       {0, 1, 1, 1, 0}};
+    int path[V];
+    for (int i = 0; i < V; i++) {
+        path[i] = -1; // Initialize all vertices as unvisited
+    }
+    path[0] = 0; // Start with vertex 0
+    if (!hamiltonianCycle(graph, path, 1)) {
+        printf("No Hamiltonian cycle found.\n");
+    }
+    return 0;
+}

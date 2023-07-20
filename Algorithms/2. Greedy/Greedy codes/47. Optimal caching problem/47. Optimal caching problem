@@ -1,0 +1,11 @@
+1. Read in the size of the cache and the number of memory accesses
+2. Initialize a cache array of size equal to the cache size, and initialize each element to -1 to indicate an empty slot
+3. Initialize a variable to store the number of cache misses and set it to 0
+4. For each memory access:
+      a. Check if the requested item is already in the cache
+      b. If it is, continue to the next memory access
+      c. If it is not, check if there is an empty slot in the cache
+           i. If there is, add the requested item to the cache and continue to the next memory access
+           ii. If there is not, evict the least recently used item from the cache and add the requested item to the cache
+5. Print the number of cache misses
+

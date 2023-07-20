@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int watering_plants(int n, int k, int arr[]) {
+    int curr_can = k;
+    int num_cans = 1;
+    for (int i = 0; i < n; i++) {
+        if (curr_can - arr[i] < 0) {
+            curr_can = k;
+            num_cans++;
+        }
+        curr_can -= arr[i];
+    }
+    return num_cans;
+}
+
+int main() {
+    int n = 6;
+    int k = 3;
+    int arr[10] = {2, 3, 4, 2, 3, 1};
+    int num_cans = watering_plants(n, k, arr);
+    printf("Number of watering cans needed: %d\n", num_cans);
+    return 0;
+}

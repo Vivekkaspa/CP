@@ -1,0 +1,32 @@
+function minimizeCashflow(friends):
+    n = size(friends)
+    debts = new array of n elements, initialized to 0
+    credits = new array of n elements, initialized to 0
+    
+    // Calculate net debt/credit for each friend
+    for i = 0 to n-1:
+        for j = 0 to n-1:
+            debts[i] += friends[j][i]
+            credits[i] += friends[i][j]
+            
+    // Initialize max and min debt/credit indexes
+    maxDebtIndex = index of friend with maximum debt
+    maxCreditIndex = index of friend with maximum credit
+    
+    // While there is a positive debt or credit to balance
+    while debts[maxDebtIndex] > 0 or credits[maxCreditIndex] > 0:
+        // Find minimum of maxDebt and maxCredit
+        minAmount = min(debts[maxDebtIndex], credits[maxCreditIndex])
+        
+        // Transfer money from maxDebt to maxCredit
+        debts[maxDebtIndex] -= minAmount
+        credits[maxCreditIndex] -= minAmount
+        
+        // Print the transaction
+        print "Friend", maxDebtIndex+1, "gives", minAmount, "to Friend", maxCreditIndex+1
+        
+        // Update maxDebt and maxCredit
+        if debts[maxDebtIndex] == 0:
+            maxDebtIndex = index of friend with next maximum debt
+        if credits[maxCreditIndex] == 0:
+            maxCreditIndex = index of friend with next maximum credit

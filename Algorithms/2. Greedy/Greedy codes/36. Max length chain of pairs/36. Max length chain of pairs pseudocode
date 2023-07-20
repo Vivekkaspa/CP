@@ -1,0 +1,11 @@
+function find_max_length_chain(pairs):
+    sort the pairs in increasing order of the second element
+    let n be the length of pairs
+    let max_length be 1
+    let dp be an array of size n initialized to 1
+    for i from 1 to n-1:
+        for j from 0 to i-1:
+            if pairs[j].second < pairs[i].first:
+                dp[i] = max(dp[i], dp[j]+1)
+                max_length = max(max_length, dp[i])
+    return max_length

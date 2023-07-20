@@ -1,0 +1,112 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int input[6][3] = {{1,2,2}, {2,5,5}, {2,3,4},{1,4,1},{4,3,3},{3,5,1}};
+int n=1;//n represents length of minheap;
+int lastfilled=1;
+
+struct node{
+    int node,distance;
+};
+
+struct node heap[20]={{0,-1},{1,0}};
+int dist[7]={-1,0,999,999,999,999,999};
+
+void insert(int node,int distance){
+    n++;
+    if(n==1){
+     heap[1].distance=distance;
+     heap[1].node=node;}
+    else{
+        heap[n].distance=distance;
+        heap[n].node=node;
+        
+        int i=n;
+        while(i>1){
+            int parent=i/2;
+            if(heap[parent].distance>heap[i].distance){
+                int tempnode=heap[parent].node;
+                heap[parent].node=heap[i].node;
+                heap[i].node=tempnode;
+                int tempdistance =heap[i].distance;
+                heap[i].distance=heap[parent].distance;
+                heap[parent].distance = tempdistance;
+                i=parent;
+       }
+            else return;
+        }
+    }
+}
+
+void delete_new(){
+    if(n==0) return;
+    //printf("%d\n",arr[1]);
+    heap[1].distance=heap[n].distance;heap[1].node=heap[n].node;
+    --n;
+    int i=1;
+    while(i<n){
+        int left=2*i;
+        int right=2*i+1;
+        if(right<=n){
+            if(heap[right].distance>heap[left].distance && heap[i].distance>heap[left].distance){
+                int tempnode=heap[left].node;
+                heap[left].node=heap[i].node;
+                heap[i].node=tempnode;
+                int tempdistance =heap[i].distance;
+                heap[i].distance=heap[left].distance;
+                heap[left].distance = tempdistance;
+                i=left;
+            }
+            else if(heap[right].distance<heap[left].distance&&heap[i].distance>heap[right].distance){
+                int tempnode=heap[right].node;
+                heap[right].node=heap[i].node;
+                heap[i].node=tempnode;
+                int tempdistance =heap[i].distance;
+                heap[i].distance=heap[right].distance;
+                heap[right].distance = tempdistance;
+                i=right;
+            }
+            else return;
+        }
+        else if(left<=n){
+            if(heap[i].distance>heap[left].distance){
+                int tempnode=heap[left].node;
+                heap[left].node=heap[i].node;
+                heap[i].node=tempnode;
+                int tempdistance =heap[i].distance;
+                heap[i].distance=heap[left].distance;
+                heap[left].distance = tempdistance;
+                i=left;
+            }
+            else return;
+        }
+        else return;
+    }
+}
+void display(int arr[]){
+    for(int i=1;i<5+1;++i){
+        printf("  %d distamce from node %d\n",arr[i],i);
+    }
+}
+int main(){
+    while(n!=0){
+        int currdist = heap[1].distance;
+        int currnode = heap[1].node;
+        delete_new();
+  for(int i = 0; i<6; i++){
+    int nextnode;
+    int nextdistance;
+    if (input[i][0]== currnode){
+        nextnode = input[i][1];
+        nextdistance = input[i][2];
+    }
+    if ((currdist+ nextdistance) <dist[nextnode]){
+        dist[nextnode] = currdist+ nextdistance;
+        insert(nextnode,dist[nextnode]);
+    }
+  }
+}
+    
+     display(dist);
+     return 0;
+    }

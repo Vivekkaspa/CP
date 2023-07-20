@@ -1,0 +1,11 @@
+Optimal Binary Search Tree:
+
+Optimal Binary Search Tree is a binary search tree in which the cost of searching for a key is minimized. The cost of searching is the sum of the probabilities of each key times the level of the key in the tree. Dynamic programming can be used to find the optimal binary search tree in O(n^3) time complexity.
+
+Pseudocode:
+
+Initialize the cost and root matrices.
+For each diagonal of the cost matrix, fill in the values of the diagonal.
+For each subdiagonal of the cost matrix, fill in the values of the subdiagonal.
+Return the root node of the optimal binary search tree.
+

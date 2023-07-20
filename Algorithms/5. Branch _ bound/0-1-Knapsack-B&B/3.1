@@ -1,0 +1,31 @@
+Read in the problem data: max_weight, num_items, and the weight and value of each item
+
+Sort the items in descending order of value per weight
+
+Initialize the root node with level = -1, weight = 0, value = 0, and bound = calculate_bound(root)
+
+Add the root node to the queue
+
+While the queue is not empty:
+
+6. Get the next node from the queue
+Check if the node is promising:
+a. If the node is a leaf node, update the maximum value if necessary
+
+b. If the node is not a leaf node:
+i. Create the left child node (take the next item)
+- level = current level + 1
+- weight = current weight + weight of next item
+- value = current value + value of next item
+- bound = calculate_bound(left)
+ii. Create the right child node (exclude the next item)
+- level = current level + 1
+- weight = current weight
+- value = current value
+- bound = calculate_bound(right)
+iii. Add the child nodes to the queue if their bound is greater than the maximum value
+Sort the queue in descending order of bound
+Print the maximum value that can be put in a knapsack of capacity max_weight
+
+
+Note: This code assumes that the user inputs valid data (i.e., the maximum weight and the weight and value of each item are positive integers).

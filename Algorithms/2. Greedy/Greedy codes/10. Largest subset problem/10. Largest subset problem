@@ -1,0 +1,15 @@
+function largest_subset(set):
+    // sort the set in descending order
+    sorted_set = sort(set, reverse=True)
+    
+    // initialize an empty subset and a running total
+    subset = []
+    total = 0
+    
+    // loop through the sorted set and add items to the subset
+    for item in sorted_set:
+        if total + item <= 1:
+            subset.append(item)
+            total += item
+    
+    return subset

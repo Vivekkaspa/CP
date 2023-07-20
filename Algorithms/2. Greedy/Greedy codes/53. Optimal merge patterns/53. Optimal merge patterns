@@ -1,0 +1,9 @@
+OPTIMAL_MERGE_PATTERNS(n, arr)
+1. Sort the array arr in non-decreasing order.
+2. Initialize a variable total_cost to 0.
+3. While the length of arr is greater than 1:
+     a. Take the first two elements of arr and add them together. This represents the cost of merging two files.
+     b. Add the cost to total_cost.
+     c. Append the sum to arr.
+     d. Remove the first two elements of arr.
+4. Return total_cost.

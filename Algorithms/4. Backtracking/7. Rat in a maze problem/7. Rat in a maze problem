@@ -1,0 +1,68 @@
+//Note: The maze is represented by a two-dimensional array, where 1 denotes a valid path and 0 denotes a blocked path. The solution is also represented by a two-dimensional array, where 1 denotes the path taken by the rat and 0 denotes the rest of the maze. The algorithm assumes that the rat can only move in two directions, right and down.
+
+#include <stdio.h>
+
+#define N 4
+
+int maze[N][N] = {
+  { 1, 0, 0, 0 },
+  { 1, 1, 0, 1 },
+  { 0, 1, 0, 0 },
+  { 1, 1, 1, 1 }
+};
+
+void printSolution(int solution[N][N]) {
+  printf("\nSolution:\n");
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+      printf("%d ", solution[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+int isValidMove(int x, int y) {
+  if (x < 0 || x >= N) {
+    return 0;
+  }
+  if (y < 0 || y >= N) {
+    return 0;
+  }
+  if (maze[x][y] == 0) {
+    return 0;
+  }
+  return 1;
+}
+
+int solveMazeUtil(int x, int y, int solution[N][N]) {
+  if (x == N - 1 && y == N - 1) {
+    solution[x][y] = 1;
+    printSolution(solution);
+    return 1;
+  }
+  if (isValidMove(x, y)) {
+    solution[x][y] = 1;
+    if (solveMazeUtil(x + 1, y, solution) || solveMazeUtil(x, y + 1, solution)) {
+      return 1;
+    }
+    solution[x][y] = 0;
+  }
+  return 0;
+}
+
+void solveMaze() {
+  int solution[N][N] = {
+    { 0, 0, 0, 0 },
+    { 0, 0, 0, 0 },
+    { 0, 0, 0, 0 },
+    { 0, 0, 0, 0 }
+  };
+  if (solveMazeUtil(0, 0, solution) == 0) {
+    printf("No solution found.");
+  }
+}
+
+int main() {
+  solveMaze();
+  return 0;
+}

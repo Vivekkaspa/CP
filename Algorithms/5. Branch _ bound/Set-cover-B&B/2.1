@@ -1,0 +1,27 @@
+function setCover(U, S):
+let n = length(U)
+let m = length(S)
+let initialSubset = {}
+let bestSubset = {}
+let initialBound = 0
+for i = 1 to m do
+initialBound += length(S[i])
+let queue = [initialSubset]
+while queue is not empty do
+let subset = dequeue(queue)
+for i = 1 to m do
+if S[i] is not a subset of subset then
+let unionSet = subset union S[i]
+if unionSet = U then
+if length(subset) + 1 < length(bestSubset) then
+
+bestSubset = subset + i
+else
+let newSubset = subset + i
+let newBound = length(subset) + 1
+for j = i + 1 to m do
+if S[j] is not a subset of unionSet then
+newBound += length(S[j])
+if newBound < length(bestSubset) then
+enqueue(queue, newSubset)
+return bestSubset

@@ -1,0 +1,61 @@
+// Pseudocode for finding minimum number of edges to reverse
+// to make a path from source to destination using greedy approach
+
+function minEdgesToReverse(graph, source, destination):
+    // Initialize distances and visited arrays
+    distances = [infinity] * graph.numVertices
+    visited = [False] * graph.numVertices
+    
+    // Set the distance of the source vertex to zero
+    distances[source] = 0
+    
+    // Create a priority queue to store vertices by distance
+    queue = PriorityQueue()
+    queue.insert(source, 0)
+    
+    // While there are vertices in the queue
+    while not queue.isEmpty():
+        // Get the vertex with the minimum distance
+        current = queue.pop()
+        visited[current] = True
+        
+        // If we have reached the destination, we can stop
+        if current == destination:
+            break
+        
+        // For each neighbor of the current vertex
+        for neighbor in graph.getNeighbors(current):
+            // If the neighbor has already been visited, skip it
+            if visited[neighbor]:
+                continue
+            
+            // Calculate the distance to the neighbor
+            distance = distances[current] + graph.getWeight(current, neighbor)
+            
+            // If the distance is less than the current distance to the neighbor
+            if distance < distances[neighbor]:
+                // Update the distance and add the neighbor to the queue
+                distances[neighbor] = distance
+                queue.insert(neighbor, distance)
+    
+    // Count the number of edges that need to be reversed
+    count = 0
+    current = destination
+    while current != source:
+        // Find the neighbor with the minimum distance
+        minNeighbor = None
+        minDistance = infinity
+        for neighbor in graph.getNeighbors(current):
+            distance = distances[neighbor]
+            if distance < minDistance:
+                minNeighbor = neighbor
+                minDistance = distance
+        
+        // If the minimum distance is greater than the distance to the current vertex,
+        // we need to reverse the edge between the current vertex and the minimum neighbor
+        if minDistance > distances[current]:
+            count += 1
+        
+        current = minNeighbor
+    
+    return count

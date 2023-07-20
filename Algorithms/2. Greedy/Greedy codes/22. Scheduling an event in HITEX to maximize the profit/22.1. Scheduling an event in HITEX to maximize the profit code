@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+
+
+
+// Define the event structure
+struct event {
+    int start;
+    int end;
+    int profit;
+};
+
+// Define the comparison function for qsort
+int cmpfunc(const void *a, const void *b) {
+    return ((struct event *)a)->end - ((struct event *)b)->end;
+}
+
+
+// Define the main function
+int main() {
+    // Read in the number of events
+    int n;
+    scanf("%d", &n);
+
+    // Allocate memory for the events
+    struct event *events = malloc(n * sizeof(struct event));
+
+    // Read in the events
+    for(int i=0; i<n; i++) {
+        scanf("%d %d %d", &events[i].start, &events[i].end, &events[i].profit);
+    }
+
+    // Sort the events by their end times in non-decreasing order
+    qsort(events, n, sizeof(struct event), cmpfunc);
+
+    // Initialize the maximum profit to 0 and the current time to 0
+    int max_profit = 0;
+    int current_time = 0;
+
+    // Iterate through the events
+    for(int i=0; i<n; i++) {
+        // If the start time of the current event is greater than or equal to the current time, add its profit to the maximum profit and update the current time to its end time
+        if(events[i].start >= current_time) {
+            max_profit += events[i].profit;
+            current_time = events[i].end;
+        }
+    }
+
+    // Print the maximum profit
+    printf("Maximum profit: %d\n", max_profit);
+
+    // Free the memory for the events
+    free(events);
+
+    return 0;
+}
+

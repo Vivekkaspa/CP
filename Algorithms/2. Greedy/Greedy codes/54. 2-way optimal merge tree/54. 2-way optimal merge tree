@@ -1,0 +1,8 @@
+MERGE_TREE(arr, start, end)
+1. If start and end are the same, return a single node with value arr[start].
+2. Find the middle index mid = (start + end) / 2.
+3. Recursively construct left and right sub-trees:
+     a. Set left = MERGE_TREE(arr, start, mid) and right = MERGE_TREE(arr, mid + 1, end).
+4. Create a new node with value equal to the sum of the values of the left and right sub-trees.
+5. Set the left and right pointers of the new node to the left and right sub-trees respectively.
+6. Return the new node.

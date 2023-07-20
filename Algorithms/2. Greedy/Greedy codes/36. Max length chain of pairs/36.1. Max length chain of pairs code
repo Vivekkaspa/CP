@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define a pair struct to store (a, b) pairs
+struct pair {
+    int a;
+    int b;
+};
+
+// Compare function for sorting pairs by second element
+int cmp(const void* a, const void* b) {
+    struct pair* p1 = (struct pair*)a;
+    struct pair* p2 = (struct pair*)b;
+    return p1->b - p2->b;
+}
+
+int find_max_length_chain(struct pair* pairs, int n) {
+    // Sort pairs by increasing order of second element
+    qsort(pairs, n, sizeof(struct pair), cmp);
+    
+    // Initialize dp array and max_length variable
+    int dp[n];
+    for (int i = 0; i < n; i++) {
+        dp[i] = 1;
+    }
+    int max_length = 1;
+    
+    // Compute dp array and max_length
+    for (int i = 1; i < n; i++) {
+        for (int j = 0; j < i; j++) {
+            if (pairs[j].b < pairs[i].a) {
+                dp[i] = (dp[i] > dp[j]+1) ? dp[i] : dp[j]+1;
+                if (dp[i] > max_length) {
+                    max_length = dp[i];
+                }
+            }
+        }
+    }
+    
+    return max_length;
+}
+
+int main() {
+    // Example usage
+    struct pair pairs[] = {{1, 2}, {2, 3}, {3, 4}};
+    int n = sizeof(pairs) / sizeof(pairs[0]);
+    int max_length = find_max_length_chain(pairs, n);
+    printf("Maximum length chain of pairs: %d\n", max_length);  // Expected output: 2
+    
+    return 0;
+}

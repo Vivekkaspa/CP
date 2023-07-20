@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+double power(double k, int n) {
+    if (n == 0) {
+        return 1.0;
+    } else if (n % 2 == 0) {
+        double res = power(k, n/2);
+        return res * res;
+    } else {
+        double res = power(k, (n-1)/2);
+        return res * res * k;
+    }
+}
+
+double k_power_n(double k, int n) {
+    if (n < 0) {
+        return 1.0 / power(k, -n);
+    } else {
+        return power(k, n);
+    }
+}
+
+int main() {
+    double k = 2.0;
+    int n = 1000000;
+    double result = k_power_n(k, n);
+    printf("%f^%d = %f\n", k, n, result);
+    return 0;
+}

@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int cmpfunc(const void* a, const void* b) {
+    return *(int*)a - *(int*)b;
+}
+
+void min_sum_friend_digits(int arr1[], int arr2[], int n) {
+    qsort(arr1, n, sizeof(int), cmpfunc);
+    qsort(arr2, n, sizeof(int), cmpfunc);
+    int num1 = 0, num2 = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr1[i] < arr2[i]) {
+            num1 = num1 * 10 + arr1[i];
+            num2 = num2 * 10 + arr2[i];
+        }
+        else if (arr1[i] > arr2[i]) {
+            num1 = num1 * 10 + arr2[i];
+            num2 = num2 * 10 + arr1[i];
+        }
+        else {
+            num1 = num1 * 10 + arr1[i];
+            num2 = num2 * 10 + arr2[i];
+        }
+    }
+    printf("Minimum sum of two numbers: %d\n", num1 + num2);
+}
+
+int main() {
+    int arr1[] = {5, 2, 1, 8, 9};
+    int arr2[] = {3, 6, 7, 4, 0};
+    int n = sizeof(arr1) / sizeof(arr1[0]);
+    min_sum_friend_digits(arr1, arr2, n);
+    return 0;
+}

@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int minSum(int arr1[], int arr2[], int n) {
+    // Sort both arrays
+    qsort(arr1, n, sizeof(int), compare);
+    qsort(arr2, n, sizeof(int), compare);
+    
+    // Initialize the sum
+    int sum = 0;
+    
+    // Calculate the sum of absolute differences
+    for (int i = 0; i < n; i++) {
+        sum += abs(arr1[i] - arr2[i]);
+    }
+    
+    // Return the sum
+    return sum;
+}
+
+int main() {
+    int arr1[] = {4, 1, 8, 7};
+    int arr2[] = {2, 3, 6, 5};
+    int n = sizeof(arr1) / sizeof(arr1[0]);
+    int min_sum = minSum(arr1, arr2, n);
+    printf("Minimum sum of absolute differences: %d\n", min_sum);
+    return 0;
+}

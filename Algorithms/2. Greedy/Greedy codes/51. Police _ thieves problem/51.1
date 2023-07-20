@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return *(int*)a - *(int*)b;
+}
+
+int police_and_thieves(int n, int k, int arr[]) {
+    int i = 0;
+    int j = 1;
+    int count = 0;
+    qsort(arr, n, sizeof(int), compare);
+    while (i < n && j < n) {
+        if (arr[j] - arr[i] <= k) {
+            j++;
+        } else if (arr[j] - arr[i] > k) {
+            i++;
+        }
+        if (i == j) {
+            j++;
+        }
+        if (j - i > count) {
+            count = j - i;
+        }
+    }
+    return count;
+}
+
+int main() {
+    int n = 7;
+    int k = 2;
+    int arr[10] = {1, 3, 5, 7, 9, 11, 13};
+    int caught_thieves = police_and_thieves(n, k, arr);
+    printf("Number of thieves caught: %d\n", caught_thieves);
+    return 0;
+}

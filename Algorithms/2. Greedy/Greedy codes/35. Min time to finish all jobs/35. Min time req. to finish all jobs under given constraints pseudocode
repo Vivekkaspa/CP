@@ -1,0 +1,8 @@
+1. Sort the jobs in decreasing order of their processing time.
+2. Initialize an empty array to hold the completion times of the jobs.
+3. Traverse through the jobs one by one.
+4. For each job, find the smallest completion time that is greater than or equal to the job's release time.
+5. If such a completion time exists, assign the job to that time slot and update the completion time array.
+6. If no such completion time exists, assign the job to the next available time slot after the maximum completion time in the array and update the completion time array.
+7. Repeat steps 4-6 for all jobs.
+8. The minimum time required to finish all jobs is the maximum completion time in the array.

@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int n, i, j, max_freq, majority_count;
+    char str[100];
+    int freq[26];
+
+    // Read in the number of strings to be checked
+    printf("Enter the number of strings to check: ");
+    scanf("%d", &n);
+
+    // Loop through each string
+    majority_count = 0;
+    for (i = 0; i < n; i++) {
+        // Initialize the frequency array to 0
+        memset(freq, 0, sizeof(freq));
+
+        // Read in the string and calculate the frequency of each letter
+        printf("Enter string %d: ", i+1);
+        scanf("%s", str);
+        for (j = 0; j < strlen(str); j++) {
+            freq[str[j] - 'a']++;
+        }
+
+        // Find the maximum frequency in the array
+        max_freq = 0;
+        for (j = 0; j < 26; j++) {
+            if (freq[j] > max_freq) {
+                max_freq = freq[j];
+            }
+        }
+
+        // If the maximum frequency is greater than half the length of the string, increment the count of strings with a majority character
+        if (max_freq > strlen(str)/2) {
+            majority_count++;
+        }
+    }
+
+    // Print the count of strings with a majority character
+    printf("The maximum count of strings to be selected such that there is a majority character is: %d\n", majority_count);
+
+    return 0;
+}

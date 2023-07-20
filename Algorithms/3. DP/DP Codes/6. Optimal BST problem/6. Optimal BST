@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX 100
+
+float p[MAX], q[MAX], e[MAX][MAX], w[MAX][MAX];
+int root[MAX][MAX], n;
+
+void OptimalBST()
+{
+    int i, j, k, l, r;
+
+    for(i = 1; i <= n+1; i++)
+    {
+        e[i][i-1] = q[i-1];
+        w[i][i-1] = q[i-1];
+    }
+
+    for(i = 1; i <= n; i++)
+    {
+        e[i][i] = p[i];
+        w[i][i] = p[i];
+        root[i][i] = i;
+    }
+
+    for(l = 2; l <= n+1; l++)
+    {
+        for(i = 1; i <= n-l+2; i++)
+        {
+            j = i + l - 1;
+            e[i][j] = 99999999;
+            w[i][j] = w[i][j-1] + p[j] + q[j];
+
+            for(k = i; k <= j; k++)
+            {
+                r = root[i][k-1];
+                if(r < i || r > k)
+                    r = k;
+                float t = e[i][r-1] + e[r+1][j] + w[i][j];
+                if(t < e[i][j])
+                {
+                    e[i][j] = t;
+                    root[i][j] = r;
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    int i;
+    printf("Enter the number of keys: ");
+    scanf("%d", &n);
+
+    printf("Enter the probabilities of keys: ");
+    for(i = 1; i <= n; i++)
+        scanf("%f", &p[i]);
+
+    printf("Enter the probabilities of dummy keys: ");
+    for(i = 0; i <= n; i++)
+        scanf("%f", &q[i]);
+
+    OptimalBST();
+
+    printf("\nOptimal Binary Search Tree:\n");
+    printf("Root is %d\n", root[1][n]);
+    printf("Cost is %f\n", e[1][n]);
+
+    return 0;
+}

@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int main() {
+    int N, L, K, i, ans, pos, prev_pos, prev_gas;
+
+    // read input values
+    scanf("%d %d %d", &N, &L, &K);
+
+    // initialize variables
+    ans = 0;
+    prev_pos = 0;
+    prev_gas = K;
+    int gas;
+    
+    for (i = 0; i < N; i++) {
+        scanf("%d %d", &pos, &gas);
+
+        // calculate distance from previous gas station
+        int dist = pos - prev_pos;
+
+        // if we cannot reach the next gas station with the remaining gas
+        if (prev_gas < dist) {
+            ans++;  // refill at the previous gas station
+            prev_gas = K;  // fill up the tank
+        }
+
+        // reduce the remaining gas by the distance traveled
+        prev_gas -= dist;
+
+        // update the previous gas station position and gas level
+        prev_pos = pos;
+        prev_gas += gas;
+    }
+
+    // calculate the distance from the last gas station to the destination
+    int dist = L - prev_pos;
+
+    // if we cannot reach the destination with the remaining gas
+    if (prev_gas < dist) {
+        ans++;  // refill at the last gas station
+    }
+
+    printf("%d\n", ans);  // output the minimum number of refills needed
+    return 0;
+}

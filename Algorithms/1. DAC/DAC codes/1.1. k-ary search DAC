@@ -1,0 +1,51 @@
+int kary_search(int arr[], int n, int k, int x) {
+    int low = 0, high = n - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / k;
+        if (arr[mid] == x) {
+            return mid;
+        } else if (arr[mid] < x) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
+
+int kary_search_recursive(int arr[], int low, int high, int k, int x) {
+    if (low > high) {
+        return -1;
+    }
+    int mid = low + (high - low) / k;
+    if (arr[mid] == x) {
+        return mid;
+    } else if (arr[mid] < x) {
+        return kary_search_recursive(arr, mid + 1, high, k, x);
+    } else {
+        return kary_search_recursive(arr, low, mid - 1, k, x);
+    }
+}
+
+int main() {
+    int arr[] = {2, 3, 6, 8, 9, 12, 15, 19, 21};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int k = 3;
+    int x = 12;
+
+    int index = kary_search(arr, n, k, x);
+    if (index != -1) {
+        printf("%d found at index %d\n", x, index);
+    } else {
+        printf("%d not found in the array\n", x);
+    }
+
+    int index_recursive = kary_search_recursive(arr, 0, n - 1, k, x);
+    if (index_recursive != -1) {
+        printf("%d found at index %d\n", x, index_recursive);
+    } else {
+        printf("%d not found in the array\n", x);
+    }
+
+    return 0;
+}

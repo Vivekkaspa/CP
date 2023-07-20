@@ -1,0 +1,7 @@
+1. Sort the arrival and departure times in non-decreasing order
+2. Initialize the minimum number of platforms to 0 and the current number of platforms to 0
+3. Iterate through the arrival and departure times:
+    a. If the current arrival time is less than or equal to the current departure time, increment the current number of platforms
+    b. Otherwise, decrement the current number of platforms and move to the next departure time
+    c. Update the minimum number of platforms to the maximum of its current value and the current number of platforms
+4. Return the minimum number of platforms

@@ -1,0 +1,11 @@
+1. Initialize an array of size 26 to store the frequency of each letter of the alphabet
+2. Initialize a variable to store the maximum frequency and set it to 0
+3. Initialize a variable to store the count of strings with a majority character and set it to 0
+4. Read in the number of strings to be checked
+5. For each string:
+      a. Initialize the frequency array to 0
+      b. Read in the string and calculate the frequency of each letter
+      c. Find the maximum frequency in the array
+      d. If the maximum frequency is greater than half the length of the string, increment the count of strings with a majority character
+6. Print the count of strings with a majority character
+

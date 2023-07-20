@@ -1,0 +1,60 @@
+//Note: The dictionary of valid words is represented by a two-dimensional array of characters, where each row denotes a valid word. The isValidWord function checks if a given string is a valid word by comparing it with each row in the dictionary. The wordBreakUtil function recursively breaks down the input string into prefixes and checks if each prefix is a valid word. If a prefix is a valid word, it is added to the current path and the remaining suffix of the string is passed as input to the recursive call. The algorithm assumes that there is at least one way to break the input string into valid words
+
+
+
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_WORDS 100
+#define MAX_LENGTH 100
+
+char dict[MAX_WORDS][MAX_LENGTH] = {
+  "i", "like", "sam", "sung", "samsung", "mobile", "ice", "cream", "man go"
+};
+
+int dictSize = 9;
+
+void printSolution(char solution[MAX_WORDS][MAX_LENGTH], int size) {
+  for (int i = 0; i < size; i++) {
+    printf("%s ", solution[i]);
+  }
+  printf("\n");
+}
+
+int isValidWord(char* word) {
+  for (int i = 0; i < dictSize; i++) {
+    if (strcmp(word, dict[i]) == 0) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+void wordBreakUtil(char* str, char solution[MAX_WORDS][MAX_LENGTH], int size) {
+  if (*str == '\0') {
+    printSolution(solution, size);
+    return;
+  }
+  char word[MAX_LENGTH];
+  int i;
+  for (i = 1; i <= strlen(str); i++) {
+    strncpy(word, str, i);
+    word[i] = '\0';
+    if (isValidWord(word)) {
+      strcpy(solution[size], word);
+      wordBreakUtil(str + i, solution, size + 1);
+    }
+  }
+}
+
+void wordBreak(char* str) {
+  char solution[MAX_WORDS][MAX_LENGTH];
+  wordBreakUtil(str, solution, 0);
+}
+
+int main() {
+  char str[MAX_LENGTH] = "ilikeicecreamman";
+  printf("All possible ways of breaking the string:\n");
+  wordBreak(str);
+  return 0;
+}

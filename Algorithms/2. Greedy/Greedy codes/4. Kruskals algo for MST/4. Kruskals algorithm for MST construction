@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_EDGES 100
+#define MAX_VERTICES 100
+
+typedef struct {
+    int start;
+    int end;
+    int weight;
+} Edge;
+
+int parent[MAX_VERTICES];
+int rank[MAX_VERTICES];
+
+// Function to initialize the parent and rank arrays
+void make_set(int v) {
+    parent[v] = v;
+    rank[v] = 0;
+}
+
+// Function to find the root of a given vertex
+int find(int v) {
+    if (v != parent[v]) {
+        parent[v] = find(parent[v]);
+    }
+    return parent[v];
+}
+
+// Function to perform a union of two vertices
+void union_sets(int u, int v) {
+    u = find(u);
+    v = find(v);
+    if (rank[u] < rank[v]) {
+        parent[u] = v;
+    } else {
+        parent[v] = u;
+        if (rank[u] == rank[v]) {
+            rank[u]++;
+        }
+    }
+}
+
+// Function to compare two edges based on their weights
+int cmp(const void* a, const void* b) {
+    Edge* edge1 = (Edge*) a;
+    Edge* edge2 = (Edge*) b;
+    return edge1->weight - edge2->weight;
+}
+
+int main() {
+    int n, m;
+    Edge edges[MAX_EDGES];
+
+    printf("Enter the number of vertices and edges: ");
+    scanf("%d %d", &n, &m);
+
+    printf("Enter the edges in the form (start, end, weight):\n");
+    for (int i = 0; i < m; i++) {
+        scanf("%d %d %d", &edges[i].start, &edges[i].end, &edges[i].weight);
+    }
+
+    // Sort the edges in non-decreasing order of weight
+    qsort(edges, m, sizeof(Edge), cmp);
+
+    // Initialize the parent and rank arrays
+    for (int i = 0; i < n; i++) {
+        make_set(i);
+    }
+
+    // Create the minimum spanning tree
+    Edge mst[MAX_EDGES];
+    int mst_size = 0;
+    for (int i = 0; i < m; i++) {
+        Edge current_edge = edges[i];
+        if (find(current_edge.start) != find(current_edge.end)) {
+            union_sets(current_edge.start, current_edge.end);
+            mst[mst_size++] = current_edge;
+        }
+    }
+
+    // Print the minimum spanning tree
+    printf("Minimum spanning tree:\n");
+    for (int i = 0; i < mst_size; i++) {
+        printf("(%d, %d, %d)\n", mst[i].start, mst[i].end, mst[i].weight);
+    }
+
+    return 0;
+}

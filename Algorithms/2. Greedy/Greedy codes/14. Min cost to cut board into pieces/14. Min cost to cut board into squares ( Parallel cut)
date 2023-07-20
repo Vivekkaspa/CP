@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, m;
+    scanf("%d %d", &n, &m);
+    
+    int cuts_n = 0, cuts_m = 0;
+    int cost = 0;
+    
+    // Cut along the shorter side first
+    while (n > 1 || m > 1) {
+        if (n > m) {
+            // Cut along the longer side
+            n--;
+            cuts_n++;
+        } else {
+            // Cut along the shorter side
+            m--;
+            cuts_m++;
+        }
+        
+        // Update the cost
+        cost += (cuts_n + cuts_m);
+    }
+    
+    printf("Minimum cost to cut the board into squares: %d\n", cost);
+    
+    return 0;
+}

@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define V 4  // change this value to change the number of vertices in the graph
+
+int graph[V][V] = {{0, 1, 1, 1},
+                   {1, 0, 1, 0},
+                   {1, 1, 0, 1},
+                   {1, 0, 1, 0}};  // the adjacency matrix of the graph
+
+int colors[V];  // the solution array to store the color of each vertex
+
+// function prototypes
+void print_colors();
+int is_safe(int v, int c);
+void graph_color(int v);
+
+int main() {
+    for (int i = 0; i < V; i++) {
+        colors[i] = -1;  // initialize all colors to -1 (i.e., uncolored)
+    }
+    graph_color(0);  // start coloring the graph at the first vertex
+    return 0;
+}
+
+// prints the colors assigned to each vertex
+void print_colors() {
+    for (int i = 0; i < V; i++) {
+        printf("Vertex %d: color %d\n", i, colors[i]);
+    }
+    printf("\n");
+}
+
+// checks if it's safe to assign the color c to the vertex v
+int is_safe(int v, int c) {
+    for (int i = 0; i < V; i++) {
+        if (graph[v][i] && c == colors[i]) {  // there is already a neighbor with the same color
+            return 0;
+        }
+    }
+    return 1;  // it's safe to assign the color c to this vertex
+}
+
+// assigns colors to the vertices of the graph
+void graph_color(int v) {
+    if (v == V) {  // all vertices have been colored
+        print_colors();  // print the solution
+    } else {
+        for (int c = 0; c < V; c++) {
+            if (is_safe(v, c)) {
+                colors[v] = c;  // assign the color c to this vertex
+                graph_color(v+1);  // move on to the next vertex
+            }
+        }
+    }
+}

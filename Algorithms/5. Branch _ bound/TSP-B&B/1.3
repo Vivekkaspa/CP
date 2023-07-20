@@ -1,0 +1,5 @@
+In this implementation, the TSP_BranchBound function takes the number of cities n,the current node being visited curr_node, the current length of the partial tour curr_length, and the current tour represented as an array curr_tour. It recursively generates child nodes by adding unvisited cities to the partial tour and checks if the resulting tour has a lower cost than the best tour found so far. If so, it updates the best tour and continues the search.
+
+In the main function, we initialize the adjacency matrix and the visited and current tour arrays. We start the search from the first node and call the TSP_BranchBound function with the appropriate arguments. Finally, we print the best tour and its length.
+
+Note that this implementation has exponential time complexity, so it may not be feasible for large instances of the Travelling Salesperson Problem.

@@ -1,0 +1,15 @@
+function maxSum(arr, n) {
+    // Sort the array
+    sort(arr)
+    
+    // Initialize the sum
+    let sum = 0
+    
+    // Calculate the sum
+    for (let i = 0; i < n; i++) {
+        sum += (arr[i] * i)
+    }
+    
+    // Return the sum
+    return sum
+}

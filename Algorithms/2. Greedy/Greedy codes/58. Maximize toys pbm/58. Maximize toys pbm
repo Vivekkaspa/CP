@@ -1,0 +1,10 @@
+MAXIMIZE_TOYS(prices[], n, k)
+1. Sort the prices array in ascending order.
+2. Initialize a variable, say count, to zero.
+3. Traverse the sorted prices array and for each price p:
+    a. If p is less than or equal to k:
+        i. Increment count by 1.
+        ii. Decrement k by p.
+    b. If p is greater than k:
+        i. Stop the traversal and return the value of count.
+4. Return the value of count.

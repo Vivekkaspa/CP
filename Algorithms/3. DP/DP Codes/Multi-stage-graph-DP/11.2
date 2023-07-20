@@ -1,0 +1,8 @@
+
+Explanation:
+
+The above code starts with setting up the graph representation and initializing the cost and path arrays. Then, it performs the backward pass, where it traverses through all the nodes from the second last node to the first node. For each node, it checks all the outgoing edges and calculates the cost for each edge. It then finds the minimum cost among all the outgoing edges and updates the cost and path arrays for the node.
+
+After the backward pass, the code performs the forward pass, where it traverses through all the nodes from the first node to the last node. For each node, it checks all the incoming edges and calculates the cost for each edge. It then finds the minimum cost among all the incoming edges and updates the cost and path arrays for the node.
+
+Finally, the code prints the optimal path and its cost. The optimal path is obtained by following the path array from the first node to the last node, while the optimal cost is the cost array value for the first node.

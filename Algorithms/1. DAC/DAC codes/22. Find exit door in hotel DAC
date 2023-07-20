@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int findExit(int doors[], int left, int right) {
+    if (left == right) {
+        // base case: only one door remaining
+        if (doors[left] == 1) {
+            // this is the exit door
+            return left;
+        } else {
+            // this is not the exit door
+            return -1;
+        }
+    } else {
+        // recursive case: divide and conquer
+        int mid = (left + right) / 2;
+        if (doors[mid] == 1) {
+            // the exit door is in the left half
+            return findExit(doors, left, mid);
+        } else {
+            // the exit door is in the right half
+            return findExit(doors, mid + 1, right);
+        }
+    }
+}
+
+int main() {
+    // example input: doors = [0, 0, 1, 1, 1, 1]
+    int doors[] = {0, 0, 1, 1, 1, 1};
+    int n = sizeof(doors) / sizeof(doors[0]);
+
+    int exitDoor = findExit(doors, 0, n - 1);
+    if (exitDoor == -1) {
+        printf("No exit door found.\n");
+    } else {
+        printf("Exit door found at position %d.\n", exitDoor);
+    }
+
+    return 0;
+}

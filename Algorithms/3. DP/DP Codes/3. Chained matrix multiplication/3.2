@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<limits.h>
+
+// Function to find the minimum number of multiplications needed to multiply the given matrices
+int matrixChainOrder(int p[], int n)
+{
+    int m[n][n]; // To store the minimum number of scalar multiplications needed to compute A[i]A[i+1]...A[j] = A[i..j] where the dimension of A[i] is p[i-1] x p[i]
+    int i, j, k, L, q;
+ 
+    // Set m[i, i] = 0 for all i, since the cost of multiplying one matrix is zero
+    for (i = 1; i < n; i++)
+        m[i][i] = 0;
+ 
+    // For L = 2 to n - 1, find the minimum number of multiplications needed to multiply matrices of length L
+    for (L = 2; L < n; L++)
+    {
+        for (i = 1; i < n - L + 1; i++)
+        {
+            j = i + L - 1;
+            m[i][j] = INT_MAX; // Set m[i, j] = INFINITY
+ 
+            // Find the minimum number of multiplications needed to multiply matrices i through j
+            for (k = i; k <= j - 1; k++)
+            {
+                q = m[i][k] + m[k + 1][j] + p[i - 1] * p[k] * p[j]; // Calculate the cost of multiplying matrices i through k and k+1 through j, and adding their product
+                if (q < m[i][j]) // If the cost is less than the current minimum, update the minimum
+                    m[i][j] = q;
+            }
+        }
+    }
+ 
+    return m[1][n - 1]; // Return the minimum number of multiplications needed to multiply the given matrices
+}
+
+// Driver program to test above function
+int main()
+{
+    int arr[] = {10, 20, 30, 40, 30};
+    int size = sizeof(arr)/sizeof(arr[0]);
+ 
+    printf("Minimum number of multiplications needed to multiply the given matrices is %d\n", matrixChainOrder(arr, size));
+ 
+    return 0;
+}

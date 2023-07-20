@@ -1,0 +1,18 @@
+
+Explanation:
+
+1. The function `longest_common_substring` takes two input strings, `string1` and `string2`, and returns the longest common substring between them as a dynamically allocated character array.
+
+2. We first get the lengths of the two input strings and initialize a 2D array of size `(len1 + 1) x (len2 + 1)` to 0. This array will store the lengths of the longest common substrings for all possible pairs of substrings from `string1` and `string2`.
+
+3. We also initialize two variables: `max_length` and `end_index`. `max_length` will store the length of the longest common substring found so far, while `end_index` will store the end index of the longest common substring found so far in `string1`.
+
+4. We then loop over all possible pairs of substrings from `string1` and `string2`, represented by the indices `i` and `j`, respectively.
+
+5. If the characters at index `i-1` in `string1` and index `j-1` in `string2` are the same, then we set the value of the corresponding entry in the 2D array to be one more than the value of the entry at the previous indices in both strings. We also check if this length is greater than `max_length`. If it is, then we update `max_length` and `end_index`.
+
+6. If the characters at index `i-1` in `string1` and index `j-1` in `string2` are not the same, then we set the corresponding entry in the 2D array to be 0.
+
+7. Once the loop is complete, we dynamically allocate a character array of size `max_length + 1` and copy the longest common substring from `string1` to this array using the `strncpy` function. We then add a null terminator to the end of this array and return it.
+
+8. In the `main` function, we call `longest_common_substring` with two example strings, `string1` and `string2`, and print the result. We also free the dynamically allocated memory to avoid memory leaks.

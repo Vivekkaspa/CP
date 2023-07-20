@@ -1,0 +1,10 @@
+1. Initialize an empty result array
+2. Sort all connections based on their starting point
+3. For each connection in the sorted list:
+    a. Check if the starting point is already in the result array
+        i. If yes, skip to the next connection
+        ii. If no, find the minimum endpoint of all the connections that start from the current point
+    b. If there is no connection starting from the current point, skip to the next connection
+    c. Add the current connection to the result array
+    d. Repeat steps a-c until all connections have been processed
+4. Return the result array

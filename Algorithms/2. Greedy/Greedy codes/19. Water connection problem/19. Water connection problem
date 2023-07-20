@@ -1,0 +1,78 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define N 100000
+
+// Define a struct to represent the connections
+typedef struct {
+    int start, end, cost;
+} Connection;
+
+// Define a function to compare two connections based on their starting point
+int cmpfunc(const void* a, const void* b) {
+    Connection* conn1 = (Connection*)a;
+    Connection* conn2 = (Connection*)b;
+    return (conn1->start - conn2->start);
+}
+
+// Define the main function
+int main() {
+    // Read in the number of connections
+    int n;
+    scanf("%d", &n);
+
+    // Read in the connections
+    Connection conn_list[N];
+    for(int i=0; i<n; i++) {
+        scanf("%d %d %d", &conn_list[i].start, &conn_list[i].end, &conn_list[i].cost);
+    }
+
+    // Sort the connections based on their starting point
+    qsort(conn_list, n, sizeof(Connection), cmpfunc);
+
+    // Initialize an empty result array
+    Connection result[N];
+    int result_size = 0;
+
+    // Iterate through the connections
+    for(int i=0; i<n; i++) {
+        // Check if the starting point is already in the result array
+        int j;
+        for(j=0; j<result_size; j++) {
+            if(result[j].start == conn_list[i].start) {
+                break;
+            }
+        }
+
+        // If the starting point is already in the result array, skip to the next connection
+        if(j < result_size) {
+            continue;
+        }
+
+        // Find the minimum endpoint of all the connections that start from the current point
+        int min_end = conn_list[i].end;
+        for(int k=i+1; k<n; k++) {
+            if(conn_list[k].start == conn_list[i].start && conn_list[k].end < min_end) {
+                min_end = conn_list[k].end;
+            }
+        }
+
+        // If there is no connection starting from the current point, skip to the next connection
+        if(min_end == conn_list[i].end) {
+            continue;
+        }
+
+        // Add the current connection to the result array
+        result[result_size].start = conn_list[i].start;
+        result[result_size].end = min_end;
+        result[result_size].cost = conn_list[i].cost;
+        result_size++;
+    }
+
+    // Print the result array
+    printf("Water connection problem:\n");
+    for(int i=0; i<result_size; i++) {
+        printf("%d %d %d\n", result[i].start, result[i].end, result[i].cost);
+    }
+
+    return 0;
+}

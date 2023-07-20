@@ -1,0 +1,5 @@
+1. Define a function that takes in the string, a dictionary of valid words, and the current path as input
+2. If the entire string has been processed, then print the current path as a solution and return
+3. For each prefix of the string, check if it is a valid word
+4. If it is a valid word, add it to the current path and recursively call the function with the remaining suffix of the string
+5. Remove the last word from the current path and continue to the next prefix of the string

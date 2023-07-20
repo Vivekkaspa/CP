@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void minimizeCashflow(int n, int friends[][n]) {
+    int debts[n], credits[n];
+    
+    // Calculate net debt/credit for each friend
+    for (int i = 0; i < n; i++) {
+        debts[i] = credits[i] = 0;
+        for (int j = 0; j < n; j++) {
+            debts[i] += friends[j][i];
+            credits[i] += friends[i][j];
+        }
+    }
+    
+    // Initialize max and min debt/credit indexes
+    int maxDebtIndex = 0, maxCreditIndex = 0;
+    for (int i = 1; i < n; i++) {
+        if (debts[i] > debts[maxDebtIndex]) {
+            maxDebtIndex = i;
+        }
+        if (credits[i] > credits[maxCreditIndex]) {
+            maxCreditIndex = i;
+        }
+    }
+    
+    // While there is a positive debt or credit to balance
+    while (debts[maxDebtIndex] > 0 || credits[maxCreditIndex] > 0) {
+        // Find minimum of maxDebt and maxCredit
+        int minAmount = debts[maxDebtIndex] < credits[maxCreditIndex] ? debts[maxDebtIndex] : credits[maxCreditIndex];
+        
+        // Transfer money from maxDebt to maxCredit
+        debts[maxDebtIndex] -= minAmount;
+        credits[maxCreditIndex] -= minAmount;
+        
+        // Print the transaction
+        printf("Friend %d gives %d to Friend %d\n", maxDebtIndex+1, minAmount, maxCreditIndex+1);
+        
+        // Update maxDebt and maxCredit
+                if (debts[maxDebtIndex] == 0) {
+            maxDebtIndex = 0;
+            for (int i = 1; i < n; i++) {
+                if (debts[i] > debts[maxDebtIndex]) {
+                    maxDebtIndex = i;
+                }
+            }
+        }
+        if (credits[maxCreditIndex] == 0) {
+            maxCreditIndex = 0;
+            for (int i = 1; i < n; i++) {
+                if (credits[i] > credits[maxCreditIndex]) {
+                    maxCreditIndex = i;
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    int n = 3;
+    int friends[][3] = {{0, 1000, 2000},
+                        {0, 0, 5000},
+                        {0, 0, 0}};
+    
+    minimizeCashflow(n, friends);
+    
+    return 0;
+}
+

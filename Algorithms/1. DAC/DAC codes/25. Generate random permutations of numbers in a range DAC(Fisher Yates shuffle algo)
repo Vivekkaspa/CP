@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// function to generate random numbers
+int random_number(int min, int max) {
+    return (rand() % (max - min + 1)) + min;
+}
+
+// function to swap two integers
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// function to shuffle the array using the Fisher-Yates shuffle algorithm
+void shuffle(int arr[], int n) {
+    for (int i = n - 1; i > 0; i--) {
+        int j = random_number(0, i);
+        swap(&arr[i], &arr[j]);
+    }
+}
+
+// function to generate random permutations of numbers in the range [L, R]
+void generate_random_permutations(int arr[], int L, int R) {
+    if (L == R) {
+        return;
+    }
+    else if (L == R - 1) {
+        swap(&arr[L], &arr[R]);
+        return;
+    }
+    else {
+        int mid = (L + R) / 2;
+        generate_random_permutations(arr, L, mid);
+        generate_random_permutations(arr, mid + 1, R);
+        shuffle(arr + L, R - L + 1);
+    }
+}
+
+int main() {
+    srand(time(NULL));
+
+    int n;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    int L, R;
+    printf("Enter the range [L, R]: ");
+    scanf("%d %d", &L, &R);
+
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        arr[i] = L + i;
+    }
+
+    generate_random_permutations(arr, 0, n - 1);
+
+    printf("Random permutations of numbers in the range [%d, %d]:\n", L, R);
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}

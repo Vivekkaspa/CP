@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int partition(int arr[], int low, int high) {
+    srand(time(NULL)); // seed the random number generator
+    int pivotIndex = rand() % (high - low + 1) + low; // choose random pivot
+    int pivot = arr[pivotIndex];
+    swap(&arr[pivotIndex], &arr[high]);
+    int i = low;
+    for (int j = low; j < high; j++) {
+        if (arr[j] > pivot) {
+            swap(&arr[i], &arr[j]);
+            i++;
+        }
+    }
+    swap(&arr[i], &arr[high]);
+    return i;
+}
+
+int quickselect(int arr[], int low, int high, int k) {
+    if (low == high) {
+        return arr[low];
+    }
+    int pivotIndex = partition(arr, low, high);
+    if (k == pivotIndex) {
+        return arr[k];
+    } else if (k < pivotIndex) {
+        return quickselect(arr, low, pivotIndex - 1, k);
+    } else {
+        return quickselect(arr, pivotIndex + 1, high, k);
+    }
+}

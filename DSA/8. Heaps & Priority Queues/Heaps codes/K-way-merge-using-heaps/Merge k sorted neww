@@ -1,0 +1,175 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+struct node{
+    int data;
+    int  arrnum;
+    int indexnum;
+};
+
+int newarr[10]; //this array is to store delted elements from heap
+int ptrtonewarr=-1; //this ptr is to keep track of index of the newarr to help add values to newarr
+struct node arr[20] = {{-1,-1,-1},{1,0,0},{4,1,0},{7,2,0}}; // using structure array that represents heap and called as arr
+int lastfilled = 3;  //lastfilled represents lastfilled index of array arr 
+int input[3][6] = {{1,2,3}, {4,5,6,10}, {7,8,12}};
+int sizearr[3] = {3,4,3};   //this array keeps track of size of each input array
+
+
+
+
+ void swapdata( int x, int y){
+ int temp = arr[x].data;
+ arr[x].data = arr[y].data;
+ arr[y].data = temp;
+
+ }
+
+
+ void swaparrnum(int x, int y){
+ int temp = arr[x].arrnum;
+ arr[x].arrnum = arr[y].arrnum;
+ arr[y].arrnum = temp;
+}
+
+
+void swapindexnum(int x, int y){
+int temp = arr[x].indexnum;
+arr[x].indexnum = arr[y].indexnum;
+arr[y].indexnum = temp;
+} 
+
+
+
+
+void insert(int indexnum, int arrnum, int data){
+
+ lastfilled ++ ;
+    arr[lastfilled].data = data;
+    arr[lastfilled].arrnum = arrnum;
+    arr[lastfilled].indexnum = indexnum;
+
+    int predecessor = lastfilled/2;
+    int check = lastfilled;
+        while (predecessor >= 1){
+            if (arr[predecessor].data > arr[check].data){
+            swapdata(predecessor, check);
+            swaparrnum(predecessor, check);
+            swapindexnum(predecessor,check);
+            check = predecessor;
+            predecessor = predecessor/2;
+            }
+            else{
+                break;
+            }
+        }
+
+
+}
+
+
+
+void delete_num(){
+
+arr[1].data = arr[lastfilled].data;
+arr[1].indexnum = arr[lastfilled].indexnum;
+arr[1].arrnum = arr[lastfilled].arrnum;
+lastfilled--; 
+int i = 1;
+while(i < lastfilled){
+    int left = 2*i;
+    int right = 2*i +1;
+
+    int small;
+
+    if (left> lastfilled && right >lastfilled){
+      break;
+    }
+
+
+    if (left <=lastfilled && right > lastfilled){
+          if(arr[i].data< arr[left].data){
+           return;
+          } 
+          else{
+           swapdata(i,left);
+           swaparrnum(i,left);
+            swapindexnum(i,left);   
+
+            i = left; 
+          }
+
+    }
+
+
+
+    if (left <= lastfilled && right <=lastfilled){
+      if (arr[left].data < arr[right].data ){
+      
+      
+        small = arr[left].data;
+            if (arr[i].data< small){
+            return;
+                  }
+            else{
+            swapdata(i,left);
+            
+            swaparrnum(i,left);
+            swapindexnum(i,left);
+            
+            }}
+
+      else if ( arr[left].data > arr[right].data){
+     
+      
+        int smalldistance = arr[right].data;
+        if (arr[i].data > smalldistance){
+        swapdata(i,right);
+        swaparrnum(i,right);
+        swapindexnum(i,right);
+         i = right;}
+         
+         else {
+          return;
+      }}}
+    
+      else {
+        break;
+    }}}
+
+
+
+
+int main(){
+
+while(lastfilled != 0){
+
+
+int arrnum = arr[1].arrnum;
+int indexnum = arr[1].indexnum;
+int data = arr[1].data;
+ptrtonewarr++;
+newarr[ptrtonewarr] = data; //adding the min element to the newarr
+
+
+delete_num();
+if  ((indexnum+1) < sizearr[arrnum]){ //this if condition checks if the index of data elemtent  is within range of size of the array
+int newdata = input[arrnum][indexnum+1];
+insert(indexnum+1, arrnum, input[arrnum][indexnum+1]); //inserting next element of the same array from which the element at to of min heap was deleted
+
+}
+
+
+
+
+
+}
+
+
+for (int i = 0 ; i<10;i++){
+    printf(" %d ", newarr[i]); //printing the newarray
+}
+
+
+return 0;
+}

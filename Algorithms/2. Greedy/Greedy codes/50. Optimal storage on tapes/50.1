@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_TAPE_CAPACITY 100
+
+int compare(const void *a, const void *b) {
+    return *(int*)b - *(int*)a;
+}
+
+int optimal_storage_on_tapes(int n, int tapes[], int files[]) {
+    int used_tapes = 0;
+    qsort(files, n, sizeof(int), compare);
+    for (int i = 0; i < n; i++) {
+        int min_space = MAX_TAPE_CAPACITY + 1;
+        int min_index = -1;
+        for (int j = 0; j <= used_tapes; j++) {
+            if (tapes[j] >= files[i] && tapes[j] - files[i] < min_space) {
+                min_space = tapes[j] - files[i];
+                min_index = j;
+            }
+        }
+        if (min_index != -1) {
+            tapes[min_index] -= files[i];
+        } else {
+            used_tapes++;
+            tapes[used_tapes] = MAX_TAPE_CAPACITY - files[i];
+        }
+    }
+    return used_tapes + 1;
+}
+
+int main() {
+    int n = 7;
+    int tapes[10] = {70, 30, 10};
+    int files[10] = {20, 50, 10, 30, 40, 60, 10};
+    int used_tapes = optimal_storage_on_tapes(n, tapes, files);
+    printf("Total number of tapes used: %d\n", used_tapes);
+    return 0;
+}

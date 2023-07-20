@@ -1,0 +1,26 @@
+function rearrange(str):
+    freq = array of 26 integers initialized to 0
+    n = length of str
+
+    for i from 0 to n-1:
+        freq[str[i] - 'a']++
+
+    pos = 0
+    while pos < n:
+        max_freq = -1
+        max_char = ''
+
+        for i from 0 to 25:
+            if freq[i] > max_freq and (pos == 0 or i != str[pos-1] - 'a'):
+                max_freq = freq[i]
+                max_char = 'a' + i
+
+        if max_freq == -1:
+            print("Cannot rearrange string.")
+            return
+
+        str[pos] = max_char
+        freq[max_char - 'a']--
+        pos++
+
+    print("Rearranged string: ", str)

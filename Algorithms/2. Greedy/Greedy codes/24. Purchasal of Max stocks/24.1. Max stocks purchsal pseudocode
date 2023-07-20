@@ -1,0 +1,7 @@
+1. Create a struct to store the prices and the corresponding days
+2. Sort the prices in non-decreasing order of price per stock
+3. Initialize the total number of stocks bought to 0
+4. Iterate through the prices:
+    a. If the number of stocks to be bought is less than or equal to the number of stocks available on the current day, buy the stocks and update the total number of stocks bought
+    b. Otherwise, buy all the available stocks on the current day and update the number of stocks to be bought
+5. Return the total number of stocks bought

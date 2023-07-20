@@ -1,0 +1,47 @@
+Travelling Salesperson Problem is a classic optimization problem where given a list of cities and their pairwise distances, the objective is to find the shortest possible route that visits each city exactly once and returns to the starting city.
+
+The dynamic programming approach for solving this problem involves breaking it down into smaller subproblems, and solving them in a bottom-up manner. We can use a 2D array to store the optimal cost of visiting a subset of cities, starting from the source city.
+
+tsp(mask, pos)
+    if mask == visited_all // Base case - all cities visited
+        return dist[pos][0] // Return to the starting city
+    
+    ans = infinity
+    
+    for i = 0 to N-1 // Loop over all cities
+        if (mask & (1 << i)) == 0 // If city i has not been visited
+            new_mask = mask | (1 << i) // Update the mask to include i
+            new_ans = dist[pos][i] + tsp(new_mask, i) // Calculate the new cost
+            ans = min(ans, new_ans) // Update the minimum cost
+    
+    return ans
+
+
+The dynamic programming approach to solve the Travelling Salesperson Problem involves creating a 2D array to store the minimum cost of visiting a subset of cities starting from the source city. The array is filled in a bottom-up manner, starting from the base case where the subset contains only the starting city.
+
+
+   | 0001 | 0010 | 0100 | 1000 |
+---+------+------+------+------+
+0  |  ∞   | 10   | 15   | 20   |
+---+------+------+------+------+
+1  | 10   |  ∞   | 35   | 25   |
+---+------+------+------+------+
+2  | 15   | 35   |  ∞   | 30   |
+---+------+------+------+------+
+3  | 20   | 25   | 30   |  ∞   |
+---+------+------+------+------+
+
+
+
+The rows represent the possible subsets of cities that have been visited, represented by the binary mask of visited cities. The columns represent the current city being visited. For example, the cell at (1,2) represents the minimum cost of visiting cities {0, 2} (binary mask 0101) starting from city 1 and ending at city 2.
+
+
+The base case is when the subset of visited cities contains only the starting city. In this case, the cost of visiting this subset is simply the distance from the starting city to itself, which is 0.
+
+The table is filled in a bottom-up manner, starting from the base case and gradually adding more cities to the visited subset. At each step, we loop over all possible next cities that have not been visited yet, and calculate the cost of visiting this next city and all remaining cities in the subset.
+
+The final result is the minimum cost of visiting all cities starting from the starting city and returning to it.
+
+The dynamic programming approach for solving the Travelling Salesperson Problem using memoization (also known as top-down dynamic programming) is similar to the bottom-up approach, but instead of filling in a table, we use recursion with memoization. We store the minimum cost of visiting a subset of cities in a hash table, so that we can reuse this result if we encounter the same subset of cities again.This approach can be more memory-efficient than the bottom-up approach, since we only need to store results for the visited subsets that we actually encounter during the recursion.
+
+In the C code above, we use the bottom-up approach, but the same logic can be applied to the memoization approach by adding a hash table to store the results.

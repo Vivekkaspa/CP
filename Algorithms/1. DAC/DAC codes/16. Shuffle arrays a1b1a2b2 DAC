@@ -1,0 +1,57 @@
+#include<stdio.h>
+
+// Shuffle the array into the form a1,b1,a2,b2...
+void shuffle(int* arr, int start, int end) {
+    if (end - start <= 1) {
+        return; // Base case: array of length 1 or 2
+    }
+    
+    int mid = (start + end) / 2;
+    
+    // Divide the array into two halves
+    shuffle(arr, start, mid-1);
+    shuffle(arr, mid+1, end);
+    
+    // Interleave the two halves
+    int tmp[end - start];
+    int i = start;
+    int j = mid;
+    int k = 0;
+    while (i < mid && j < end) {
+        tmp[k++] = arr[i++];
+        tmp[k++] = arr[j++];
+    }
+    while (i < mid) {
+        tmp[k++] = arr[i++];
+    }
+    while (j < end) {
+        tmp[k++] = arr[j++];
+    }
+    for (int l = 0; l < end - start; l++) {
+        arr[start + l] = tmp[l];
+    }
+}
+
+
+
+int main() {
+    // Example usage
+    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    
+    printf("Before shuffle: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d",arr[i]);
+    }
+    printf("\n");
+    
+    shuffle(arr, 0, n);
+    
+    printf("After shuffle: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d",arr[i]);
+    }
+    printf("\n");
+    
+    return 0;
+}

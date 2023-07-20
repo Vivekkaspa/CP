@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <limits.h>
+
+#define MAX_CHARS 256
+
+void badCharHeuristic(char *pattern, int m, int badchar[MAX_CHARS]){
+    int i;
+
+    for(i=0; i<MAX_CHARS; i++){
+        badchar[i] = -1;
+    }
+    for(i=0; i<m; i++){
+        badchar[(int) pattern[i]] = i;
+    }
+}
+
+void BoyerMoore_Search(char *text, char *pattern){
+    int n = strlen(text);
+    int m = strlen(pattern);
+    int badchar[MAX_CHARS];
+
+    badCharHeuristic(pattern, m, badchar);
+
+    int s = 0;
+    while(s <= (n-m)){
+        int j = m-1;
+        while(j >= 0 && pattern[j] == text[s+j]){
+            j--;
+        }
+
+        if(j < 0){
+            printf("Found pattern at index %d\n", s);
+            s += (s+m < n) ? m-badchar[text[s+m]] : 1;
+        }
+        else{
+            s +=fmax(1, j-badchar[text[s+j]]);
+        }
+    }
+}
+
+int main(){
+    char text[100], pattern[100];
+
+    printf("Enter the text: ");
+    scanf("%s", text);
+
+    printf("Enter the pattern: ");
+    scanf("%s", pattern);
+
+    BoyerMoore_Search(text, pattern);
+
+    return 0;
+}
+
+//In this implementation, the badCharHeuristic function takes the pattern string, its length m, and an array badchar to store the index of the rightmost occurrence of each character in the pattern. The BoyerMoore_Search function then uses the bad character rule to shift the pattern to the right until a match is found or the end of the text is reached.

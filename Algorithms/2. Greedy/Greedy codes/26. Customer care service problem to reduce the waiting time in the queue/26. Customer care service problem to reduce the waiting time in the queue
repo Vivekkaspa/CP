@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 1000
+
+typedef struct Customer {
+    int arrivalTime;
+    int serviceTime;
+} Customer;
+
+typedef struct PriorityQueue {
+    Customer heap[MAX_SIZE];
+    int size;
+} PriorityQueue;
+
+void swap(Customer *a, Customer *b) {
+    Customer temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void minHeapify(Customer heap[], int i, int n) {
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    if (left < n && heap[left].serviceTime < heap[smallest].serviceTime) {
+        smallest = left;
+    }
+    if (right < n && heap[right].serviceTime < heap[smallest].serviceTime) {
+        smallest = right;
+    }
+    if (smallest != i) {
+        swap(&heap[i], &heap[smallest]);
+        minHeapify(heap, smallest, n);
+    }
+}
+
+void buildMinHeap(Customer heap[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        minHeapify(heap, i, n);
+    }
+}
+
+Customer extractMin(PriorityQueue *pq) {
+    Customer min = pq->heap[0];
+    pq->heap[0] = pq->heap[pq->size - 1];
+    pq->size--;
+    minHeapify(pq->heap, 0, pq->size);
+    return min;
+}
+
+void enqueue(PriorityQueue *pq, Customer c) {
+    pq->heap[pq->size] = c;
+    int i = pq->size;
+    while (i > 0 && pq->heap[(i - 1) / 2].serviceTime > pq->heap[i].serviceTime) {
+        swap(&pq->heap[(i - 1) / 2], &pq->heap[i]);
+        i = (i - 1) / 2;
+    }
+    pq->size++;
+}
+
+float reduceWaitingTime(Customer customers[], int n) {
+    PriorityQueue pq;
+    pq.size = 0;
+    buildMinHeap(customers, n);
+    int currTime = 0;
+    float totalTime = 0.0;
+    while (pq.size || n > 0) {
+        if (pq.size == 0 || customers[n - 1].serviceTime <= pq.heap[0].serviceTime) {
+            currTime = customers[n - 1].arrivalTime;
+            totalTime += currTime - customers[n - 1].arrivalTime;
+            n--;
+        } else {
+            Customer c = extract
+                    currTime += pq.heap[0].serviceTime;
+        totalTime += currTime - pq.heap[0].arrivalTime;
+        extractMin(&pq);
+        while (n > 0 && customers[n - 1].arrivalTime <= currTime) {
+            enqueue(&pq, customers[n - 1]);
+            n--;
+        }
+    }
+    return totalTime / (float) n;
+}
+
+int main() {
+    int n;
+    printf("Enter the number of customers: ");
+    scanf("%d", &n);
+    Customer customers[n];
+    for (int i = 0; i < n; i++) {
+        printf("Enter arrival time and service time of customer %d: ", i + 1);
+        scanf("%d %d", &customers[i].arrivalTime, &customers[i].serviceTime);
+    }
+    printf("Average waiting time: %.2f\n", reduceWaitingTime(customers, n));
+    return 0;
+}
+

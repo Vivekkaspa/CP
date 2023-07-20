@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int maxSum(int arr[], int n) {
+    // Sort the array
+    qsort(arr, n, sizeof(int), compare);
+    
+    // Initialize the sum
+    int sum = 0;
+    
+    // Calculate the sum
+    for (int i = 0; i < n; i++) {
+        sum += (arr[i] * i);
+    }
+    
+    // Return the sum
+    return sum;
+}
+
+int main() {
+    int arr[] = {3, 5, 6, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int max_sum = maxSum(arr, n);
+    printf("Maximum sum: %d\n", max_sum);
+    return 0;
+}

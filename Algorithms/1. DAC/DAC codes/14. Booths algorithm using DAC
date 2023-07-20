@@ -1,0 +1,32 @@
+#include <stdio.h>
+
+int booth(int x, int y, int n) {
+   int bit, i;
+   int m = n/2;
+   int x1 = x >> m;
+   int x0 = x - (x1 << m);
+   int y1 = y >> m;
+   int y0 = y - (y1 << m);
+   int z0, z1, z2;
+
+   if (n == 1) {
+      return x*y;
+   }
+
+   z0 = booth(x0, y0, m);
+   z2 = booth(x1, y1, m);
+   z1 = booth(x0+x1, y0+y1, m);
+
+   return (z2 << (2*m)) + ((z1 - z2 - z0) << m) + z0;
+}
+
+int main() {
+   int x, y, n;
+
+   printf("Enter two binary numbers to multiply: ");
+   scanf("%d %d", &x, &y);
+
+   n = 8; // assuming 8-bit binary numbers
+   printf("Product is: %d\n", booth(x, y, n));
+   return 0;
+}

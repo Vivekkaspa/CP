@@ -1,0 +1,94 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node {
+    int data;
+    struct node *next;
+};
+
+
+struct node *radix[10];
+
+void init() {
+    int i;
+    for (i = 0; i < 10; i++) {
+        radix[i] = NULL;
+    }
+}
+
+struct node *make_new_node(int data) {
+    struct node *new_node= (struct node *)malloc(sizeof(struct node));
+    new_node->next = NULL;
+    new_node->data = data;
+    return new_node;
+}
+
+int count_digit(int arr[ ], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    int c=0;
+    while (max != 0) {
+          c++;
+          max=max/10;
+    }
+    return c;
+}
+
+void insert(int data, int d) {
+    struct node *new_node =make_new_node(data);    
+    struct node *temp = radix[d];
+    if (temp == NULL) {
+          radix[d]=new_node;
+    } else {
+        while (temp->next!=NULL) {
+            temp = temp->next;
+        }
+        temp->next = new_node;
+    }
+}
+
+void radix_sort(int *arr, int n) {
+    int i, j = 0, k, pass, digit, div = 1;
+    pass = count_digit(arr, n);
+
+    for (i = 1; i <= pass; i++) {
+        printf("\ndiv = %d\n\n", div);
+        for (j = 0; j < n; j++) {
+            digit = (arr[j] / div) % 10;
+            insert(arr[j], digit);
+        }
+        div *= 10;
+        j = 0;
+        for (k = 0; k < 10; k++) {
+            struct node *temp = radix[k];
+            radix[k] = NULL;
+            while (temp != NULL) {
+                struct node *next = temp->next;
+                arr[j++] = temp->data;
+                free(temp);
+                temp = next;
+            }
+        }
+    }
+}
+
+void display(int arr[ ], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    init();
+    int arr[ ] = {4563, 655, 12,68,56,256,786,385,456789 };
+    int n=sizeof(arr)/sizeof(arr[0]);
+    radix_sort(arr, n);
+    display(arr, n);
+    return 0;
+}
+

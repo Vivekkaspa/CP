@@ -1,0 +1,53 @@
+function dist(x1, y1, x2, y2):
+    return sqrt((x1 - x2)^2 + (y1 - y2)^2)
+
+function find_farthest_point(n, k, dist_matrix, centers):
+    farthest_point = -1
+    max_distance = -1
+
+    for i = 0 to n-1:
+        min_distance = infinity
+
+        for j = 0 to k-1:
+            distance = dist_matrix[i][centers[j]]
+            if distance < min_distance:
+                min_distance = distance
+
+        if min_distance > max_distance:
+            farthest_point = i
+            max_distance = min_distance
+
+    return farthest_point
+
+function k_centers(n, k, dist_matrix):
+    centers = []
+    num_centers = 0
+
+    # Choose an initial center randomly
+    centers.append(rand() % n)
+    num_centers += 1
+
+    # Choose the remaining k-1 centers using the Greedy paradigm
+    while num_centers < k:
+        farthest_point = find_farthest_point(n, num_centers, dist_matrix, centers)
+        centers.append(farthest_point)
+        num_centers += 1
+
+    # Print the indices of the k centers
+    print("The indices of the k centers are: ", centers)
+
+# Driver program to test the k_centers function
+n = input("Enter the number of points: ")
+k = input("Enter the number of centers: ")
+
+# Create a 2D array to store the distances between all pairs of points
+dist_matrix = []
+
+for i = 0 to n-1:
+    row = []
+    for j = 0 to n-1:
+        x1, y1, x2, y2 = input("Enter the coordinates of point i and point j: ")
+        row.append(dist(x1, y1, x2, y2))
+    dist_matrix.append(row)
+
+k_centers(n, k, dist_matrix)

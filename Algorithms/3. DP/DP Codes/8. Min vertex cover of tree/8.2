@@ -1,0 +1,11 @@
+function vertex_cover(tree)
+    if tree is empty:
+        return empty set
+    if tree has only one node:
+        return that node
+    else:
+        let root = any node of the tree
+        let children = root's children
+        let S1 = vertex_cover(root's grandchildren)
+        let S2 = root + sum of vertex_cover(children)
+        return the minimum size of S1 and S2

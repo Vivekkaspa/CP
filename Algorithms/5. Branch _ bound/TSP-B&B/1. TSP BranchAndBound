@@ -1,0 +1,28 @@
+BranchAndBoundTSP(G):
+    n = number of cities in G
+    S = set of all cities
+    visited = empty set
+    dist = adjacency matrix of distances between cities in G
+    cost = 0
+    best_cost = infinity
+    stack = empty stack
+    root = Node(visited, cost)
+    stack.push(root)
+
+    while stack is not empty:
+        node = stack.pop()
+        visited = node.visited
+        cost = node.cost
+
+        if visited contains all cities:
+            if cost + dist[visited[-1]][visited[0]] < best_cost:
+                best_cost = cost + dist[visited[-1]][visited[0]]
+                best_path = visited
+        else:
+            for each unvisited city:
+                new_visited = visited + city
+                new_cost = cost + dist[visited[-1]][city]
+                if new_cost < best_cost:
+                    child_node = Node(new_visited, new_cost)
+                    stack.push(child_node)
+    return best_path, best_cost
